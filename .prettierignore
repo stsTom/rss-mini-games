@@ -1,0 +1,6 @@
+dist
+.husky
+.vscode
+package.json
+package-lock.json
+.prettierignore
