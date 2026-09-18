@@ -1,0 +1,5 @@
+@use '../../../../styles/mixins' as *;
+
+[data-header-visibility='wide'] {
+  @include header-visible-wide;
+}

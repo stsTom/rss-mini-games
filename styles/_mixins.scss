@@ -1,0 +1,41 @@
+@use 'tokens' as *;
+
+@mixin wide-screen {
+  @media (min-width: 376px) {
+    @content;
+  }
+}
+
+@mixin desktop-screen {
+  @media (min-width: 769px) {
+    @content;
+  }
+}
+
+@mixin header-visible-always {
+  display: block;
+}
+
+@mixin header-visible-mobile {
+  display: block;
+
+  @include desktop-screen {
+    display: none;
+  }
+}
+
+@mixin header-visible-desktop {
+  display: none;
+
+  @include desktop-screen {
+    display: block;
+  }
+}
+
+@mixin header-visible-wide {
+  display: none;
+
+  @include wide-screen {
+    display: block;
+  }
+}
