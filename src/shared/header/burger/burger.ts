@@ -1,3 +1,5 @@
+import './burger.scss';
+
 export function createBurger(): HTMLElement {
   const burger = document.createElement('button');
   burger.type = 'button';

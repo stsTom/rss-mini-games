@@ -1,3 +1,5 @@
+import './sign-up-button.scss';
+
 export function createSignUpButton(): HTMLElement {
   const button = document.createElement('button');
   button.type = 'button';

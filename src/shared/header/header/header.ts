@@ -1,3 +1,4 @@
+import './header.scss';
 import { createTitle } from '../title/title.js';
 import { createNav } from '../nav/nav.js';
 import { createBurger } from '../burger/burger.js';
@@ -7,13 +8,11 @@ import { createSignUpButton } from '../sign-up-button/sign-up-button.js';
 export function createHeader(): HTMLElement {
   const header = document.createElement('header');
 
-  header.append(
-    createTitle(),
-    createNav(),
-    createSignInButton(),
-    createSignUpButton(),
-    createBurger()
-  );
+  const controls = document.createElement('div');
+  controls.classList.add('header-controls');
+  controls.append(createNav(), createSignInButton(), createSignUpButton(), createBurger());
+
+  header.append(createTitle(), controls);
 
   return header;
 }

@@ -1,3 +1,5 @@
+import './nav.scss';
+
 const NAV_ITEMS = ['Home', 'Library', 'Tournaments', 'Community'];
 
 export function createNav(): HTMLElement {

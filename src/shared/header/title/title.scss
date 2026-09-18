@@ -1,0 +1,5 @@
+@use '../../../../styles/mixins' as *;
+
+[data-header-visibility='always'] {
+  @include header-visible-always;
+}

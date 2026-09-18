@@ -1,7 +1,9 @@
+import './title.scss';
+
 export function createTitle(): HTMLElement {
   const title = document.createElement('h1');
   title.textContent = 'MiniGames';
-  title.dataset.headerVisibility = 'mobile';
+  title.dataset.headerVisibility = 'always';
 
   return title;
 }
