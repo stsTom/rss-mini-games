@@ -1,0 +1,13 @@
+@use 'tokens' as *;
+
+@mixin wide-screen {
+  @media (min-width: 376px) {
+    @content;
+  }
+}
+
+@mixin desktop-screen {
+  @media (min-width: 769px) {
+    @content;
+  }
+}
