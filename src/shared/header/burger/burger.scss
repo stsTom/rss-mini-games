@@ -1,0 +1,5 @@
+@use '../../../../styles/mixins' as *;
+
+[data-header-visibility='mobile'] {
+  @include header-visible-mobile;
+}
