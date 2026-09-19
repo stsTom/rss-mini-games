@@ -2,12 +2,10 @@ import './player-cell.scss';
 import type { LeaderboardEntry } from '../../interfaces.js';
 
 function deriveInitials(playerName: string): string {
-  const segments = playerName.split(/[^a-zA-Z0-9]+/).filter(Boolean);
+  const first = playerName.charAt(0).toUpperCase();
+  const secondUppercase = /[A-Z]/.exec(playerName.slice(1))?.[0] ?? '';
 
-  return segments
-    .slice(0, 2)
-    .map((segment) => segment.charAt(0).toUpperCase())
-    .join('');
+  return `${first}${secondUppercase}`;
 }
 
 export function createPlayerCell(entry: LeaderboardEntry): HTMLElement {
