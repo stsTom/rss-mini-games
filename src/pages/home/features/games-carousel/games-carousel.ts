@@ -1,7 +1,7 @@
 import './games-carousel.scss';
-import { createGamesCarouselHeader } from '../header/header.js';
-import { createGamesCarouselSlot, type SlotRole } from '../slot/slot.js';
-import { fetchCarouselGames } from '../games-data/games-data.js';
+import { createGamesCarouselHeader } from './components/carousel-header/carousel-header.js';
+import { createGamesCarouselSlot, type SlotRole } from './components/slot/slot.js';
+import { fetchCarouselGames } from './api/games-data.js';
 
 const SLOT_ROLES: SlotRole[] = ['thumb-left', 'peek-left', 'focus', 'peek-right', 'thumb-right'];
 

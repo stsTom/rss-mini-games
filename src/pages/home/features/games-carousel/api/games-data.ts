@@ -1,5 +1,5 @@
-import type { SlotRole } from '../slot/slot.js';
-import type { Game } from '../../../../shared/interfaces.js';
+import type { SlotRole } from '../components/slot/slot.js';
+import type { Game } from '../../../../../shared/interfaces.js';
 
 interface GamesSeedResponse {
   data: Game[];

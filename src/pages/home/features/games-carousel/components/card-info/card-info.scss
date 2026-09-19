@@ -1,4 +1,4 @@
-@use '../../../../../styles/tokens' as *;
+@use '../../../../../../../styles/tokens' as *;
 
 .games-carousel-card-info {
   display: none;
@@ -10,7 +10,7 @@
   justify-content: space-between;
 }
 
-@container (min-width: 288px) {
+@container (min-width: 287.5px) {
   .games-carousel-card-info {
     display: block;
   }

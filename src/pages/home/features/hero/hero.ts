@@ -1,7 +1,7 @@
 import './hero.scss';
-import { createHeroHeading } from '../heading/heading.js';
-import { createHeroText } from '../text/text.js';
-import { createBrowseLibraryButton } from '../browse-library-button/browse-library-button.js';
+import { createHeroHeading } from './components/heading/heading.js';
+import { createHeroText } from './components/text/text.js';
+import { createBrowseLibraryButton } from './components/browse-library-button/browse-library-button.js';
 
 export function createHero(): HTMLElement {
   const hero = document.createElement('section');

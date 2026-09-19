@@ -1,4 +1,4 @@
-import './header.scss';
+import './carousel-header.scss';
 
 export function createGamesCarouselHeader(): HTMLElement {
   const header = document.createElement('div');

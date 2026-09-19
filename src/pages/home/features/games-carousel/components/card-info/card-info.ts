@@ -1,5 +1,5 @@
 import './card-info.scss';
-import type { Game } from '../../../../shared/interfaces.js';
+import type { Game } from '../../../../../../shared/interfaces.js';
 
 export function createCardInfo(game: Game): HTMLElement {
   const footer = document.createElement('div');

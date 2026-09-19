@@ -1,6 +1,6 @@
 import './slot.scss';
 import { createCardInfo } from '../card-info/card-info.js';
-import type { Game } from '../../../../shared/interfaces.js';
+import type { Game } from '../../../../../../shared/interfaces.js';
 
 export type SlotRole = 'thumb-left' | 'peek-left' | 'focus' | 'peek-right' | 'thumb-right';
 
