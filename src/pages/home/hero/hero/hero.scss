@@ -1,0 +1,15 @@
+.hero {
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  background-image: url('/home-page-hero.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
