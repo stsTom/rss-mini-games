@@ -1,0 +1,50 @@
+@use '../../../../../styles/mixins' as *;
+@use '../../../../../styles/tokens' as *;
+
+.games-carousel-content {
+  display: flex;
+}
+
+.games-carousel-slot {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 0;
+  height: 320px;
+  box-shadow: inset 0 0 0 1px $color-outline;
+  box-sizing: border-box;
+  overflow: hidden;
+  container-type: inline-size;
+}
+
+.games-carousel-slot-image {
+  display: block;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  object-fit: cover;
+}
+
+[data-slot-role='thumb-left'],
+[data-slot-role='thumb-right'] {
+  display: none;
+  flex-grow: 1;
+  min-width: 32px;
+  max-width: 96px;
+
+  @include desktop-screen {
+    display: flex;
+  }
+}
+
+[data-slot-role='peek-left'],
+[data-slot-role='peek-right'] {
+  flex-grow: 3;
+  min-width: 96px;
+  max-width: 288px;
+}
+
+[data-slot-role='focus'] {
+  flex-grow: 5;
+  min-width: 288px;
+  max-width: 500px;
+}
