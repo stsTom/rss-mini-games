@@ -3,16 +3,16 @@
 
 .leaderboard-row {
   display: grid;
-  grid-template-columns: 2.5rem 1fr 5rem 4rem;
+  grid-template-columns: repeat(4, 1fr);
   align-items: center;
   gap: $size-times-1;
 
   @include wide-screen {
-    grid-template-columns: 2.5rem 1fr 4rem 5rem 4rem;
+    grid-template-columns: repeat(5, 1fr);
   }
 
   @include desktop-screen {
-    grid-template-columns: 2.5rem 1fr 6rem 6rem 4rem 8rem;
+    grid-template-columns: repeat(6, 1fr);
   }
 }
 
