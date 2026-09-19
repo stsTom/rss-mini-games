@@ -1,9 +1,9 @@
 import './header.scss';
-import { createTitle } from '../title/title.js';
-import { createNav } from '../nav/nav.js';
-import { createBurger } from '../burger/burger.js';
-import { createSignInButton } from '../sign-in-button/sign-in-button.js';
-import { createSignUpButton } from '../sign-up-button/sign-up-button.js';
+import { createTitle } from './components/title/title.js';
+import { createNav } from './components/nav/nav.js';
+import { createBurger } from './components/burger/burger.js';
+import { createSignInButton } from './components/sign-in-button/sign-in-button.js';
+import { createSignUpButton } from './components/sign-up-button/sign-up-button.js';
 
 export function createHeader(): HTMLElement {
   const header = document.createElement('header');
