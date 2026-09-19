@@ -1,0 +1,12 @@
+@use '../../../../../../../styles/tokens' as *;
+
+.leaderboard-row {
+  display: grid;
+  align-items: center;
+  gap: $size-times-1;
+}
+
+.leaderboard-cell {
+  display: flex;
+  align-items: center;
+}
