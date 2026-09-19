@@ -1,0 +1,38 @@
+@use '../../../../../styles/mixins' as *;
+@use '../../../../../styles/tokens' as *;
+
+.games-carousel-content {
+  display: flex;
+}
+
+.games-carousel-slot {
+  flex-basis: 0;
+  height: 320px;
+  border: 1px solid $color-outline;
+  box-sizing: border-box;
+}
+
+[data-slot-role='thumb-left'],
+[data-slot-role='thumb-right'] {
+  display: none;
+  flex-grow: 1;
+  min-width: 32px;
+  max-width: 96px;
+
+  @include desktop-screen {
+    display: flex;
+  }
+}
+
+[data-slot-role='peek-left'],
+[data-slot-role='peek-right'] {
+  flex-grow: 3;
+  min-width: 96px;
+  max-width: 288px;
+}
+
+[data-slot-role='focus'] {
+  flex-grow: 9;
+  min-width: 288px;
+  max-width: 864px;
+}
