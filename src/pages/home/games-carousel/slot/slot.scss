@@ -6,10 +6,22 @@
 }
 
 .games-carousel-slot {
+  display: flex;
+  flex-direction: column;
   flex-basis: 0;
   height: 320px;
-  border: 1px solid $color-outline;
+  box-shadow: inset 0 0 0 1px $color-outline;
   box-sizing: border-box;
+  overflow: hidden;
+  container-type: inline-size;
+}
+
+.games-carousel-slot-image {
+  display: block;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  object-fit: cover;
 }
 
 [data-slot-role='thumb-left'],
@@ -32,7 +44,7 @@
 }
 
 [data-slot-role='focus'] {
-  flex-grow: 9;
+  flex-grow: 5;
   min-width: 288px;
-  max-width: 864px;
+  max-width: 500px;
 }

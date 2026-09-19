@@ -5,5 +5,6 @@ import { createGamesCarousel } from '../pages/home/games-carousel/games-carousel
 const main = document.querySelector('main');
 
 if (main) {
-  main.append(createHeader(), createHero(), createGamesCarousel());
+  main.append(createHeader(), createHero());
+  main.append(await createGamesCarousel());
 }
