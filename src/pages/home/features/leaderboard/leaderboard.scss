@@ -1,4 +1,38 @@
+@use '../../../../../styles/mixins' as *;
+
 .leaderboard {
   display: flex;
   flex-direction: column;
+}
+
+[data-leaderboard-visibility='wide-and-up'] {
+  display: none;
+
+  @include wide-screen {
+    display: flex;
+  }
+}
+
+[data-leaderboard-visibility='desktop-only'] {
+  display: none;
+
+  @include desktop-screen {
+    display: flex;
+  }
+}
+
+[data-leaderboard-visibility='short-label'] {
+  display: inline;
+
+  @include desktop-screen {
+    display: none;
+  }
+}
+
+[data-leaderboard-visibility='long-label'] {
+  display: none;
+
+  @include desktop-screen {
+    display: inline;
+  }
 }
