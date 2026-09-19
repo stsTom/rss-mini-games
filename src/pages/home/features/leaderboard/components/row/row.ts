@@ -2,9 +2,15 @@ import './row.scss';
 import { createPlayerCell } from '../player-cell/player-cell.js';
 import type { LeaderboardEntry } from '../../interfaces.js';
 
+const TOP_RANKS_VISIBLE_BELOW_DESKTOP = 3;
+
 export function createLeaderboardRow(entry: LeaderboardEntry): HTMLElement {
   const row = document.createElement('div');
   row.classList.add('leaderboard-row');
+
+  if (entry.rank > TOP_RANKS_VISIBLE_BELOW_DESKTOP) {
+    row.dataset.leaderboardVisibility = 'desktop-only';
+  }
 
   const rank = document.createElement('div');
   rank.classList.add('leaderboard-cell', 'leaderboard-cell-rank');

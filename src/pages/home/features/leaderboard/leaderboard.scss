@@ -5,7 +5,11 @@
   flex-direction: column;
 }
 
-[data-leaderboard-visibility='wide-and-up'] {
+// Scoped to their target class (rather than the bare attribute selector) so
+// specificity always beats .leaderboard-cell/.leaderboard-row/.leaderboard-label's
+// own unconditional display rules, regardless of stylesheet load order.
+
+.leaderboard-cell[data-leaderboard-visibility='wide-and-up'] {
   display: none;
 
   @include wide-screen {
@@ -13,7 +17,7 @@
   }
 }
 
-[data-leaderboard-visibility='desktop-only'] {
+.leaderboard-cell[data-leaderboard-visibility='desktop-only'] {
   display: none;
 
   @include desktop-screen {
@@ -21,7 +25,15 @@
   }
 }
 
-[data-leaderboard-visibility='short-label'] {
+.leaderboard-row[data-leaderboard-visibility='desktop-only'] {
+  display: none;
+
+  @include desktop-screen {
+    display: grid;
+  }
+}
+
+.leaderboard-label[data-leaderboard-visibility='short-label'] {
   display: inline;
 
   @include desktop-screen {
@@ -29,7 +41,7 @@
   }
 }
 
-[data-leaderboard-visibility='long-label'] {
+.leaderboard-label[data-leaderboard-visibility='long-label'] {
   display: none;
 
   @include desktop-screen {
