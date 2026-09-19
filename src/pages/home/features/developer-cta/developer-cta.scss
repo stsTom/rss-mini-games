@@ -1,0 +1,10 @@
+@use '../../../../../styles/mixins' as *;
+
+.developer-cta {
+  display: flex;
+  flex-direction: column;
+
+  @include desktop-screen {
+    flex-direction: row;
+  }
+}
