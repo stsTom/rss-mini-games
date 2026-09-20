@@ -1,10 +1,12 @@
 import './sign-up-button.scss';
 
-export function createSignUpButton(): HTMLElement {
+export function createSignUpButton(hasVisibility = true): HTMLElement {
   const button = document.createElement('button');
   button.type = 'button';
   button.textContent = 'Sign up';
-  button.dataset.headerVisibility = 'wide';
+  if (hasVisibility) {
+    button.dataset.headerVisibility = 'wide';
+  }
 
   return button;
 }

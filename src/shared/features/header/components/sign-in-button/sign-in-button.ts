@@ -1,10 +1,12 @@
 import './sign-in-button.scss';
 
-export function createSignInButton(): HTMLElement {
+export function createSignInButton(hasVisibility = true): HTMLElement {
   const button = document.createElement('button');
   button.type = 'button';
   button.textContent = 'Sign in';
-  button.dataset.headerVisibility = 'desktop';
+  if (hasVisibility) {
+    button.dataset.headerVisibility = 'desktop';
+  }
 
   return button;
 }
