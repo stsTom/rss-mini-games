@@ -68,3 +68,29 @@ $button-medium-y: 10px;
 $button-small-x: 16px;
 $button-small-y: 8px;
 $button-icon: 8px;
+
+$header-frame: (
+  base: (
+    padding: 16px,
+    height: 64px,
+  ),
+  wide: (
+    padding: 16px 40px,
+    height: 72px,
+  ),
+  desktop: (
+    padding: 24px 80px,
+    height: 85px,
+  ),
+);
+
+$header-button-variants: (
+  outline: (
+    bg: transparent,
+    bg-hover: $color-surface,
+  ),
+  primary: (
+    bg: $color-primary,
+    bg-hover: $color-primary-high,
+  ),
+);

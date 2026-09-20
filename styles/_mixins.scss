@@ -1,3 +1,4 @@
+@use 'sass:map';
 @use 'tokens' as *;
 
 @mixin wide-screen {
@@ -37,5 +38,48 @@
 
   @include wide-screen {
     display: block;
+  }
+}
+
+%header-outline-box {
+  box-sizing: border-box;
+  border: 2px solid $color-on-primary;
+}
+
+@mixin header-frame {
+  $base: map.get($header-frame, base);
+  padding: map.get($base, padding);
+  height: map.get($base, height);
+
+  @include wide-screen {
+    $wide: map.get($header-frame, wide);
+    padding: map.get($wide, padding);
+    height: map.get($wide, height);
+  }
+
+  @include desktop-screen {
+    $desktop: map.get($header-frame, desktop);
+    padding: map.get($desktop, padding);
+    height: map.get($desktop, height);
+  }
+}
+
+@mixin header-button($variant) {
+  $values: map.get($header-button-variants, $variant);
+
+  @extend %header-outline-box;
+  padding: 8px 16px;
+  background-color: map.get($values, bg);
+  color: $color-on-primary;
+  border-radius: $border-rad-small;
+  font-size: $font-size-label-large;
+  font-weight: $weight-bold;
+
+  @include desktop-screen {
+    padding: 10px 20px;
+  }
+
+  &:hover {
+    background-color: map.get($values, bg-hover);
   }
 }
