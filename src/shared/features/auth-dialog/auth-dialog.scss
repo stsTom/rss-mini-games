@@ -1,0 +1,22 @@
+.auth-dialog {
+  padding: 0;
+  border: none;
+}
+
+.auth-dialog-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-dialog-tabs {
+  display: flex;
+}
+
+.auth-dialog-tabs button.is-active {
+  font-weight: bold;
+}
+
+.auth-dialog-view {
+  display: flex;
+  flex-direction: column;
+}
