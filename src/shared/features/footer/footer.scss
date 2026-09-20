@@ -1,1 +1,73 @@
 @use '../../../../styles/mixins' as *;
+
+.upper-footer {
+  display: flex;
+  flex-direction: column;
+
+  @include desktop-screen {
+    flex-direction: row;
+  }
+}
+
+.links-block {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.explore-links,
+.company-links {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 50%;
+  min-width: 0;
+
+  @include wide-screen {
+    flex: 1 1 0;
+  }
+}
+
+.community-actions {
+  flex: 0 0 100%;
+  min-width: 0;
+
+  @include wide-screen {
+    flex: 1 1 0;
+  }
+}
+
+.lower-footer {
+  display: flex;
+  flex-direction: column;
+
+  @include wide-screen {
+    flex-direction: row;
+  }
+}
+
+.lower-footer-links {
+  display: flex;
+  flex-direction: column;
+
+  @include wide-screen {
+    flex-direction: row;
+  }
+}
+
+.rss-link,
+.github-link {
+  display: flex;
+  align-items: center;
+
+  img {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+[data-footer-visibility='wide-and-up'] {
+  display: none;
+
+  @include wide-screen {
+    display: block;
+  }
+}
