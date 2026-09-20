@@ -1,4 +1,6 @@
 import './auth-dialog.scss';
+import { createLoginForm } from './components/login-form/login-form.js';
+import { createRegisterForm } from './components/register-form/register-form.js';
 
 export type AuthDialogTab = 'login' | 'register';
 
@@ -38,7 +40,20 @@ export function createAuthDialog(): AuthDialog {
     dialog.dataset.authDialogTab = tab;
     loginTab.classList.toggle('is-active', tab === 'login');
     registerTab.classList.toggle('is-active', tab === 'register');
+    view.replaceChildren(tab === 'login' ? loginForm : registerForm);
   };
+
+  const loginForm = createLoginForm({
+    onSwitchToRegister: () => {
+      setActiveTab('register');
+    },
+  });
+
+  const registerForm = createRegisterForm({
+    onSwitchToLogin: () => {
+      setActiveTab('login');
+    },
+  });
 
   const openLogin = (): void => {
     setActiveTab('login');
@@ -59,6 +74,12 @@ export function createAuthDialog(): AuthDialog {
   });
 
   setActiveTab('login');
+
+  dialog.addEventListener('click', (event) => {
+    if (event.target === dialog) {
+      dialog.close();
+    }
+  });
 
   return { element: dialog, openLogin, openRegister };
 }
