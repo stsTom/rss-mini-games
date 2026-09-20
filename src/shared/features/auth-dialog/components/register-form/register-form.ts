@@ -57,5 +57,9 @@ export function createRegisterForm(options: RegisterFormOptions): HTMLFormElemen
     switchToLoginLink
   );
 
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+  });
+
   return form;
 }
