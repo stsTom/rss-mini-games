@@ -1,5 +1,7 @@
 import './burger-menu.scss';
 import { createNav } from '../nav/nav.js';
+import { createSignInButton } from '../sign-in-button/sign-in-button.js';
+import { createSignUpButton } from '../sign-up-button/sign-up-button.js';
 
 export interface BurgerMenu {
   element: HTMLElement;
@@ -26,7 +28,11 @@ export function createBurgerMenu(): BurgerMenu {
 
   const nav = createNav(false);
 
-  panel.append(top, nav);
+  const bottom = document.createElement('div');
+  bottom.classList.add('burger-menu-bottom');
+  bottom.append(createSignInButton(false), createSignUpButton(false));
+
+  panel.append(top, nav, bottom);
 
   const open = (): void => {
     panel.dataset.burgerMenu = 'open';

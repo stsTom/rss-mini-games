@@ -17,6 +17,12 @@
   flex-direction: column;
 }
 
+.burger-menu-bottom {
+  display: flex;
+  flex-direction: column;
+  margin-top: auto;
+}
+
 [data-burger-menu='closed'] {
   display: none;
 }
