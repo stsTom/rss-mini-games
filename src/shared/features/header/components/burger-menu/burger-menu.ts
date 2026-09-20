@@ -9,7 +9,12 @@ export interface BurgerMenu {
   close: () => void;
 }
 
-export function createBurgerMenu(): BurgerMenu {
+export interface BurgerMenuOptions {
+  onSignIn: () => void;
+  onSignUp: () => void;
+}
+
+export function createBurgerMenu(options: BurgerMenuOptions): BurgerMenu {
   const panel = document.createElement('div');
   panel.classList.add('burger-menu');
   panel.dataset.burgerMenu = 'closed';
@@ -30,9 +35,6 @@ export function createBurgerMenu(): BurgerMenu {
 
   const bottom = document.createElement('div');
   bottom.classList.add('burger-menu-bottom');
-  bottom.append(createSignInButton(false), createSignUpButton(false));
-
-  panel.append(top, nav, bottom);
 
   const open = (): void => {
     panel.dataset.burgerMenu = 'open';
@@ -41,6 +43,18 @@ export function createBurgerMenu(): BurgerMenu {
   const close = (): void => {
     panel.dataset.burgerMenu = 'closed';
   };
+
+  const signInButton = createSignInButton(false, () => {
+    close();
+    options.onSignIn();
+  });
+  const signUpButton = createSignUpButton(false, () => {
+    close();
+    options.onSignUp();
+  });
+  bottom.append(signInButton, signUpButton);
+
+  panel.append(top, nav, bottom);
 
   closeButton.addEventListener('click', () => {
     close();
