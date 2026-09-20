@@ -12,7 +12,7 @@ export function createHeader(): HTMLElement {
   const burgerMenu = createBurgerMenu();
   const burger = createBurger();
   burger.addEventListener('click', () => {
-    burgerMenu.toggle();
+    burgerMenu.open();
   });
 
   const controls = document.createElement('div');

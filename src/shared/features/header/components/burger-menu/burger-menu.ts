@@ -4,7 +4,6 @@ export interface BurgerMenu {
   element: HTMLElement;
   open: () => void;
   close: () => void;
-  toggle: () => void;
 }
 
 export function createBurgerMenu(): BurgerMenu {
@@ -17,7 +16,12 @@ export function createBurgerMenu(): BurgerMenu {
 
   const heading = document.createElement('h2');
   heading.textContent = 'MiniGames';
-  top.append(heading);
+
+  const closeButton = document.createElement('button');
+  closeButton.type = 'button';
+  closeButton.textContent = 'Close';
+
+  top.append(heading, closeButton);
 
   panel.append(top);
 
@@ -29,13 +33,9 @@ export function createBurgerMenu(): BurgerMenu {
     panel.dataset.burgerMenu = 'closed';
   };
 
-  const toggle = (): void => {
-    if (panel.dataset.burgerMenu === 'open') {
-      close();
-    } else {
-      open();
-    }
-  };
+  closeButton.addEventListener('click', () => {
+    close();
+  });
 
-  return { element: panel, open, close, toggle };
+  return { element: panel, open, close };
 }
