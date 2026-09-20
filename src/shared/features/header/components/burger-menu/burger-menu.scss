@@ -12,6 +12,11 @@
   justify-content: space-between;
 }
 
+.burger-menu nav {
+  display: flex;
+  flex-direction: column;
+}
+
 [data-burger-menu='closed'] {
   display: none;
 }

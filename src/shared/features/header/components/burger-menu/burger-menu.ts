@@ -1,4 +1,5 @@
 import './burger-menu.scss';
+import { createNav } from '../nav/nav.js';
 
 export interface BurgerMenu {
   element: HTMLElement;
@@ -23,7 +24,9 @@ export function createBurgerMenu(): BurgerMenu {
 
   top.append(heading, closeButton);
 
-  panel.append(top);
+  const nav = createNav(false);
+
+  panel.append(top, nav);
 
   const open = (): void => {
     panel.dataset.burgerMenu = 'open';
