@@ -1,0 +1,37 @@
+@use '../../../../../../styles/mixins' as *;
+
+.burger-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+}
+
+.burger-menu-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.burger-menu nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.burger-menu-bottom {
+  display: flex;
+  flex-direction: column;
+  margin-top: auto;
+}
+
+[data-burger-menu='closed'] {
+  display: none;
+}
+
+[data-burger-menu='open'] {
+  display: flex;
+  flex-direction: column;
+
+  @include desktop-screen {
+    display: none;
+  }
+}
