@@ -1,7 +1,14 @@
+@use '../../../../styles/tokens' as *;
+@use '../../../../styles/mixins' as *;
+
 header {
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  background: $color-bg;
+  border-bottom: 2px solid $color-on-primary;
+  @include header-frame;
 }
 
 .header-controls {

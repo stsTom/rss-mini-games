@@ -1,5 +1,35 @@
+@use '../../../../../../styles/tokens' as *;
 @use '../../../../../../styles/mixins' as *;
 
 [data-header-visibility='always'] {
   @include header-visible-always;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+.title-logo {
+  @extend %header-outline-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: $color-white;
+  border-radius: $border-rad-small;
+  font-size: $font-size-body-medium;
+}
+
+.title-wordmark {
+  font-size: $font-size-headline-small;
+  font-weight: $weight-bold;
+  color: $color-on-primary;
+
+  @include desktop-screen {
+    font-size: $font-size-headline-medium;
+  }
 }
