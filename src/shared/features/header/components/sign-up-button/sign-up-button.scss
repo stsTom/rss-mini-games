@@ -3,3 +3,7 @@
 [data-header-visibility='wide'] {
   @include header-visible-wide;
 }
+
+button[data-header-visibility='wide'] {
+  @include header-button(primary);
+}

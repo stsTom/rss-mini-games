@@ -3,3 +3,7 @@
 [data-header-visibility='desktop'] {
   @include header-visible-desktop;
 }
+
+button[data-header-visibility='desktop'] {
+  @include header-button(outline);
+}

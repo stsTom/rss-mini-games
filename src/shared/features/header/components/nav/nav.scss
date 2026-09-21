@@ -1,5 +1,26 @@
+@use '../../../../../../styles/tokens' as *;
 @use '../../../../../../styles/mixins' as *;
 
 [data-header-visibility='desktop'] {
   @include header-visible-desktop;
+}
+
+nav[data-header-visibility='desktop'] {
+  @include desktop-screen {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+  }
+}
+
+nav a {
+  text-decoration: none;
+  font-size: $font-size-body-medium;
+  font-weight: $weight-medium;
+  color: $color-on-bg;
+}
+
+nav a:first-child {
+  font-weight: $weight-bold;
+  color: $color-on-primary;
 }
