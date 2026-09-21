@@ -149,3 +149,17 @@
     padding: fluid-value(8px 16px, 10px 20px, 768px, 1920px);
   }
 }
+
+@mixin carousel-nav-button($variant) {
+  @include button-variant-colors($variant);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  border-radius: $border-rad-full;
+  width: fluid(40px, 48px, 768px, 1920px);
+  height: fluid(40px, 48px, 768px, 1920px);
+
+  @media (min-width: 768px) {
+    display: flex;
+  }
+}

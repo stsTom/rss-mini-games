@@ -17,10 +17,15 @@ export function createGamesCarouselHeader(): HTMLElement {
 
   const previousButton = document.createElement('button');
   previousButton.type = 'button';
+  previousButton.classList.add(
+    'games-carousel-header-control',
+    'games-carousel-header-control--prev'
+  );
   previousButton.textContent = '<';
 
   const nextButton = document.createElement('button');
   nextButton.type = 'button';
+  nextButton.classList.add('games-carousel-header-control', 'games-carousel-header-control--next');
   nextButton.textContent = '>';
 
   const controls = document.createElement('div');

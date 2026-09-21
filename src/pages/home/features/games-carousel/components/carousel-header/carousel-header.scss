@@ -1,5 +1,6 @@
 @use '../../../../../../../styles/tokens' as *;
 @use '../../../../../../../styles/functions' as *;
+@use '../../../../../../../styles/mixins' as *;
 
 .games-carousel-header {
   display: flex;
@@ -32,4 +33,13 @@
 
 .games-carousel-header-controls {
   display: flex;
+  gap: $size-times-1 * 2;
+}
+
+.games-carousel-header-control--prev {
+  @include carousel-nav-button(outline);
+}
+
+.games-carousel-header-control--next {
+  @include carousel-nav-button(primary);
 }
