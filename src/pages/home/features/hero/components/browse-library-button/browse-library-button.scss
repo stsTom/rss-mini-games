@@ -1,3 +1,5 @@
-a {
-  display: inline-block;
+@use '../../../../../../../styles/mixins' as *;
+
+.hero-content a {
+  @include hero-cta-button(primary);
 }

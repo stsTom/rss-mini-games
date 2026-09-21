@@ -76,22 +76,68 @@
   }
 }
 
-@mixin header-button($variant) {
+@mixin button-variant-colors($variant) {
   $values: map.get($header-button-variants, $variant);
 
   @extend %header-outline-box;
-  padding: 8px 16px;
   background-color: map.get($values, bg);
   color: $color-on-primary;
+
+  &:hover {
+    background-color: map.get($values, bg-hover);
+  }
+}
+
+@mixin hero-frame {
+  $base: map.get($hero-frame, base);
+  padding: map.get($base, section-padding);
+  min-height: map.get($base, section-min-height);
+
+  @include wide-screen {
+    $wide: map.get($hero-frame, wide);
+    padding: map.get($wide, section-padding);
+    min-height: map.get($wide, section-min-height);
+  }
+
+  @include desktop-screen {
+    $desktop: map.get($hero-frame, desktop);
+    padding: map.get($desktop, section-padding);
+    min-height: map.get($desktop, section-min-height);
+  }
+}
+
+@mixin hero-cta-button($variant) {
+  $base: map.get($hero-button-frame, base);
+
+  @include button-variant-colors($variant);
+  display: inline-block;
+  text-decoration: none;
+  border-radius: $border-rad-small;
+  font-weight: $weight-bold;
+  padding: map.get($base, padding);
+  font-size: map.get($base, font-size);
+
+  @include wide-screen {
+    $wide: map.get($hero-button-frame, wide);
+    padding: map.get($wide, padding);
+    font-size: map.get($wide, font-size);
+  }
+
+  @include desktop-screen {
+    $desktop: map.get($hero-button-frame, desktop);
+    padding: map.get($desktop, padding);
+    font-size: map.get($desktop, font-size);
+  }
+}
+
+@mixin header-button($variant) {
+  @include button-variant-colors($variant);
+  padding: 8px 16px;
   border-radius: $border-rad-small;
   font-size: $font-size-label-large;
   font-weight: $weight-bold;
 
   @include desktop-screen {
     padding: 10px 20px;
-  }
-
-  &:hover {
-    background-color: map.get($values, bg-hover);
   }
 }

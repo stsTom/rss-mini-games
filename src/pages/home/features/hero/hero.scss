@@ -1,15 +1,52 @@
+@use 'sass:map';
+@use '../../../../../styles/tokens' as *;
+@use '../../../../../styles/mixins' as *;
+
 .hero {
-  width: 100vw;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
-  background-image: url('/home-page-hero.png');
+  background-image:
+    linear-gradient(rgba($color-bg-footer, 0.65), rgba($color-bg-footer, 0.65)),
+    url('/home-page-hero.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  @include hero-frame;
 }
 
 .hero-content {
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  background: $color-bg;
+  width: 100%;
+  $base: map.get($hero-frame, base);
+  padding: map.get($base, card-padding);
+  gap: map.get($base, card-gap);
+  border: map.get($base, card-border-width) solid $color-on-primary;
+  box-shadow: #{map.get($base, card-shadow-offset)} $color-on-primary;
+  border-radius: map.get($base, card-radius);
+  max-width: map.get($base, card-max-width);
+
+  @include wide-screen {
+    $wide: map.get($hero-frame, wide);
+    padding: map.get($wide, card-padding);
+    gap: map.get($wide, card-gap);
+    border-width: map.get($wide, card-border-width);
+    box-shadow: #{map.get($wide, card-shadow-offset)} $color-on-primary;
+    border-radius: map.get($wide, card-radius);
+    max-width: map.get($wide, card-max-width);
+  }
+
+  @include desktop-screen {
+    $desktop: map.get($hero-frame, desktop);
+    padding: map.get($desktop, card-padding);
+    gap: map.get($desktop, card-gap);
+    border-width: map.get($desktop, card-border-width);
+    box-shadow: #{map.get($desktop, card-shadow-offset)} $color-on-primary;
+    border-radius: map.get($desktop, card-radius);
+    max-width: map.get($desktop, card-max-width);
+  }
 }

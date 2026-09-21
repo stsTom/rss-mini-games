@@ -1,0 +1,20 @@
+@use '../../../../../../../styles/tokens' as *;
+@use '../../../../../../../styles/mixins' as *;
+
+.hero-content h2 {
+  margin: 0;
+  font-weight: $weight-bold;
+  color: $color-on-primary;
+  font-size: $font-size-display-small;
+  line-height: 120%;
+
+  @include wide-screen {
+    font-size: $font-size-display-medium;
+    line-height: 115%;
+  }
+
+  @include desktop-screen {
+    font-size: $font-size-display-large;
+    line-height: 110%;
+  }
+}
