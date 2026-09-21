@@ -1,19 +1,19 @@
 @use '../../../../../../../styles/tokens' as *;
 @use '../../../../../../../styles/mixins' as *;
+@use '../../../../../../../styles/functions' as *;
 
 .hero-content p {
   margin: 0;
   font-weight: $weight-medium;
   color: $color-on-bg;
-  font-size: $font-size-label-medium;
+  font-size: fluid($font-size-label-medium, $font-size-body-small, 375px, 768px);
   line-height: 140%;
 
-  @include wide-screen {
-    font-size: $font-size-body-small;
+  @media (min-width: 768px) {
+    font-size: fluid($font-size-body-small, $font-size-body-large, 768px, 1920px);
   }
 
   @include desktop-screen {
-    font-size: $font-size-body-large;
     line-height: 150%;
   }
 }

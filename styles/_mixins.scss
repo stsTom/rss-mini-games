@@ -1,5 +1,6 @@
 @use 'sass:map';
 @use 'tokens' as *;
+@use 'functions' as *;
 
 @mixin wide-screen {
   @media (min-width: 376px) {
@@ -60,19 +61,15 @@
 
 @mixin header-frame {
   $base: map.get($header-frame, base);
-  padding: map.get($base, padding);
-  height: map.get($base, height);
+  $wide: map.get($header-frame, wide);
+  $desktop: map.get($header-frame, desktop);
 
-  @include wide-screen {
-    $wide: map.get($header-frame, wide);
-    padding: map.get($wide, padding);
-    height: map.get($wide, height);
-  }
+  padding: fluid-value(map.get($base, padding), map.get($wide, padding), 375px, 768px);
+  min-height: fluid-value(map.get($base, height), map.get($wide, height), 375px, 768px);
 
-  @include desktop-screen {
-    $desktop: map.get($header-frame, desktop);
-    padding: map.get($desktop, padding);
-    height: map.get($desktop, height);
+  @media (min-width: 768px) {
+    padding: fluid-value(map.get($wide, padding), map.get($desktop, padding), 768px, 1920px);
+    min-height: fluid-value(map.get($wide, height), map.get($desktop, height), 768px, 1920px);
   }
 }
 
@@ -90,54 +87,65 @@
 
 @mixin hero-frame {
   $base: map.get($hero-frame, base);
-  padding: map.get($base, section-padding);
-  min-height: map.get($base, section-min-height);
+  $wide: map.get($hero-frame, wide);
+  $desktop: map.get($hero-frame, desktop);
 
-  @include wide-screen {
-    $wide: map.get($hero-frame, wide);
-    padding: map.get($wide, section-padding);
-    min-height: map.get($wide, section-min-height);
-  }
+  padding: fluid-value(
+    map.get($base, section-padding),
+    map.get($wide, section-padding),
+    375px,
+    768px
+  );
+  min-height: fluid-value(
+    map.get($base, section-min-height),
+    map.get($wide, section-min-height),
+    375px,
+    768px
+  );
 
-  @include desktop-screen {
-    $desktop: map.get($hero-frame, desktop);
-    padding: map.get($desktop, section-padding);
-    min-height: map.get($desktop, section-min-height);
+  @media (min-width: 768px) {
+    padding: fluid-value(
+      map.get($wide, section-padding),
+      map.get($desktop, section-padding),
+      768px,
+      1920px
+    );
+    min-height: fluid-value(
+      map.get($wide, section-min-height),
+      map.get($desktop, section-min-height),
+      768px,
+      1920px
+    );
   }
 }
 
 @mixin hero-cta-button($variant) {
   $base: map.get($hero-button-frame, base);
+  $wide: map.get($hero-button-frame, wide);
+  $desktop: map.get($hero-button-frame, desktop);
 
   @include button-variant-colors($variant);
   display: inline-block;
   text-decoration: none;
   border-radius: $border-rad-small;
   font-weight: $weight-bold;
-  padding: map.get($base, padding);
-  font-size: map.get($base, font-size);
+  padding: fluid-value(map.get($base, padding), map.get($wide, padding), 375px, 768px);
+  font-size: fluid(map.get($base, font-size), map.get($wide, font-size), 375px, 768px);
 
-  @include wide-screen {
-    $wide: map.get($hero-button-frame, wide);
-    padding: map.get($wide, padding);
-    font-size: map.get($wide, font-size);
-  }
-
-  @include desktop-screen {
-    $desktop: map.get($hero-button-frame, desktop);
-    padding: map.get($desktop, padding);
-    font-size: map.get($desktop, font-size);
+  @media (min-width: 768px) {
+    padding: fluid-value(map.get($wide, padding), map.get($desktop, padding), 768px, 1920px);
+    font-size: fluid(map.get($wide, font-size), map.get($desktop, font-size), 768px, 1920px);
   }
 }
 
 @mixin header-button($variant) {
   @include button-variant-colors($variant);
-  padding: 8px 16px;
+  padding: fluid-value(8px 16px, 8px 16px, 375px, 768px);
   border-radius: $border-rad-small;
   font-size: $font-size-label-large;
   font-weight: $weight-bold;
 
-  @include desktop-screen {
-    padding: 10px 20px;
+  @media (min-width: 768px) {
+    padding: fluid-value(8px 16px, 10px 20px, 768px, 1920px);
   }
 }
