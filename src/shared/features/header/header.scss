@@ -8,10 +8,23 @@ header {
   justify-content: space-between;
   background: $color-bg;
   border-bottom: 2px solid $color-on-primary;
+  font-family: $font-family-primary;
   @include header-frame;
 }
 
 .header-controls {
   display: flex;
   align-items: center;
+}
+
+.header-controls > * + * {
+  margin-left: 32px;
+}
+
+.header-controls > button[data-header-visibility='wide'] {
+  margin-left: 16px;
+}
+
+.header-controls > button[data-header-visibility='mobile'] {
+  margin-left: 16px;
 }
