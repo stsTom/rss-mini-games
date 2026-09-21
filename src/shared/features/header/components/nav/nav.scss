@@ -24,3 +24,9 @@ nav a:first-child {
   font-weight: $weight-bold;
   color: $color-on-primary;
 }
+
+nav[data-header-visibility='desktop'] a:hover {
+  font-weight: $weight-bold;
+  text-decoration: underline;
+  color: $color-tertiary;
+}

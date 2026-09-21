@@ -17,6 +17,10 @@ button[data-header-visibility='mobile'] {
   @include desktop-screen {
     display: none;
   }
+
+  &:hover {
+    background: $color-surface;
+  }
 }
 
 .burger-line {
