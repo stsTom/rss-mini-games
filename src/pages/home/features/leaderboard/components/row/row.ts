@@ -4,6 +4,32 @@ import type { LeaderboardEntry } from '../../interfaces.js';
 
 const TOP_RANKS_VISIBLE_BELOW_DESKTOP = 3;
 
+function formatScoreAbbreviated(score: number): string {
+  if (score < 1000) {
+    return String(score);
+  }
+
+  return `${(Math.floor(score / 100) / 10).toFixed(1)}K`;
+}
+
+function formatScoreFull(score: number): string {
+  return score.toLocaleString('en-US');
+}
+
+function createScoreValue(score: number): HTMLElement[] {
+  const abbreviated = document.createElement('span');
+  abbreviated.classList.add('leaderboard-score-value');
+  abbreviated.dataset.scoreVisibility = 'abbreviated';
+  abbreviated.textContent = formatScoreAbbreviated(score);
+
+  const full = document.createElement('span');
+  full.classList.add('leaderboard-score-value');
+  full.dataset.scoreVisibility = 'full';
+  full.textContent = formatScoreFull(score);
+
+  return [abbreviated, full];
+}
+
 export function createLeaderboardRow(entry: LeaderboardEntry): HTMLElement {
   const row = document.createElement('div');
   row.classList.add('leaderboard-row');
@@ -27,11 +53,11 @@ export function createLeaderboardRow(entry: LeaderboardEntry): HTMLElement {
 
   const totalScore = document.createElement('div');
   totalScore.classList.add('leaderboard-cell', 'leaderboard-cell-score');
-  totalScore.textContent = String(entry.totalScore);
+  totalScore.append(...createScoreValue(entry.totalScore));
 
   const streak = document.createElement('div');
   streak.classList.add('leaderboard-cell', 'leaderboard-cell-streak');
-  streak.textContent = String(entry.streakDays);
+  streak.textContent = `\u{1F525} ${entry.streakDays}d`;
 
   const favoriteGame = document.createElement('div');
   favoriteGame.classList.add('leaderboard-cell', 'leaderboard-cell-favorite-game');

@@ -1,6 +1,18 @@
 @use 'sass:map';
+@use 'sass:list';
 @use 'tokens' as *;
 @use 'functions' as *;
+
+@function leaderboard-track-list($key) {
+  $widths: map.get($leaderboard-columns, $key);
+  $track: ();
+
+  @each $width in $widths {
+    $track: list.append($track, $width * 1fr);
+  }
+
+  @return $track;
+}
 
 @mixin wide-screen {
   @media (min-width: 376px) {

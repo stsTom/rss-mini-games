@@ -5,6 +5,7 @@
   display: flex;
   align-items: center;
   gap: $size-times-1;
+  min-width: 0;
 }
 
 .leaderboard-player-avatar {
@@ -17,4 +18,11 @@
   color: $color-on-primary;
   font-weight: $weight-bold;
   @include leaderboard-avatar;
+}
+
+.leaderboard-player-name {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
