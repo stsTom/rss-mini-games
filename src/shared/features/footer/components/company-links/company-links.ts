@@ -1,3 +1,5 @@
+import './company-links.scss';
+
 const COMPANY_ITEMS = [
   { id: 'about-us', label: 'About Us' },
   { id: 'contact', label: 'Contact' },

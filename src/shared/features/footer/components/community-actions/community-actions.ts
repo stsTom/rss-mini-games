@@ -1,3 +1,5 @@
+import './community-actions.scss';
+
 const COMMUNITY_ACTION_COUNT = 3;
 
 export function createCommunityActions(): HTMLElement {

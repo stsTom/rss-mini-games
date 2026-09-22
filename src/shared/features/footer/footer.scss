@@ -24,6 +24,7 @@ footer {
 .links-block {
   display: flex;
   flex-wrap: wrap;
+  @include footer-links-row;
 }
 
 .explore-links,
@@ -33,6 +34,7 @@ footer {
   flex: 0 0 50%;
   min-width: 0;
   overflow-wrap: break-word;
+  @include footer-link-list;
 
   @include wide-screen {
     flex: 1 1 0;

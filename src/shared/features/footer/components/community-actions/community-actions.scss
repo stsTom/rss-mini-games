@@ -1,0 +1,27 @@
+@use '../../../../../../styles/mixins' as *;
+@use '../../../../../../styles/tokens' as *;
+
+.community-actions {
+  display: flex;
+  flex-direction: column;
+  @include footer-community-actions;
+
+  h3 {
+    margin: 0;
+    color: $color-white;
+    font-weight: $weight-bold;
+    font-size: $font-size-label-extra-large;
+  }
+}
+
+.community-actions-buttons {
+  display: flex;
+  flex-direction: row;
+  @include footer-community-actions;
+
+  button {
+    @include footer-community-icon;
+    border: none;
+    padding: 0;
+  }
+}
