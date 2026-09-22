@@ -519,3 +519,28 @@
     font-size: fluid(map.get($wide, font-size), map.get($desktop, font-size), 768px, 1920px);
   }
 }
+
+@mixin footer-frame {
+  $base: map.get($footer-frame, base);
+  $wide: map.get($footer-frame, wide);
+  $desktop: map.get($footer-frame, desktop);
+
+  background: $color-bg-footer;
+  padding: fluid-value(
+    map.get($base, section-padding),
+    map.get($wide, section-padding),
+    375px,
+    768px
+  );
+  gap: fluid(map.get($base, section-gap), map.get($wide, section-gap), 375px, 768px);
+
+  @media (min-width: 768px) {
+    padding: fluid-value(
+      map.get($wide, section-padding),
+      map.get($desktop, section-padding),
+      768px,
+      1920px
+    );
+    gap: fluid(map.get($wide, section-gap), map.get($desktop, section-gap), 768px, 1920px);
+  }
+}

@@ -284,3 +284,39 @@ $developer-cta-frame: (
     text-font-size: $font-size-body-large,
   ),
 );
+
+$footer-frame: (
+  base: (
+    section-padding: 32px 16px,
+    section-gap: 24px,
+    brand-gap: 24px,
+    links-row-gap: 40px,
+    link-list-gap: 16px,
+    community-gap: 16px,
+    community-icon-size: 32px,
+    lower-gap: 12px,
+    lower-row-gap: 16px,
+  ),
+  wide: (
+    section-padding: 40px 40px,
+    section-gap: 40px,
+    brand-gap: 24px,
+    links-row-gap: 24px,
+    link-list-gap: 16px,
+    community-gap: 16px,
+    community-icon-size: 32px,
+    lower-gap: 16px,
+    lower-row-gap: 8px,
+  ),
+  desktop: (
+    section-padding: 40px 120px,
+    section-gap: 64px,
+    brand-gap: 24px,
+    links-row-gap: 80px,
+    link-list-gap: 16px,
+    community-gap: 16px,
+    community-icon-size: 40px,
+    lower-gap: 24px,
+    lower-row-gap: 8px,
+  ),
+);

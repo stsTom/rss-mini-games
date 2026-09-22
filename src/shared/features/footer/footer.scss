@@ -1,5 +1,11 @@
 @use '../../../../styles/mixins' as *;
 
+footer {
+  display: flex;
+  flex-direction: column;
+  @include footer-frame;
+}
+
 .upper-footer {
   display: flex;
   flex-direction: column;
@@ -20,6 +26,7 @@
   flex-direction: column;
   flex: 0 0 50%;
   min-width: 0;
+  overflow-wrap: break-word;
 
   @include wide-screen {
     flex: 1 1 0;
@@ -29,6 +36,7 @@
 .community-actions {
   flex: 0 0 100%;
   min-width: 0;
+  overflow-wrap: break-word;
 
   @include wide-screen {
     flex: 1 1 0;
