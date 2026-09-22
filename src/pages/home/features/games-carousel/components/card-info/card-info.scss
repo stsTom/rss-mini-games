@@ -22,6 +22,9 @@ $carousel-card-border-width: map.get(map.get($carousel-frame, base), card-border
 
   h3 {
     margin: 0 0 $size-times-1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     font-weight: $weight-bold;
     font-size: $font-size-body-large;
   }
@@ -74,4 +77,8 @@ $carousel-card-border-width: map.get(map.get($carousel-frame, base), card-border
   .games-carousel-card-info {
     display: block;
   }
+}
+
+[data-slot-role='focus'] .games-carousel-card-info {
+  display: block;
 }
