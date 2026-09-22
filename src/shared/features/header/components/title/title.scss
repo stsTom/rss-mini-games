@@ -1,0 +1,31 @@
+@use '../../styles/tokens' as *;
+@use '../../styles/mixins' as *;
+@use 'styles/tokens' as *;
+@use 'styles/mixins' as *;
+@use 'styles/functions' as *;
+
+[data-header-visibility='always'] {
+  @include header-visible-always;
+}
+
+.title {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+.title-logo {
+  @include header-logo-badge;
+}
+
+.title-wordmark {
+  font-size: fluid($font-size-headline-small, $font-size-headline-small, 375px, 768px);
+  font-weight: $weight-bold;
+  color: $color-on-primary;
+
+  @media (min-width: 768px) {
+    font-size: fluid($font-size-headline-small, $font-size-headline-medium, 768px, 1920px);
+  }
+}

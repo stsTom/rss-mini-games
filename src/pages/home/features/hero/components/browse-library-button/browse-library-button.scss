@@ -1,0 +1,6 @@
+@use '../../styles/mixins' as *;
+@use 'styles/mixins' as *;
+
+.hero-content a {
+  @include hero-cta-button(primary);
+}

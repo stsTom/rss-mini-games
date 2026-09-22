@@ -1,0 +1,23 @@
+@use 'styles/tokens' as *;
+@use 'styles/mixins' as *;
+@use 'styles/functions' as *;
+
+.hero-content h2 {
+  margin: 0;
+  font-weight: $weight-bold;
+  color: $color-on-primary;
+  font-size: fluid($font-size-display-small, $font-size-display-medium, 375px, 768px);
+  line-height: 120%;
+
+  @include wide-screen {
+    line-height: 115%;
+  }
+
+  @media (min-width: 768px) {
+    font-size: fluid($font-size-display-medium, $font-size-display-large, 768px, 1920px);
+  }
+
+  @include desktop-screen {
+    line-height: 110%;
+  }
+}

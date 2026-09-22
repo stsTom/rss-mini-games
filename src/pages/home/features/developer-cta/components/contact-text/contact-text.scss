@@ -1,0 +1,8 @@
+@use 'styles/tokens' as *;
+
+.developer-cta-content > p:last-of-type {
+  margin: 0;
+  color: $color-on-bg-low;
+  font-weight: $weight-regular;
+  font-size: $font-size-label-medium;
+}

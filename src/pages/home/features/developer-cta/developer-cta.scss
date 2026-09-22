@@ -1,0 +1,19 @@
+@use './styles/mixins' as *;
+@use '../../../../../styles/mixins' as *;
+
+.developer-cta {
+  display: flex;
+  flex-direction: column;
+  @include developer-cta-section-padding;
+
+  @include desktop-screen {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.developer-cta-content {
+  display: flex;
+  flex-direction: column;
+  @include developer-cta-card;
+}

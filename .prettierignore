@@ -4,3 +4,8 @@ dist
 package.json
 package-lock.json
 .prettierignore
+.gitignore
+**/*.png
+**/*.jpg
+**/*.jpeg
+**/*.svg

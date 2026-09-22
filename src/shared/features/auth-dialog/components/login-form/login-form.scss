@@ -1,0 +1,131 @@
+@use 'sass:map';
+@use '../../styles/mixins' as *;
+@use '../../styles/tokens' as *;
+@use 'styles/tokens' as *;
+@use 'styles/functions' as *;
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  gap: fluid(
+    map.get(map.get($auth-dialog-frame, base), card-gap),
+    map.get(map.get($auth-dialog-frame, wide), card-gap),
+    375px,
+    768px
+  );
+
+  @media (min-width: 768px) {
+    gap: fluid(
+      map.get(map.get($auth-dialog-frame, wide), card-gap),
+      map.get(map.get($auth-dialog-frame, desktop), card-gap),
+      768px,
+      1920px
+    );
+  }
+}
+
+.login-form .header-text {
+  @include auth-dialog-header-text;
+}
+
+.login-form .fields {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  gap: fluid(
+    map.get(map.get($auth-dialog-frame, base), fields-gap),
+    map.get(map.get($auth-dialog-frame, wide), fields-gap),
+    375px,
+    768px
+  );
+
+  @media (min-width: 768px) {
+    gap: fluid(
+      map.get(map.get($auth-dialog-frame, wide), fields-gap),
+      map.get(map.get($auth-dialog-frame, desktop), fields-gap),
+      768px,
+      1920px
+    );
+  }
+}
+
+.login-form .field {
+  @include auth-dialog-field;
+}
+
+.login-form .input-wrapper {
+  @include auth-dialog-input;
+}
+
+.login-form .field-icon--mail {
+  mask-image: url('/icons/evelope.svg');
+  -webkit-mask-image: url('/icons/evelope.svg');
+}
+
+.login-form .field-icon--lock {
+  mask-image: url('/icons/lock.svg');
+  -webkit-mask-image: url('/icons/lock.svg');
+}
+
+.login-form .field-icon--eye {
+  mask-image: url('/icons/eye.svg');
+  -webkit-mask-image: url('/icons/eye.svg');
+}
+
+.login-form .links-row {
+  display: flex;
+  justify-content: flex-end;
+  align-self: stretch;
+}
+
+.login-form .links-row a {
+  color: $color-on-primary;
+  font-family: $font-family-primary;
+  font-weight: $weight-bold;
+  font-size: $font-size-label-medium;
+  text-decoration: underline;
+
+  &:hover {
+    color: $color-tertiary;
+  }
+}
+
+.login-form .actions {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  gap: fluid(
+    map.get(map.get($auth-dialog-frame, base), actions-gap),
+    map.get(map.get($auth-dialog-frame, wide), actions-gap),
+    375px,
+    768px
+  );
+
+  @media (min-width: 768px) {
+    gap: fluid(
+      map.get(map.get($auth-dialog-frame, wide), actions-gap),
+      map.get(map.get($auth-dialog-frame, desktop), actions-gap),
+      768px,
+      1920px
+    );
+  }
+}
+
+.login-form .divider {
+  @include auth-dialog-divider;
+}
+
+.login-form .cta-button {
+  @include auth-dialog-cta-button;
+  cursor: pointer;
+}
+
+.login-form .google-button {
+  @include auth-dialog-google-button;
+  cursor: pointer;
+}
+
+.login-form .footer {
+  @include auth-dialog-footer-row;
+}
