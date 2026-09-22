@@ -1,19 +1,31 @@
+@use '../../../../styles/mixins' as *;
+@use '../../../../styles/tokens' as *;
+
 .auth-dialog {
   padding: 0;
   border: none;
+
+  &::backdrop {
+    background: rgba($color-black, 0.5);
+  }
 }
 
 .auth-dialog-content {
+  @include auth-dialog-card;
   display: flex;
   flex-direction: column;
 }
 
 .auth-dialog-tabs {
-  display: flex;
+  @include auth-dialog-tabs;
 }
 
-.auth-dialog-tabs button.is-active {
-  font-weight: bold;
+.auth-dialog-tabs button {
+  @include auth-dialog-tab;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-family: inherit;
 }
 
 .auth-dialog-view {
