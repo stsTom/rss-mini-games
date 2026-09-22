@@ -11,14 +11,22 @@ footer {
   display: flex;
   flex-direction: column;
   @include footer-brand-block;
+
+  @include desktop-screen {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
 }
 
 .upper-footer {
   display: flex;
   flex-direction: column;
+  @include footer-upper-frame;
 
   @include desktop-screen {
     flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
   }
 }
 
@@ -26,6 +34,10 @@ footer {
   display: flex;
   flex-wrap: wrap;
   @include footer-links-row;
+
+  @include desktop-screen {
+    flex-shrink: 0;
+  }
 }
 
 .explore-links,
@@ -70,10 +82,6 @@ footer {
   @include footer-lower-row;
 
   @include wide-screen {
-    // Dissolves this wrapper into the surrounding flex row so its two links
-    // become direct siblings of the copyright/attribution text, letting the
-    // single space-between on .lower-footer spread all four elements evenly
-    // across the full width instead of bunching the links together.
     display: contents;
   }
 }
