@@ -9,11 +9,11 @@
   display: flex;
   flex-direction: column;
   flex-basis: 0;
-  height: 320px;
-  box-shadow: inset 0 0 0 1px $color-outline;
+  background: $color-white;
   box-sizing: border-box;
   overflow: hidden;
   container-type: inline-size;
+  @include carousel-frame;
 }
 
 .games-carousel-slot-image {

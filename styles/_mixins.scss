@@ -150,6 +150,57 @@
   }
 }
 
+@mixin carousel-frame {
+  $base: map.get($carousel-frame, base);
+  $wide: map.get($carousel-frame, wide);
+  $desktop: map.get($carousel-frame, desktop);
+
+  border: solid $color-on-primary;
+  border-width: fluid-value(
+    map.get($base, card-border-width),
+    map.get($wide, card-border-width),
+    375px,
+    768px
+  );
+  box-shadow: #{fluid-value(
+      map.get($base, card-shadow-offset),
+      map.get($wide, card-shadow-offset),
+      375px,
+      768px
+    )}
+    $color-on-primary;
+  border-radius: fluid-value(
+    map.get($base, card-radius),
+    map.get($wide, card-radius),
+    375px,
+    768px
+  );
+  height: fluid-value(map.get($base, card-height), map.get($wide, card-height), 375px, 768px);
+
+  @media (min-width: 768px) {
+    border-width: fluid-value(
+      map.get($wide, card-border-width),
+      map.get($desktop, card-border-width),
+      768px,
+      1920px
+    );
+    box-shadow: #{fluid-value(
+        map.get($wide, card-shadow-offset),
+        map.get($desktop, card-shadow-offset),
+        768px,
+        1920px
+      )}
+      $color-on-primary;
+    border-radius: fluid-value(
+      map.get($wide, card-radius),
+      map.get($desktop, card-radius),
+      768px,
+      1920px
+    );
+    height: fluid-value(map.get($wide, card-height), map.get($desktop, card-height), 768px, 1920px);
+  }
+}
+
 @mixin carousel-nav-button($variant) {
   @include button-variant-colors($variant);
   display: none;

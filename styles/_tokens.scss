@@ -144,3 +144,24 @@ $hero-button-frame: (
     font-size: $font-size-body-large,
   ),
 );
+
+$carousel-frame: (
+  base: (
+    card-border-width: 2.5px,
+    card-shadow-offset: 4px 4px,
+    card-radius: $border-rad-large,
+    card-height: 200px,
+  ),
+  wide: (
+    card-border-width: 2.5px,
+    card-shadow-offset: 4px 4px,
+    card-radius: $border-rad-large,
+    card-height: 280px,
+  ),
+  desktop: (
+    card-border-width: 2.5px,
+    card-shadow-offset: 4px 4px,
+    card-radius: $border-rad-extra-large,
+    card-height: 384px,
+  ),
+);
