@@ -189,3 +189,42 @@ $carousel-layout: (
     thumb-width: 120px,
   ),
 );
+
+$leaderboard-frame: (
+  base: (
+    section-padding: 16px 16px,
+    section-gap: 16px,
+    accent-bar-height: 24px,
+    heading-font-size: $font-size-headline-medium,
+    table-shadow-offset: 4px 4px,
+    header-row-padding: 16px 16px,
+    header-row-gap: 8px,
+    header-label-font-size: $font-size-label-large,
+    data-row-padding: 16px 16px,
+    data-row-gap: 8px,
+  ),
+  wide: (
+    section-padding: 24px 40px,
+    section-gap: 24px,
+    accent-bar-height: 24px,
+    heading-font-size: $font-size-headline-medium,
+    table-shadow-offset: 4px 4px,
+    header-row-padding: 16px 16px,
+    header-row-gap: 12px,
+    header-label-font-size: $font-size-label-large,
+    data-row-padding: 16px 16px,
+    data-row-gap: 16px,
+  ),
+  desktop: (
+    section-padding: 40px 120px,
+    section-gap: 40px,
+    accent-bar-height: 32px,
+    heading-font-size: $font-size-headline-large,
+    table-shadow-offset: 6px 6px,
+    header-row-padding: 24px 24px,
+    header-row-gap: 16px,
+    header-label-font-size: $font-size-label-extra-large,
+    data-row-padding: 16px 24px,
+    data-row-gap: 16px,
+  ),
+);
