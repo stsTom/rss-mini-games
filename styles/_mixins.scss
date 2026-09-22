@@ -764,8 +764,12 @@
   color: $color-on-bg;
   font-family: $font-family-primary;
   font-weight: $weight-bold;
-  font-size: $font-size-body-medium;
+  font-size: $font-size-label-large;
   padding: fluid-value(map.get($base, tab-padding), map.get($wide, tab-padding), 375px, 768px);
+
+  &:not(.is-active):hover {
+    background: $color-surface;
+  }
 
   &.is-active {
     background: $color-bg-footer-low;
@@ -797,7 +801,7 @@
     color: $color-on-primary;
     font-family: $font-family-primary;
     font-weight: $weight-bold;
-    font-size: $font-size-headline-medium;
+    font-size: $font-size-headline-small;
   }
 
   p {
@@ -805,7 +809,7 @@
     color: $color-on-bg;
     font-family: $font-family-primary;
     font-weight: $weight-regular;
-    font-size: $font-size-body-small;
+    font-size: $font-size-label-medium;
   }
 
   @media (min-width: 768px) {
@@ -827,7 +831,7 @@
     color: $color-on-primary;
     font-family: $font-family-primary;
     font-weight: $weight-bold;
-    font-size: $font-size-label-large;
+    font-size: $font-size-label-medium;
   }
 
   @media (min-width: 768px) {
@@ -864,8 +868,15 @@
 
   .field-icon {
     flex: none;
-    color: $color-on-bg;
-    font-size: $font-size-headline-small;
+    width: $font-size-headline-small;
+    height: $font-size-headline-small;
+    background-color: $color-on-bg;
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
   }
 
   input {
@@ -876,7 +887,7 @@
     background: transparent;
     font-family: $font-family-primary;
     font-weight: $weight-medium;
-    font-size: $font-size-label-large;
+    font-size: $font-size-label-medium;
     color: $color-on-primary;
 
     &::placeholder {
@@ -923,7 +934,7 @@
   border-radius: $border-rad-medium;
   font-family: $font-family-primary;
   font-weight: $weight-bold;
-  font-size: $font-size-body-medium;
+  font-size: $font-size-label-large;
   border-width: fluid(
     map.get($base, cta-border-width),
     map.get($wide, cta-border-width),
@@ -938,6 +949,10 @@
     )}
     $color-on-primary;
   padding: fluid-value(map.get($base, cta-padding), map.get($wide, cta-padding), 375px, 768px);
+
+  &:hover {
+    background: $color-primary-high;
+  }
 
   @media (min-width: 768px) {
     border-width: fluid(
@@ -978,7 +993,7 @@
   border-radius: $border-rad-medium;
   font-family: $font-family-primary;
   font-weight: $weight-bold;
-  font-size: $font-size-body-medium;
+  font-size: $font-size-label-large;
   border-width: fluid(
     map.get($base, google-border-width),
     map.get($wide, google-border-width),
@@ -993,9 +1008,14 @@
   );
   gap: fluid(map.get($base, actions-gap), map.get($wide, actions-gap), 375px, 768px);
 
+  &:hover {
+    background: $color-surface;
+  }
+
   .google-icon {
     flex: none;
-    background: $color-error;
+    display: block;
+    object-fit: contain;
     width: fluid(
       list.nth(map.get($base, google-padding), 2),
       list.nth(map.get($wide, google-padding), 2),
@@ -1064,7 +1084,7 @@
     color: $color-on-bg;
     font-family: $font-family-primary;
     font-weight: $weight-bold;
-    font-size: $font-size-label-medium;
+    font-size: $font-size-label-small;
     text-transform: uppercase;
   }
 
@@ -1085,7 +1105,7 @@
   color: $color-on-bg;
   font-family: $font-family-primary;
   font-weight: $weight-regular;
-  font-size: $font-size-body-small;
+  font-size: $font-size-label-medium;
 
   button {
     border: none;
@@ -1097,6 +1117,10 @@
     font-weight: $weight-bold;
     font-size: inherit;
     text-decoration: underline;
+
+    &:hover {
+      color: $color-tertiary;
+    }
   }
 
   @media (min-width: 768px) {

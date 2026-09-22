@@ -58,12 +58,18 @@ export function createAuthDialog(): AuthDialog {
   const openLogin = (): void => {
     setActiveTab('login');
     dialog.showModal();
+    document.body.classList.add('auth-dialog-open');
   };
 
   const openRegister = (): void => {
     setActiveTab('register');
     dialog.showModal();
+    document.body.classList.add('auth-dialog-open');
   };
+
+  dialog.addEventListener('close', () => {
+    document.body.classList.remove('auth-dialog-open');
+  });
 
   loginTab.addEventListener('click', () => {
     setActiveTab('login');
