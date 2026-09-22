@@ -165,3 +165,27 @@ $carousel-frame: (
     card-height: 384px,
   ),
 );
+
+$carousel-layout: (
+  base: (
+    section-padding: 16px 16px,
+    track-padding: 0 4px,
+    peek-width: 56px,
+    focus-width: 218px,
+    thumb-width: 0px,
+  ),
+  wide: (
+    section-padding: 24px 40px,
+    track-padding: 0 8px,
+    peek-width: 105px,
+    focus-width: 448px,
+    thumb-width: 44px,
+  ),
+  desktop: (
+    section-padding: 40px 120px,
+    track-padding: 0 8px,
+    peek-width: 288px,
+    focus-width: 816px,
+    thumb-width: 120px,
+  ),
+);
