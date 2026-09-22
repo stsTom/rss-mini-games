@@ -246,3 +246,39 @@ $leaderboard-columns: (
   wide: 80 160 110 110 110,
   desktop: 80 294.4 294.4 294.4 294.4 294.4,
 );
+
+// Shadow
+$shadow-cta-card:
+  0px 2px 8px -4px rgba(0, 0, 0, 0.0392157),
+  0px 14px 30px -10px rgba(0, 0, 0, 0.0784314);
+$shadow-cta-button: 0px 10px 20px -10px rgba(0, 0, 0, 0.101961);
+
+$developer-cta-frame: (
+  base: (
+    section-padding: 16px 16px,
+    section-gap: 16px,
+    image-height: 227px,
+    card-padding: 24px,
+    card-gap: 16px,
+    heading-font-size: $font-size-headline-medium,
+    text-font-size: $font-size-label-medium,
+  ),
+  wide: (
+    section-padding: 24px 40px,
+    section-gap: 24px,
+    image-height: 300px,
+    card-padding: 32px,
+    card-gap: 16px,
+    heading-font-size: $font-size-headline-medium,
+    text-font-size: $font-size-body-small,
+  ),
+  desktop: (
+    section-padding: 40px 120px,
+    section-gap: 40px,
+    image-height: 480px,
+    card-padding: 40px,
+    card-gap: 24px,
+    heading-font-size: $font-size-headline-large,
+    text-font-size: $font-size-body-large,
+  ),
+);

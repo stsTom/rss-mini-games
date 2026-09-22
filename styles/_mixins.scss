@@ -431,3 +431,92 @@
     display: flex;
   }
 }
+
+@mixin developer-cta-section-padding {
+  $base: map.get($developer-cta-frame, base);
+  $wide: map.get($developer-cta-frame, wide);
+  $desktop: map.get($developer-cta-frame, desktop);
+
+  padding: fluid-value(
+    map.get($base, section-padding),
+    map.get($wide, section-padding),
+    375px,
+    768px
+  );
+  gap: fluid(map.get($base, section-gap), map.get($wide, section-gap), 375px, 768px);
+
+  @media (min-width: 768px) {
+    padding: fluid-value(
+      map.get($wide, section-padding),
+      map.get($desktop, section-padding),
+      768px,
+      1920px
+    );
+    gap: fluid(map.get($wide, section-gap), map.get($desktop, section-gap), 768px, 1920px);
+  }
+}
+
+@mixin developer-cta-image {
+  $base: map.get($developer-cta-frame, base);
+  $wide: map.get($developer-cta-frame, wide);
+  $desktop: map.get($developer-cta-frame, desktop);
+
+  display: block;
+  width: 100%;
+  object-fit: cover;
+  border-radius: $border-rad-extra-large;
+  height: fluid(map.get($base, image-height), map.get($wide, image-height), 375px, 768px);
+
+  @media (min-width: 768px) {
+    height: fluid(map.get($wide, image-height), map.get($desktop, image-height), 768px, 1920px);
+  }
+
+  @include desktop-screen {
+    width: 680px;
+    height: map.get($desktop, image-height);
+    flex: none;
+  }
+}
+
+@mixin developer-cta-card {
+  $base: map.get($developer-cta-frame, base);
+  $wide: map.get($developer-cta-frame, wide);
+  $desktop: map.get($developer-cta-frame, desktop);
+
+  background: $color-white;
+  border: 2px solid $color-on-primary;
+  border-radius: $border-rad-extra-large;
+  box-shadow: $shadow-cta-card;
+  padding: fluid(map.get($base, card-padding), map.get($wide, card-padding), 375px, 768px);
+  gap: fluid(map.get($base, card-gap), map.get($wide, card-gap), 375px, 768px);
+
+  @media (min-width: 768px) {
+    padding: fluid(map.get($wide, card-padding), map.get($desktop, card-padding), 768px, 1920px);
+    gap: fluid(map.get($wide, card-gap), map.get($desktop, card-gap), 768px, 1920px);
+  }
+
+  @include desktop-screen {
+    flex: 1;
+  }
+}
+
+@mixin developer-cta-button {
+  $base: map.get($hero-button-frame, base);
+  $wide: map.get($hero-button-frame, wide);
+  $desktop: map.get($hero-button-frame, desktop);
+
+  @include button-variant-colors(primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: $weight-bold;
+  border-radius: $border-rad-medium;
+  box-shadow: $shadow-cta-button;
+  padding: fluid-value(map.get($base, padding), map.get($wide, padding), 375px, 768px);
+  font-size: fluid(map.get($base, font-size), map.get($wide, font-size), 375px, 768px);
+
+  @media (min-width: 768px) {
+    padding: fluid-value(map.get($wide, padding), map.get($desktop, padding), 768px, 1920px);
+    font-size: fluid(map.get($wide, font-size), map.get($desktop, font-size), 768px, 1920px);
+  }
+}
