@@ -1,16 +1,76 @@
+@use 'sass:map';
+@use 'sass:math';
 @use '../../../../../../../styles/tokens' as *;
+@use '../../../../../../../styles/functions' as *;
+
+$carousel-card-border-width: map.get(map.get($carousel-frame, base), card-border-width);
 
 .games-carousel-card-info {
   display: none;
-  padding: $size-times-1;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: $size-times-1 * 2;
+  color: $color-white;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.4) 17.31%,
+    rgba(0, 0, 0, 0.85) 46.15%
+  );
+
+  h3 {
+    margin: 0 0 $size-times-1;
+    font-weight: $weight-bold;
+    font-size: $font-size-body-large;
+  }
 }
 
 .games-carousel-card-meta {
   display: flex;
   justify-content: space-between;
+  font-weight: $weight-bold;
+  font-size: fluid($font-size-label-medium, $font-size-label-large, 375px, 768px);
+
+  @media (min-width: 768px) {
+    font-size: fluid($font-size-label-large, $font-size-label-extra-large, 768px, 1920px);
+  }
 }
 
-@container (min-width: 287.5px) {
+.games-carousel-card-rating,
+.games-carousel-card-likes {
+  display: flex;
+  align-items: center;
+  gap: math.div($size-times-1, 2);
+}
+
+.games-carousel-card-icon {
+  display: inline-block;
+  flex-shrink: 0;
+  width: 1em;
+  height: 1em;
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+}
+
+.games-carousel-card-icon--star {
+  background-color: $color-primary;
+  mask-image: url('/icons/star.svg');
+  -webkit-mask-image: url('/icons/star.svg');
+}
+
+.games-carousel-card-icon--heart {
+  background-color: $color-like;
+  mask-image: url('/icons/heart.svg');
+  -webkit-mask-image: url('/icons/heart.svg');
+}
+
+@container (min-width: #{287.5px - $carousel-card-border-width * 2}) {
   .games-carousel-card-info {
     display: block;
   }
