@@ -1,10 +1,13 @@
+@use 'sass:map';
 @use '../../../../../../../styles/tokens' as *;
 @use '../../../../../../../styles/mixins' as *;
+@use '../../../../../../../styles/functions' as *;
 
 .leaderboard-row {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   align-items: center;
+  align-self: stretch;
   gap: $size-times-1;
 
   @include wide-screen {
@@ -16,7 +19,41 @@
   }
 }
 
+.leaderboard-header-row {
+  @include leaderboard-header-row;
+}
+
+.leaderboard-row:not(.leaderboard-header-row) {
+  background: $color-white;
+  @include leaderboard-row-frame;
+
+  &:nth-child(even) {
+    background: $color-bg;
+  }
+}
+
 .leaderboard-cell {
   display: flex;
   align-items: center;
+}
+
+.leaderboard-header-row .leaderboard-cell {
+  color: $color-white;
+  font-weight: $weight-extra-bold;
+  text-transform: uppercase;
+  font-size: fluid(
+    map.get(map.get($leaderboard-frame, base), header-label-font-size),
+    map.get(map.get($leaderboard-frame, wide), header-label-font-size),
+    375px,
+    768px
+  );
+
+  @media (min-width: 768px) {
+    font-size: fluid(
+      map.get(map.get($leaderboard-frame, wide), header-label-font-size),
+      map.get(map.get($leaderboard-frame, desktop), header-label-font-size),
+      768px,
+      1920px
+    );
+  }
 }
