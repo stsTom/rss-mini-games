@@ -1,0 +1,9 @@
+@use '../../../../../../styles/tokens' as *;
+
+.brand-block > p {
+  margin: 0;
+  color: $color-on-bg-footer;
+  font-weight: $weight-regular;
+  font-size: $font-size-body-small;
+  line-height: 150%;
+}

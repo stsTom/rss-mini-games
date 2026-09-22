@@ -545,6 +545,18 @@
   }
 }
 
+@mixin footer-brand-block {
+  $base: map.get($footer-frame, base);
+  $wide: map.get($footer-frame, wide);
+  $desktop: map.get($footer-frame, desktop);
+
+  gap: fluid(map.get($base, brand-gap), map.get($wide, brand-gap), 375px, 768px);
+
+  @media (min-width: 768px) {
+    gap: fluid(map.get($wide, brand-gap), map.get($desktop, brand-gap), 768px, 1920px);
+  }
+}
+
 @mixin footer-links-row {
   $base: map.get($footer-frame, base);
   $wide: map.get($footer-frame, wide);

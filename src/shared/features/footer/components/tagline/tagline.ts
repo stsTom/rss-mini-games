@@ -1,3 +1,5 @@
+import './tagline.scss';
+
 export function createFooterTagline(): HTMLElement {
   const tagline = document.createElement('p');
   tagline.textContent =

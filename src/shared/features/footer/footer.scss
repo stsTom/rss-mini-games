@@ -6,6 +6,12 @@ footer {
   @include footer-frame;
 }
 
+.brand-block {
+  display: flex;
+  flex-direction: column;
+  @include footer-brand-block;
+}
+
 .upper-footer {
   display: flex;
   flex-direction: column;
