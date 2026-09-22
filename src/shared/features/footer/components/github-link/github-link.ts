@@ -6,8 +6,8 @@ export function createGithubLink(): HTMLElement {
   link.classList.add('github-link');
 
   const image = document.createElement('img');
-  image.src = '/github-icon-placeholder.png';
-  image.alt = 'GitHub';
+  image.src = '/author-logo.jpg';
+  image.alt = 'stsTom';
 
   const label = document.createElement('span');
   label.textContent = '@stsTom';

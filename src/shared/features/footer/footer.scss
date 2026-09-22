@@ -70,8 +70,11 @@ footer {
   @include footer-lower-row;
 
   @include wide-screen {
-    flex-direction: row;
-    align-items: center;
+    // Dissolves this wrapper into the surrounding flex row so its two links
+    // become direct siblings of the copyright/attribution text, letting the
+    // single space-between on .lower-footer spread all four elements evenly
+    // across the full width instead of bunching the links together.
+    display: contents;
   }
 }
 
@@ -87,6 +90,11 @@ footer {
     width: 20px;
     height: 20px;
   }
+}
+
+.github-link img {
+  border-radius: $border-rad-full;
+  object-fit: cover;
 }
 
 [data-footer-visibility='wide-and-up'] {

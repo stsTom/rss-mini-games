@@ -599,6 +599,7 @@
   $desktop: map.get($footer-frame, desktop);
 
   display: flex;
+  flex: none;
   align-items: center;
   justify-content: center;
   background: $color-bg-footer-low;
@@ -638,10 +639,12 @@
   $desktop: map.get($footer-frame, desktop);
 
   gap: fluid(map.get($base, lower-gap), map.get($wide, lower-gap), 375px, 768px);
+  padding-top: fluid(map.get($base, lower-gap), map.get($wide, lower-gap), 375px, 768px);
   border-top: 1px solid $color-bg-footer-low;
 
   @media (min-width: 768px) {
     gap: fluid(map.get($wide, lower-gap), map.get($desktop, lower-gap), 768px, 1920px);
+    padding-top: fluid(map.get($wide, lower-gap), map.get($desktop, lower-gap), 768px, 1920px);
   }
 }
 
