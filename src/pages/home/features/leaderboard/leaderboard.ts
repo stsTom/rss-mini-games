@@ -57,11 +57,23 @@ export async function createLeaderboard(): Promise<HTMLElement> {
   const section = document.createElement('section');
   section.classList.add('leaderboard');
 
+  const headingRow = document.createElement('div');
+  headingRow.classList.add('leaderboard-heading-row');
+
+  const accentBar = document.createElement('span');
+  accentBar.classList.add('leaderboard-accent-bar');
+
   const heading = document.createElement('h2');
   heading.classList.add('leaderboard-heading');
   heading.textContent = meta.description;
 
-  section.append(heading, createHeaderRow(), ...data.map((entry) => createLeaderboardRow(entry)));
+  headingRow.append(accentBar, heading);
+
+  const table = document.createElement('div');
+  table.classList.add('leaderboard-table');
+  table.append(createHeaderRow(), ...data.map((entry) => createLeaderboardRow(entry)));
+
+  section.append(headingRow, table);
 
   return section;
 }

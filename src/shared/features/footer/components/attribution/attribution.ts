@@ -1,3 +1,5 @@
+import './attribution.scss';
+
 export function createAttribution(): HTMLElement {
   const attribution = document.createElement('p');
   attribution.textContent = 'Designed with love';

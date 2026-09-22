@@ -1,15 +1,95 @@
+@use 'sass:map';
+@use './styles/tokens' as *;
+@use './styles/mixins' as *;
+@use '../../../../../styles/tokens' as *;
+@use '../../../../../styles/mixins' as *;
+@use 'styles/functions' as *;
+
 .hero {
-  width: 100vw;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
-  background-image: url('/home-page-hero.png');
+  background-image:
+    linear-gradient(rgba($color-bg-footer, 0.65), rgba($color-bg-footer, 0.65)),
+    url('/home-page-hero.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  @include hero-frame;
 }
 
 .hero-content {
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  background: $color-bg;
+  width: 100%;
+  $base: map.get($hero-frame, base);
+  $wide: map.get($hero-frame, wide);
+  $desktop: map.get($hero-frame, desktop);
+
+  padding: fluid-value(map.get($base, card-padding), map.get($wide, card-padding), 375px, 768px);
+  gap: fluid-value(map.get($base, card-gap), map.get($wide, card-gap), 375px, 768px);
+  border: solid $color-on-primary;
+  border-width: fluid-value(
+    map.get($base, card-border-width),
+    map.get($wide, card-border-width),
+    375px,
+    768px
+  );
+  box-shadow: #{fluid-value(
+      map.get($base, card-shadow-offset),
+      map.get($wide, card-shadow-offset),
+      375px,
+      768px
+    )}
+    $color-on-primary;
+  border-radius: fluid-value(
+    map.get($base, card-radius),
+    map.get($wide, card-radius),
+    375px,
+    768px
+  );
+  max-width: fluid-value(
+    map.get($base, card-max-width),
+    map.get($wide, card-max-width),
+    375px,
+    768px
+  );
+
+  @media (min-width: 768px) {
+    padding: fluid-value(
+      map.get($wide, card-padding),
+      map.get($desktop, card-padding),
+      768px,
+      1920px
+    );
+    gap: fluid-value(map.get($wide, card-gap), map.get($desktop, card-gap), 768px, 1920px);
+    border-width: fluid-value(
+      map.get($wide, card-border-width),
+      map.get($desktop, card-border-width),
+      768px,
+      1920px
+    );
+    box-shadow: #{fluid-value(
+        map.get($wide, card-shadow-offset),
+        map.get($desktop, card-shadow-offset),
+        768px,
+        1920px
+      )}
+      $color-on-primary;
+    border-radius: fluid-value(
+      map.get($wide, card-radius),
+      map.get($desktop, card-radius),
+      768px,
+      1920px
+    );
+    max-width: fluid-value(
+      map.get($wide, card-max-width),
+      map.get($desktop, card-max-width),
+      768px,
+      1920px
+    );
+  }
 }

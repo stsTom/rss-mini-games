@@ -1,0 +1,125 @@
+@use 'sass:map';
+@use './tokens' as *;
+@use 'styles/tokens' as *;
+@use 'styles/mixins' as *;
+@use 'styles/functions' as *;
+
+@mixin carousel-frame {
+  $base: map.get($carousel-frame, base);
+  $wide: map.get($carousel-frame, wide);
+  $desktop: map.get($carousel-frame, desktop);
+
+  border: solid $color-on-primary;
+  border-width: fluid-value(
+    map.get($base, card-border-width),
+    map.get($wide, card-border-width),
+    375px,
+    768px
+  );
+  box-shadow: #{fluid-value(
+      map.get($base, card-shadow-offset),
+      map.get($wide, card-shadow-offset),
+      375px,
+      768px
+    )}
+    $color-on-primary;
+  border-radius: fluid-value(
+    map.get($base, card-radius),
+    map.get($wide, card-radius),
+    375px,
+    768px
+  );
+  height: fluid-value(map.get($base, card-height), map.get($wide, card-height), 375px, 768px);
+
+  @media (min-width: 768px) {
+    border-width: fluid-value(
+      map.get($wide, card-border-width),
+      map.get($desktop, card-border-width),
+      768px,
+      1920px
+    );
+    box-shadow: #{fluid-value(
+        map.get($wide, card-shadow-offset),
+        map.get($desktop, card-shadow-offset),
+        768px,
+        1920px
+      )}
+      $color-on-primary;
+    border-radius: fluid-value(
+      map.get($wide, card-radius),
+      map.get($desktop, card-radius),
+      768px,
+      1920px
+    );
+    height: fluid-value(map.get($wide, card-height), map.get($desktop, card-height), 768px, 1920px);
+  }
+}
+
+@mixin carousel-section-padding {
+  $base: map.get($carousel-layout, base);
+  $wide: map.get($carousel-layout, wide);
+  $desktop: map.get($carousel-layout, desktop);
+
+  padding: fluid-value(
+    map.get($base, section-padding),
+    map.get($wide, section-padding),
+    375px,
+    768px
+  );
+
+  @media (min-width: 768px) {
+    padding: fluid-value(
+      map.get($wide, section-padding),
+      map.get($desktop, section-padding),
+      768px,
+      1920px
+    );
+  }
+}
+
+@mixin carousel-track-padding {
+  $base: map.get($carousel-layout, base);
+  $wide: map.get($carousel-layout, wide);
+  $desktop: map.get($carousel-layout, desktop);
+
+  padding: fluid-value(map.get($base, track-padding), map.get($wide, track-padding), 375px, 768px);
+
+  @media (min-width: 768px) {
+    padding: fluid-value(
+      map.get($wide, track-padding),
+      map.get($desktop, track-padding),
+      768px,
+      1920px
+    );
+  }
+}
+
+@mixin carousel-slot-width($key) {
+  $base: map.get($carousel-layout, base);
+  $wide: map.get($carousel-layout, wide);
+  $desktop: map.get($carousel-layout, desktop);
+
+  // flex-shrink stays enabled (not 0 0): the thumb slots' sudden appearance at
+  // the desktop breakpoint adds width the container hasn't grown to fit yet,
+  // so slots must be able to compress below their fluid target in that band
+  // rather than overflow the row.
+  flex: 0 1 fluid(map.get($base, $key), map.get($wide, $key), 375px, 768px);
+
+  @media (min-width: 768px) {
+    flex: 0 1 fluid(map.get($wide, $key), map.get($desktop, $key), 768px, 1920px);
+  }
+}
+
+@mixin carousel-nav-button($variant) {
+  @include button-variant-colors($variant);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  border-radius: $border-rad-full;
+  width: fluid(40px, 48px, 768px, 1920px);
+  height: fluid(40px, 48px, 768px, 1920px);
+
+  @media (min-width: 768px) {
+    display: flex;
+  }
+}

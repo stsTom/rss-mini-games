@@ -22,14 +22,26 @@ export function createBurgerMenu(options: BurgerMenuOptions): BurgerMenu {
   const top = document.createElement('div');
   top.classList.add('burger-menu-top');
 
+  const brand = document.createElement('div');
+  brand.classList.add('burger-menu-brand');
+
+  const logo = document.createElement('span');
+  logo.classList.add('burger-menu-logo');
+  logo.textContent = '👾';
+  logo.setAttribute('aria-hidden', 'true');
+
   const heading = document.createElement('h2');
   heading.textContent = 'MiniGames';
 
+  brand.append(logo, heading);
+
   const closeButton = document.createElement('button');
   closeButton.type = 'button';
-  closeButton.textContent = 'Close';
+  closeButton.classList.add('burger-menu-close');
+  closeButton.textContent = '✕';
+  closeButton.setAttribute('aria-label', 'Close menu');
 
-  top.append(heading, closeButton);
+  top.append(brand, closeButton);
 
   const nav = createNav(false);
 

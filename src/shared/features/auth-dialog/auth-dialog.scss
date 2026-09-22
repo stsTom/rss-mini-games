@@ -1,19 +1,68 @@
+@use 'sass:list';
+@use 'sass:map';
+@use './styles/mixins' as *;
+@use './styles/tokens' as *;
+@use '../../../../styles/tokens' as *;
+@use 'styles/functions' as *;
+
+body.auth-dialog-open {
+  overflow: hidden;
+}
+
 .auth-dialog {
   padding: 0;
   border: none;
+  background: transparent;
+  overflow: auto;
+  padding-right: fluid(
+    list.nth(map.get(map.get($auth-dialog-frame, base), card-shadow-offset), 1),
+    list.nth(map.get(map.get($auth-dialog-frame, wide), card-shadow-offset), 1),
+    375px,
+    768px
+  );
+  padding-bottom: fluid(
+    list.nth(map.get(map.get($auth-dialog-frame, base), card-shadow-offset), 2),
+    list.nth(map.get(map.get($auth-dialog-frame, wide), card-shadow-offset), 2),
+    375px,
+    768px
+  );
+
+  &::backdrop {
+    background: rgba($color-black, 0.5);
+  }
+
+  @media (min-width: 768px) {
+    padding-right: fluid(
+      list.nth(map.get(map.get($auth-dialog-frame, wide), card-shadow-offset), 1),
+      list.nth(map.get(map.get($auth-dialog-frame, desktop), card-shadow-offset), 1),
+      768px,
+      1920px
+    );
+    padding-bottom: fluid(
+      list.nth(map.get(map.get($auth-dialog-frame, wide), card-shadow-offset), 2),
+      list.nth(map.get(map.get($auth-dialog-frame, desktop), card-shadow-offset), 2),
+      768px,
+      1920px
+    );
+  }
 }
 
 .auth-dialog-content {
+  @include auth-dialog-card;
   display: flex;
   flex-direction: column;
 }
 
 .auth-dialog-tabs {
-  display: flex;
+  @include auth-dialog-tabs;
 }
 
-.auth-dialog-tabs button.is-active {
-  font-weight: bold;
+.auth-dialog-tabs button {
+  @include auth-dialog-tab;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-family: inherit;
 }
 
 .auth-dialog-view {

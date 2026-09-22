@@ -1,0 +1,34 @@
+@use 'styles/tokens' as *;
+
+$hero-frame: (
+  base: (
+    section-padding: 64px 16px,
+    section-min-height: 331px,
+    card-padding: 24px,
+    card-gap: 16px,
+    card-border-width: 2px,
+    card-shadow-offset: 4px 4px,
+    card-radius: $border-rad-medium,
+    card-max-width: 343px,
+  ),
+  wide: (
+    section-padding: 72px 40px,
+    section-min-height: 383px,
+    card-padding: 24px,
+    card-gap: 16px,
+    card-border-width: 2.5px,
+    card-shadow-offset: 6px 6px,
+    card-radius: $border-rad-large,
+    card-max-width: 480px,
+  ),
+  desktop: (
+    section-padding: 112px 120px,
+    section-min-height: 627px,
+    card-padding: 48px,
+    card-gap: 24px,
+    card-border-width: 3px,
+    card-shadow-offset: 8px 8px,
+    card-radius: $border-rad-extra-large,
+    card-max-width: 640px,
+  ),
+);

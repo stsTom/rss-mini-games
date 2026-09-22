@@ -1,0 +1,25 @@
+@use 'sass:math';
+@use 'sass:list';
+
+@function fluid($min, $max, $min-vw, $max-vw) {
+  @if $min == $max {
+    @return $min;
+  }
+  $slope: math.div($max - $min, $max-vw - $min-vw);
+  $intercept: $min - $slope * $min-vw;
+  @return clamp(#{$min}, #{$intercept} + #{$slope * 100}vw, #{$max});
+}
+
+@function fluid-value($from, $to, $vw-from, $vw-to) {
+  @if list.length($from) > 1 {
+    $result: ();
+    @for $i from 1 through list.length($from) {
+      $result: list.append(
+        $result,
+        fluid(list.nth($from, $i), list.nth($to, $i), $vw-from, $vw-to)
+      );
+    }
+    @return $result;
+  }
+  @return fluid($from, $to, $vw-from, $vw-to);
+}

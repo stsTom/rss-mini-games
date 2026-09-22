@@ -1,22 +1,161 @@
-@use '../../../../../../../styles/tokens' as *;
-@use '../../../../../../../styles/mixins' as *;
+@use 'sass:map';
+@use '../../styles/tokens' as *;
+@use '../../styles/mixins' as *;
+@use 'styles/tokens' as *;
+@use 'styles/mixins' as *;
+@use 'styles/functions' as *;
 
 .leaderboard-row {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: leaderboard-track-list(base);
   align-items: center;
+  align-self: stretch;
   gap: $size-times-1;
 
   @include wide-screen {
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: leaderboard-track-list(wide);
   }
 
   @include desktop-screen {
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: leaderboard-track-list(desktop);
+  }
+}
+
+.leaderboard-header-row {
+  @include leaderboard-header-row;
+}
+
+.leaderboard-row:not(.leaderboard-header-row) {
+  background: $color-white;
+  @include leaderboard-row-frame;
+
+  &:nth-child(even) {
+    background: $color-bg;
+  }
+
+  &:nth-child(2) {
+    .leaderboard-player-avatar {
+      background: $color-primary;
+    }
+
+    .leaderboard-cell-rank {
+      color: $color-primary;
+    }
+  }
+
+  &:nth-child(3) .leaderboard-player-avatar {
+    background: $color-avatar-random-2;
+  }
+
+  &:nth-child(4) .leaderboard-player-avatar {
+    background: $color-avatar-random-3;
+  }
+
+  &:nth-child(5) .leaderboard-player-avatar {
+    background: $color-avatar-random-4;
+  }
+
+  &:nth-child(6) .leaderboard-player-avatar {
+    background: $color-avatar-random-5;
+  }
+
+  .leaderboard-cell-rank,
+  .leaderboard-player-name,
+  .leaderboard-cell-games,
+  .leaderboard-cell-score,
+  .leaderboard-cell-streak {
+    color: $color-on-primary;
+    font-size: fluid($font-size-label-large, $font-size-label-large, 375px, 768px);
+
+    @media (min-width: 768px) {
+      font-size: fluid($font-size-label-large, $font-size-body-medium, 768px, 1920px);
+    }
+  }
+
+  .leaderboard-cell-rank,
+  .leaderboard-cell-games,
+  .leaderboard-cell-score,
+  .leaderboard-cell-streak {
+    justify-content: center;
+  }
+
+  .leaderboard-cell-rank {
+    font-weight: $weight-extra-bold;
+  }
+
+  .leaderboard-player-name {
+    font-weight: $weight-bold;
+  }
+
+  .leaderboard-cell-games {
+    font-weight: $weight-semi-bold;
+  }
+
+  .leaderboard-cell-score,
+  .leaderboard-cell-streak {
+    font-weight: $weight-bold;
+  }
+
+  .leaderboard-score-value[data-score-visibility='abbreviated'] {
+    display: inline;
+
+    @include wide-screen {
+      display: none;
+    }
+  }
+
+  .leaderboard-score-value[data-score-visibility='full'] {
+    display: none;
+
+    @include wide-screen {
+      display: inline;
+    }
+  }
+
+  .leaderboard-cell-favorite-game {
+    @include desktop-screen {
+      box-sizing: border-box;
+      display: inline-flex;
+      width: fit-content;
+      max-width: 100%;
+      background: $color-bg;
+      border: 1.5px solid $color-on-primary;
+      border-radius: $border-rad-full;
+      padding: 4px $size-times-1 * 1.5;
+      color: $color-on-primary;
+      font-weight: $weight-bold;
+      font-size: $font-size-label-medium;
+    }
   }
 }
 
 .leaderboard-cell {
   display: flex;
   align-items: center;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.leaderboard-header-row .leaderboard-cell {
+  justify-content: center;
+  color: $color-white;
+  font-weight: $weight-extra-bold;
+  text-transform: uppercase;
+  font-size: fluid(
+    map.get(map.get($leaderboard-frame, base), header-label-font-size),
+    map.get(map.get($leaderboard-frame, wide), header-label-font-size),
+    375px,
+    768px
+  );
+
+  @media (min-width: 768px) {
+    font-size: fluid(
+      map.get(map.get($leaderboard-frame, wide), header-label-font-size),
+      map.get(map.get($leaderboard-frame, desktop), header-label-font-size),
+      768px,
+      1920px
+    );
+  }
 }

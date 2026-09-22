@@ -1,10 +1,45 @@
+@use './styles/tokens' as *;
+@use './styles/mixins' as *;
+@use '../../../../styles/tokens' as *;
+@use '../../../../styles/mixins' as *;
+@use 'styles/functions' as *;
+
 header {
+  box-sizing: border-box;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
+  row-gap: 8px;
+  background: $color-bg;
+  border-bottom: 2px solid $color-on-primary;
+  font-family: $font-family-primary;
+  @include header-frame;
 }
 
 .header-controls {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
+  row-gap: 8px;
+}
+
+.header-controls > * + * {
+  margin-left: 32px;
+}
+
+.header-controls > button[data-header-visibility='desktop'] {
+  margin-left: fluid(8px, 32px, 769px, 1920px);
+}
+
+.header-controls > button[data-header-visibility='wide'] {
+  margin-left: 16px;
+
+  @include desktop-screen {
+    margin-left: fluid(8px, 16px, 769px, 1920px);
+  }
+}
+
+.header-controls > button[data-header-visibility='mobile'] {
+  margin-left: 16px;
 }

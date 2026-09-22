@@ -1,9 +1,15 @@
-@use '../../../../../../styles/mixins' as *;
+@use '../../styles/tokens' as *;
+@use '../../styles/mixins' as *;
+@use 'styles/tokens' as *;
+@use 'styles/mixins' as *;
 
 .burger-menu {
   position: fixed;
   inset: 0;
   z-index: 100;
+  box-sizing: border-box;
+  padding: 24px;
+  background: $color-bg-footer;
 }
 
 .burger-menu-top {
@@ -12,15 +18,79 @@
   justify-content: space-between;
 }
 
+.burger-menu-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.burger-menu-logo {
+  @include header-logo-badge;
+}
+
+.burger-menu-top h2 {
+  margin: 0;
+  font-size: $font-size-headline-small;
+  font-weight: $weight-bold;
+  color: $color-white;
+}
+
+.burger-menu-close {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  background: $color-bg-footer-low;
+  border: 2px solid transparent;
+  border-radius: $border-rad-small;
+  color: $color-white;
+  cursor: pointer;
+
+  &:hover {
+    background: $color-bg-footer-lowest;
+    border-color: $color-primary;
+  }
+}
+
 .burger-menu nav {
   display: flex;
   flex-direction: column;
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.burger-menu nav a {
+  color: $color-on-bg-footer;
+}
+
+.burger-menu nav a:first-child {
+  color: $color-primary;
+}
+
+.burger-menu nav a:hover {
+  font-weight: $weight-bold;
+  text-decoration: underline;
+  color: $color-primary;
 }
 
 .burger-menu-bottom {
   display: flex;
   flex-direction: column;
+  gap: 12px;
   margin-top: auto;
+}
+
+.burger-menu-bottom button:first-child {
+  @include header-button(outline);
+  color: $color-white;
+  border-color: $color-on-bg-footer;
+}
+
+.burger-menu-bottom button:last-child {
+  @include header-button(primary);
 }
 
 [data-burger-menu='closed'] {

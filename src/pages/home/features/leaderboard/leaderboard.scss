@@ -1,13 +1,80 @@
+@use 'sass:map';
+@use './styles/tokens' as *;
+@use './styles/mixins' as *;
+@use '../../../../../styles/tokens' as *;
 @use '../../../../../styles/mixins' as *;
+@use 'styles/functions' as *;
 
 .leaderboard {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
+  align-self: stretch;
+  @include leaderboard-section-padding;
 }
 
-// Scoped to their target class (rather than the bare attribute selector) so
-// specificity always beats .leaderboard-cell/.leaderboard-row/.leaderboard-label's
-// own unconditional display rules, regardless of stylesheet load order.
+.leaderboard-heading-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: $size-times-1;
+  align-self: stretch;
+}
+
+.leaderboard-accent-bar {
+  box-sizing: border-box;
+  flex: none;
+  width: $size-times-1;
+  height: fluid(
+    map.get(map.get($leaderboard-frame, base), accent-bar-height),
+    map.get(map.get($leaderboard-frame, wide), accent-bar-height),
+    375px,
+    768px
+  );
+  background: $color-primary;
+  border: 1.5px solid $color-on-primary;
+  border-radius: $border-rad-extra-small;
+
+  @media (min-width: 768px) {
+    height: fluid(
+      map.get(map.get($leaderboard-frame, wide), accent-bar-height),
+      map.get(map.get($leaderboard-frame, desktop), accent-bar-height),
+      768px,
+      1920px
+    );
+  }
+}
+
+.leaderboard-table {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  align-self: stretch;
+  overflow: hidden;
+  background: $color-white;
+  @include leaderboard-frame;
+}
+
+.leaderboard-heading {
+  margin: 0;
+  color: $color-on-primary;
+  font-weight: $weight-bold;
+  font-size: fluid(
+    map.get(map.get($leaderboard-frame, base), heading-font-size),
+    map.get(map.get($leaderboard-frame, wide), heading-font-size),
+    375px,
+    768px
+  );
+
+  @media (min-width: 768px) {
+    font-size: fluid(
+      map.get(map.get($leaderboard-frame, wide), heading-font-size),
+      map.get(map.get($leaderboard-frame, desktop), heading-font-size),
+      768px,
+      1920px
+    );
+  }
+}
 
 .leaderboard-cell[data-leaderboard-visibility='wide-and-up'] {
   display: none;

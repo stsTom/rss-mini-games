@@ -1,6 +1,8 @@
+import './rss-link.scss';
+
 export function createRssLink(): HTMLElement {
   const link = document.createElement('a');
-  link.href = 'https://rs.school/';
+  link.href = '#';
   link.classList.add('rss-link');
 
   const image = document.createElement('img');

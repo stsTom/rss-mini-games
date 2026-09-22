@@ -1,5 +1,36 @@
-@use '../../../../../../styles/mixins' as *;
+@use '../../styles/tokens' as *;
+@use '../../styles/mixins' as *;
+@use 'styles/tokens' as *;
+@use 'styles/mixins' as *;
 
-[data-header-visibility='mobile'] {
-  @include header-visible-mobile;
+button[data-header-visibility='mobile'] {
+  @extend %outline-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  width: 32px;
+  height: 32px;
+  padding: 8px;
+  background: $color-white;
+  border-radius: $border-rad-small;
+
+  @include desktop-screen {
+    display: none;
+  }
+
+  &:hover {
+    background: $color-surface;
+  }
+}
+
+.burger-line {
+  width: 14px;
+  height: 0;
+  border-top: 2px solid $color-on-primary;
+
+  @include wide-screen {
+    width: 16px;
+  }
 }

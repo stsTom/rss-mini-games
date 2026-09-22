@@ -1,3 +1,5 @@
+import './explore-links.scss';
+
 const EXPLORE_ITEMS = [
   { id: 'home', label: 'Home' },
   { id: 'library', label: 'Library' },

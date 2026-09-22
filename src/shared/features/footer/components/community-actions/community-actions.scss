@@ -1,0 +1,39 @@
+@use '../../styles/mixins' as *;
+@use 'styles/tokens' as *;
+@use 'styles/functions' as *;
+
+.community-actions {
+  display: flex;
+  flex-direction: column;
+  @include footer-community-actions;
+
+  h3 {
+    margin: 0;
+    color: $color-white;
+    font-weight: $weight-bold;
+    font-size: $font-size-label-extra-large;
+  }
+}
+
+.community-actions-buttons {
+  display: flex;
+  flex-direction: row;
+  @include footer-community-actions;
+
+  button {
+    @include footer-community-icon;
+    border: none;
+    padding: 0;
+  }
+
+  img {
+    width: fluid(16px, 16px, 375px, 768px);
+    height: fluid(16px, 16px, 375px, 768px);
+    filter: brightness(0) invert(1);
+
+    @media (min-width: 768px) {
+      width: fluid(16px, 20px, 768px, 1920px);
+      height: fluid(16px, 20px, 768px, 1920px);
+    }
+  }
+}
