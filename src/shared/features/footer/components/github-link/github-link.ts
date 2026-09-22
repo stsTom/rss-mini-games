@@ -1,3 +1,5 @@
+import './github-link.scss';
+
 export function createGithubLink(): HTMLElement {
   const link = document.createElement('a');
   link.href = 'https://github.com/stsTom';

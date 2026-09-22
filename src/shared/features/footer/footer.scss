@@ -1,4 +1,5 @@
 @use '../../../../styles/mixins' as *;
+@use '../../../../styles/tokens' as *;
 
 footer {
   display: flex;
@@ -54,18 +55,23 @@ footer {
 .lower-footer {
   display: flex;
   flex-direction: column;
+  @include footer-lower-frame;
 
   @include wide-screen {
     flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
   }
 }
 
 .lower-footer-links {
   display: flex;
   flex-direction: column;
+  @include footer-lower-row;
 
   @include wide-screen {
     flex-direction: row;
+    align-items: center;
   }
 }
 
@@ -73,6 +79,9 @@ footer {
 .github-link {
   display: flex;
   align-items: center;
+  gap: $size-times-1;
+  color: $color-on-bg-footer;
+  text-decoration: none;
 
   img {
     width: 20px;
