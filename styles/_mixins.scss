@@ -1,5 +1,6 @@
 @use 'sass:map';
 @use 'sass:list';
+@use 'sass:math';
 @use 'tokens' as *;
 @use 'functions' as *;
 
@@ -467,13 +468,10 @@
   border-radius: $border-rad-extra-large;
   height: fluid(map.get($base, image-height), map.get($wide, image-height), 375px, 768px);
 
-  @media (min-width: 768px) {
-    height: fluid(map.get($wide, image-height), map.get($desktop, image-height), 768px, 1920px);
-  }
-
   @include desktop-screen {
-    width: 680px;
-    height: map.get($desktop, image-height);
+    width: fluid(map.get($wide, image-width), map.get($desktop, image-width), 768px, 1920px);
+    aspect-ratio: math.div(map.get($desktop, image-width), map.get($desktop, image-height));
+    height: auto;
     flex: none;
   }
 }
@@ -509,6 +507,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  align-self: flex-start;
   font-weight: $weight-bold;
   border-radius: $border-rad-medium;
   box-shadow: $shadow-cta-button;
