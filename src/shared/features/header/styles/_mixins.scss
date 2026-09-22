@@ -1,0 +1,71 @@
+@use 'sass:map';
+@use './tokens' as *;
+@use 'styles/tokens' as *;
+@use 'styles/mixins' as *;
+@use 'styles/functions' as *;
+
+@mixin header-visible-always {
+  display: block;
+}
+
+@mixin header-visible-mobile {
+  display: block;
+
+  @include desktop-screen {
+    display: none;
+  }
+}
+
+@mixin header-visible-desktop {
+  display: none;
+
+  @include desktop-screen {
+    display: block;
+  }
+}
+
+@mixin header-visible-wide {
+  display: none;
+
+  @include wide-screen {
+    display: block;
+  }
+}
+
+@mixin header-logo-badge {
+  @extend %outline-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: $color-white;
+  border-radius: $border-rad-small;
+  font-size: $font-size-body-medium;
+}
+
+@mixin header-frame {
+  $base: map.get($header-frame, base);
+  $wide: map.get($header-frame, wide);
+  $desktop: map.get($header-frame, desktop);
+
+  padding: fluid-value(map.get($base, padding), map.get($wide, padding), 375px, 768px);
+  min-height: fluid-value(map.get($base, height), map.get($wide, height), 375px, 768px);
+
+  @media (min-width: 768px) {
+    padding: fluid-value(map.get($wide, padding), map.get($desktop, padding), 768px, 1920px);
+    min-height: fluid-value(map.get($wide, height), map.get($desktop, height), 768px, 1920px);
+  }
+}
+
+@mixin header-button($variant) {
+  @include button-variant-colors($variant);
+  padding: fluid-value(8px 16px, 8px 16px, 375px, 768px);
+  border-radius: $border-rad-small;
+  font-size: $font-size-label-large;
+  font-weight: $weight-bold;
+
+  @media (min-width: 768px) {
+    padding: fluid-value(8px 16px, 10px 20px, 768px, 1920px);
+  }
+}

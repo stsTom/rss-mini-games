@@ -1,8 +1,10 @@
-@use '../../../../../../styles/tokens' as *;
-@use '../../../../../../styles/mixins' as *;
+@use '../../styles/tokens' as *;
+@use '../../styles/mixins' as *;
+@use 'styles/tokens' as *;
+@use 'styles/mixins' as *;
 
 button[data-header-visibility='mobile'] {
-  @extend %header-outline-box;
+  @extend %outline-box;
   display: flex;
   flex-direction: column;
   justify-content: center;

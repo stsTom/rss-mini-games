@@ -1,8 +1,9 @@
 @use 'sass:list';
 @use 'sass:map';
-@use '../../../../styles/mixins' as *;
+@use './styles/mixins' as *;
+@use './styles/tokens' as *;
 @use '../../../../styles/tokens' as *;
-@use '../../../../styles/functions' as *;
+@use 'styles/functions' as *;
 
 body.auth-dialog-open {
   overflow: hidden;

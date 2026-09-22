@@ -7,7 +7,7 @@ import eslintConfigPrettier from 'eslint-config-prettier/flat';
 
 export default [
   {
-    ignores: ['dist/**'],
+    ignores: ['dist'],
   },
 
   js.configs.recommended,

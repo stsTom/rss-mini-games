@@ -1,8 +1,11 @@
 @use 'sass:map';
 @use 'sass:math';
-@use '../../../../../../../styles/tokens' as *;
-@use '../../../../../../../styles/functions' as *;
+@use '../../styles/tokens' as *;
+@use 'styles/tokens' as *;
+@use 'styles/functions' as *;
 
+// container-type: inline-size queries the slot's content-box, which the
+// carousel-frame border shrinks relative to its rendered (border-box) width.
 $carousel-card-border-width: map.get(map.get($carousel-frame, base), card-border-width);
 
 .games-carousel-card-info {
@@ -79,6 +82,9 @@ $carousel-card-border-width: map.get(map.get($carousel-frame, base), card-border
   }
 }
 
+// The focus card always shows its footer regardless of rendered width, even
+// below the 288px threshold that governs peek/thumb — it's the carousel's
+// highlighted card and should never lose its title/rating/likes.
 [data-slot-role='focus'] .games-carousel-card-info {
   display: block;
 }

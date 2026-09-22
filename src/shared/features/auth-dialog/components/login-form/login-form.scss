@@ -1,7 +1,8 @@
 @use 'sass:map';
-@use '../../../../../../styles/mixins' as *;
-@use '../../../../../../styles/tokens' as *;
-@use '../../../../../../styles/functions' as *;
+@use '../../styles/mixins' as *;
+@use '../../styles/tokens' as *;
+@use 'styles/tokens' as *;
+@use 'styles/functions' as *;
 
 .login-form {
   display: flex;

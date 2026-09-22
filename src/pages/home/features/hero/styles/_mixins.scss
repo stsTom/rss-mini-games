@@ -1,0 +1,58 @@
+@use 'sass:map';
+@use './tokens' as *;
+@use 'styles/tokens' as *;
+@use 'styles/mixins' as *;
+@use 'styles/functions' as *;
+
+@mixin hero-frame {
+  $base: map.get($hero-frame, base);
+  $wide: map.get($hero-frame, wide);
+  $desktop: map.get($hero-frame, desktop);
+
+  padding: fluid-value(
+    map.get($base, section-padding),
+    map.get($wide, section-padding),
+    375px,
+    768px
+  );
+  min-height: fluid-value(
+    map.get($base, section-min-height),
+    map.get($wide, section-min-height),
+    375px,
+    768px
+  );
+
+  @media (min-width: 768px) {
+    padding: fluid-value(
+      map.get($wide, section-padding),
+      map.get($desktop, section-padding),
+      768px,
+      1920px
+    );
+    min-height: fluid-value(
+      map.get($wide, section-min-height),
+      map.get($desktop, section-min-height),
+      768px,
+      1920px
+    );
+  }
+}
+
+@mixin hero-cta-button($variant) {
+  $base: map.get($cta-button-frame, base);
+  $wide: map.get($cta-button-frame, wide);
+  $desktop: map.get($cta-button-frame, desktop);
+
+  @include button-variant-colors($variant);
+  display: inline-block;
+  text-decoration: none;
+  border-radius: $border-rad-small;
+  font-weight: $weight-bold;
+  padding: fluid-value(map.get($base, padding), map.get($wide, padding), 375px, 768px);
+  font-size: fluid(map.get($base, font-size), map.get($wide, font-size), 375px, 768px);
+
+  @media (min-width: 768px) {
+    padding: fluid-value(map.get($wide, padding), map.get($desktop, padding), 768px, 1920px);
+    font-size: fluid(map.get($wide, font-size), map.get($desktop, font-size), 768px, 1920px);
+  }
+}
