@@ -544,3 +544,103 @@
     gap: fluid(map.get($wide, section-gap), map.get($desktop, section-gap), 768px, 1920px);
   }
 }
+
+@mixin footer-links-row {
+  $base: map.get($footer-frame, base);
+  $wide: map.get($footer-frame, wide);
+  $desktop: map.get($footer-frame, desktop);
+
+  gap: fluid(map.get($base, links-row-gap), map.get($wide, links-row-gap), 375px, 768px);
+
+  @media (min-width: 768px) {
+    gap: fluid(map.get($wide, links-row-gap), map.get($desktop, links-row-gap), 768px, 1920px);
+  }
+}
+
+@mixin footer-link-list {
+  $base: map.get($footer-frame, base);
+  $wide: map.get($footer-frame, wide);
+  $desktop: map.get($footer-frame, desktop);
+
+  gap: fluid(map.get($base, link-list-gap), map.get($wide, link-list-gap), 375px, 768px);
+
+  @media (min-width: 768px) {
+    gap: fluid(map.get($wide, link-list-gap), map.get($desktop, link-list-gap), 768px, 1920px);
+  }
+}
+
+@mixin footer-community-actions {
+  $base: map.get($footer-frame, base);
+  $wide: map.get($footer-frame, wide);
+  $desktop: map.get($footer-frame, desktop);
+
+  gap: fluid(map.get($base, community-gap), map.get($wide, community-gap), 375px, 768px);
+
+  @media (min-width: 768px) {
+    gap: fluid(map.get($wide, community-gap), map.get($desktop, community-gap), 768px, 1920px);
+  }
+}
+
+@mixin footer-community-icon {
+  $base: map.get($footer-frame, base);
+  $wide: map.get($footer-frame, wide);
+  $desktop: map.get($footer-frame, desktop);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: $color-bg-footer-low;
+  border-radius: $border-rad-full;
+  width: fluid(
+    map.get($base, community-icon-size),
+    map.get($wide, community-icon-size),
+    375px,
+    768px
+  );
+  height: fluid(
+    map.get($base, community-icon-size),
+    map.get($wide, community-icon-size),
+    375px,
+    768px
+  );
+
+  @media (min-width: 768px) {
+    width: fluid(
+      map.get($wide, community-icon-size),
+      map.get($desktop, community-icon-size),
+      768px,
+      1920px
+    );
+    height: fluid(
+      map.get($wide, community-icon-size),
+      map.get($desktop, community-icon-size),
+      768px,
+      1920px
+    );
+  }
+}
+
+@mixin footer-lower-frame {
+  $base: map.get($footer-frame, base);
+  $wide: map.get($footer-frame, wide);
+  $desktop: map.get($footer-frame, desktop);
+
+  gap: fluid(map.get($base, lower-gap), map.get($wide, lower-gap), 375px, 768px);
+  border-top: 1px solid $color-bg-footer-low;
+
+  @media (min-width: 768px) {
+    gap: fluid(map.get($wide, lower-gap), map.get($desktop, lower-gap), 768px, 1920px);
+  }
+}
+
+@mixin footer-lower-row {
+  $base: map.get($footer-frame, base);
+  $wide: map.get($footer-frame, wide);
+  $desktop: map.get($footer-frame, desktop);
+
+  gap: fluid(map.get($base, lower-row-gap), map.get($wide, lower-row-gap), 375px, 768px);
+
+  @media (min-width: 768px) {
+    gap: fluid(map.get($wide, lower-row-gap), map.get($desktop, lower-row-gap), 768px, 1920px);
+  }
+}
