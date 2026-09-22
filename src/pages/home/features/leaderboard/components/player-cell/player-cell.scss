@@ -1,4 +1,5 @@
 @use '../../../../../../../styles/tokens' as *;
+@use '../../../../../../../styles/mixins' as *;
 
 .leaderboard-player-cell {
   display: flex;
@@ -8,7 +9,12 @@
 
 .leaderboard-player-avatar {
   display: inline-flex;
+  flex: none;
   align-items: center;
   justify-content: center;
+  box-sizing: border-box;
   border-radius: 50%;
+  color: $color-on-primary;
+  font-weight: $weight-bold;
+  @include leaderboard-avatar;
 }

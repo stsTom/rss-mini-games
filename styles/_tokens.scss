@@ -48,6 +48,7 @@ $font-size-label-extra-large: 16px;
 // Weight
 $weight-bold: 700;
 $weight-medium: 500;
+$weight-semi-bold: 600;
 $weight-extra-bold: 800;
 $weight-regular: 400;
 
@@ -202,6 +203,9 @@ $leaderboard-frame: (
     header-label-font-size: $font-size-label-large,
     data-row-padding: 16px 16px,
     data-row-gap: 8px,
+    avatar-diameter: 24px,
+    avatar-border-width: 1px,
+    avatar-font-size: $font-size-label-small,
   ),
   wide: (
     section-padding: 24px 40px,
@@ -214,6 +218,9 @@ $leaderboard-frame: (
     header-label-font-size: $font-size-label-large,
     data-row-padding: 16px 16px,
     data-row-gap: 16px,
+    avatar-diameter: 28px,
+    avatar-border-width: 1px,
+    avatar-font-size: $font-size-label-small,
   ),
   desktop: (
     section-padding: 40px 120px,
@@ -226,5 +233,8 @@ $leaderboard-frame: (
     header-label-font-size: $font-size-label-extra-large,
     data-row-padding: 16px 24px,
     data-row-gap: 16px,
+    avatar-diameter: 40px,
+    avatar-border-width: 1.5px,
+    avatar-font-size: $font-size-label-large,
   ),
 );

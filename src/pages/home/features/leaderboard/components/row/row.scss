@@ -30,6 +30,66 @@
   &:nth-child(even) {
     background: $color-bg;
   }
+
+  &:nth-child(2) {
+    .leaderboard-player-avatar {
+      background: $color-primary;
+    }
+
+    .leaderboard-cell-rank {
+      color: $color-tertiary;
+
+      @media (min-width: 768px) {
+        color: $color-primary;
+      }
+    }
+  }
+
+  &:nth-child(3) .leaderboard-player-avatar {
+    background: $color-avatar-random-2;
+  }
+
+  &:nth-child(4) .leaderboard-player-avatar {
+    background: $color-avatar-random-3;
+  }
+
+  &:nth-child(5) .leaderboard-player-avatar {
+    background: $color-avatar-random-4;
+  }
+
+  &:nth-child(6) .leaderboard-player-avatar {
+    background: $color-avatar-random-5;
+  }
+
+  .leaderboard-cell-rank,
+  .leaderboard-player-name,
+  .leaderboard-cell-games,
+  .leaderboard-cell-score,
+  .leaderboard-cell-streak {
+    color: $color-on-primary;
+    font-size: fluid($font-size-label-large, $font-size-label-large, 375px, 768px);
+
+    @media (min-width: 768px) {
+      font-size: fluid($font-size-label-large, $font-size-body-medium, 768px, 1920px);
+    }
+  }
+
+  .leaderboard-cell-rank {
+    font-weight: $weight-extra-bold;
+  }
+
+  .leaderboard-player-name {
+    font-weight: $weight-bold;
+  }
+
+  .leaderboard-cell-games {
+    font-weight: $weight-semi-bold;
+  }
+
+  .leaderboard-cell-score,
+  .leaderboard-cell-streak {
+    font-weight: $weight-bold;
+  }
 }
 
 .leaderboard-cell {

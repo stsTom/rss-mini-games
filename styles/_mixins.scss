@@ -357,6 +357,55 @@
   }
 }
 
+@mixin leaderboard-avatar {
+  $base: map.get($leaderboard-frame, base);
+  $wide: map.get($leaderboard-frame, wide);
+  $desktop: map.get($leaderboard-frame, desktop);
+
+  width: fluid(map.get($base, avatar-diameter), map.get($wide, avatar-diameter), 375px, 768px);
+  height: fluid(map.get($base, avatar-diameter), map.get($wide, avatar-diameter), 375px, 768px);
+  border: solid $color-on-primary;
+  border-width: fluid(
+    map.get($base, avatar-border-width),
+    map.get($wide, avatar-border-width),
+    375px,
+    768px
+  );
+  font-size: fluid(
+    map.get($base, avatar-font-size),
+    map.get($wide, avatar-font-size),
+    375px,
+    768px
+  );
+
+  @media (min-width: 768px) {
+    width: fluid(
+      map.get($wide, avatar-diameter),
+      map.get($desktop, avatar-diameter),
+      768px,
+      1920px
+    );
+    height: fluid(
+      map.get($wide, avatar-diameter),
+      map.get($desktop, avatar-diameter),
+      768px,
+      1920px
+    );
+    border-width: fluid(
+      map.get($wide, avatar-border-width),
+      map.get($desktop, avatar-border-width),
+      768px,
+      1920px
+    );
+    font-size: fluid(
+      map.get($wide, avatar-font-size),
+      map.get($desktop, avatar-font-size),
+      768px,
+      1920px
+    );
+  }
+}
+
 @mixin carousel-nav-button($variant) {
   @include button-variant-colors($variant);
   display: none;
