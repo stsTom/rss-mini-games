@@ -9,9 +9,11 @@ export function createNav(hasVisibility = true): HTMLElement {
   }
 
   for (const id of NAV_ITEMS) {
+    const label = id.charAt(0).toUpperCase() + id.slice(1);
     const link = document.createElement('a');
+    link.textContent = label;
+    link.dataset.text = label;
     link.href = '/';
-    link.textContent = id.charAt(0).toUpperCase() + id.slice(1);
     nav.append(link);
   }
 

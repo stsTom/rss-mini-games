@@ -97,6 +97,7 @@
   flex: none;
   align-items: center;
   justify-content: center;
+  border: 2px solid transparent;
   background: $color-bg-footer-low;
   border-radius: $border-rad-full;
   width: fluid(
@@ -125,6 +126,11 @@
       768px,
       1920px
     );
+  }
+
+  &:hover {
+    background: $color-bg-footer-lowest;
+    border-color: $color-primary;
   }
 }
 

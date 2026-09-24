@@ -21,6 +21,8 @@ nav a {
   font-size: $font-size-body-medium;
   font-weight: $weight-medium;
   color: $color-on-bg;
+  white-space: nowrap;
+  @include reserve-link-hover-width;
 }
 
 nav[data-header-visibility='desktop'] a {
