@@ -1,5 +1,18 @@
 @use 'styles/tokens' as *;
 
+$hero-overlay-opacity: 0.65;
+
+$heading-line-height: (
+  base: 120%,
+  wide: 115%,
+  desktop: 110%,
+);
+
+$text-line-height: (
+  base: 140%,
+  desktop: 150%,
+);
+
 $hero-frame: (
   base: (
     section-padding: 64px 16px,

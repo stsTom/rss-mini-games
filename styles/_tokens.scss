@@ -30,6 +30,11 @@ $color-surface-low: #fffcf5;
 
 $font-family-primary: 'Inter', sans-serif;
 
+// Breakpoints
+$breakpoint-base: 375px;
+$breakpoint-wide: 768px;
+$breakpoint-desktop: 1920px;
+
 // Font size
 $font-size-display-large: 56px;
 $font-size-display-medium: 36px;
@@ -55,6 +60,9 @@ $weight-regular: 400;
 // Size
 $size-times-1: 8px;
 
+// Layering
+$z-index-overlay: 100;
+
 // Border radius
 $border-rad-small: 8px;
 $border-rad-extra-large: 24px;
@@ -63,9 +71,6 @@ $border-rad-medium: 12px;
 $border-rad-extra-small: 4px;
 $border-rad-full: 9999px;
 
-// Button variant colors, shared by button-variant-colors across every feature
-// that renders an outline/primary button (header, hero, games-carousel,
-// developer-cta).
 $button-variants: (
   outline: (
     bg: transparent,
@@ -77,8 +82,6 @@ $button-variants: (
   ),
 );
 
-// Shared padding/font-size frame for the small CTA-style button used by both
-// hero's CTA and developer-cta's submit button.
 $cta-button-frame: (
   base: (
     padding: 8px 16px,

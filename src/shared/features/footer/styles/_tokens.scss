@@ -8,6 +8,7 @@ $footer-frame: (
     link-list-gap: 16px,
     community-gap: 16px,
     community-icon-size: 32px,
+    community-icon-glyph-size: 16px,
     lower-gap: 12px,
     lower-row-gap: 16px,
   ),
@@ -20,6 +21,7 @@ $footer-frame: (
     link-list-gap: 16px,
     community-gap: 16px,
     community-icon-size: 32px,
+    community-icon-glyph-size: 16px,
     lower-gap: 16px,
     lower-row-gap: 8px,
   ),
@@ -32,7 +34,12 @@ $footer-frame: (
     link-list-gap: 16px,
     community-gap: 16px,
     community-icon-size: 40px,
+    community-icon-glyph-size: 20px,
     lower-gap: 24px,
     lower-row-gap: 8px,
   ),
 );
+
+$footer-icon-size: 20px;
+
+$tagline-line-height: 150%;

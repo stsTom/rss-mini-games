@@ -1,9 +1,10 @@
 import './title.scss';
+import { HEADER_VISIBILITY } from '../../dataset-values.js';
 
 export function createTitle(): HTMLElement {
   const title = document.createElement('h1');
   title.classList.add('title');
-  title.dataset.headerVisibility = 'always';
+  title.dataset.headerVisibility = HEADER_VISIBILITY.always;
 
   const logo = document.createElement('span');
   logo.classList.add('title-logo');

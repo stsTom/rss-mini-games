@@ -37,9 +37,25 @@ export function createAuthDialog(): AuthDialog {
   dialog.append(content);
 
   const setActiveTab = (tab: AuthDialogTab): void => {
+    if (tab === dialog.dataset.authDialogTab) {
+      return;
+    }
+
     dialog.dataset.authDialogTab = tab;
     loginTab.classList.toggle('is-active', tab === 'login');
     registerTab.classList.toggle('is-active', tab === 'register');
+
+    if (dialog.classList.contains('open')) {
+      const handleFadeOutEnd = (): void => {
+        view.removeEventListener('transitionend', handleFadeOutEnd);
+        view.replaceChildren(tab === 'login' ? loginForm : registerForm);
+        view.classList.remove('fade-out');
+      };
+      view.addEventListener('transitionend', handleFadeOutEnd);
+      view.classList.add('fade-out');
+      return;
+    }
+
     view.replaceChildren(tab === 'login' ? loginForm : registerForm);
   };
 
@@ -59,12 +75,14 @@ export function createAuthDialog(): AuthDialog {
     setActiveTab('login');
     dialog.showModal();
     document.body.classList.add('auth-dialog-open');
+    dialog.classList.add('open');
   };
 
   const openRegister = (): void => {
     setActiveTab('register');
     dialog.showModal();
     document.body.classList.add('auth-dialog-open');
+    dialog.classList.add('open');
   };
 
   dialog.addEventListener('close', () => {
@@ -79,11 +97,18 @@ export function createAuthDialog(): AuthDialog {
     setActiveTab('register');
   });
 
-  setActiveTab('login');
+  const closeDialog = (): void => {
+    const handleTransitionEnd = (): void => {
+      dialog.removeEventListener('transitionend', handleTransitionEnd);
+      dialog.close();
+    };
+    dialog.addEventListener('transitionend', handleTransitionEnd);
+    dialog.classList.remove('open');
+  };
 
   dialog.addEventListener('click', (event) => {
     if (event.target === dialog) {
-      dialog.close();
+      closeDialog();
     }
   });
 

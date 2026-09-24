@@ -17,42 +17,67 @@
   border-width: fluid(
     map.get($base, card-border-width),
     map.get($wide, card-border-width),
-    375px,
-    768px
+    $breakpoint-base,
+    $breakpoint-wide
   );
   box-shadow: #{fluid-value(
       map.get($base, card-shadow-offset),
       map.get($wide, card-shadow-offset),
-      375px,
-      768px
+      $breakpoint-base,
+      $breakpoint-wide
     )}
     $color-black;
-  max-width: fluid(map.get($base, card-max-width), map.get($wide, card-max-width), 375px, 768px);
-  padding: fluid(map.get($base, card-padding), map.get($wide, card-padding), 375px, 768px);
-  gap: fluid(map.get($base, card-gap), map.get($wide, card-gap), 375px, 768px);
+  max-width: fluid(
+    map.get($base, card-max-width),
+    map.get($wide, card-max-width),
+    $breakpoint-base,
+    $breakpoint-wide
+  );
+  padding: fluid(
+    map.get($base, card-padding),
+    map.get($wide, card-padding),
+    $breakpoint-base,
+    $breakpoint-wide
+  );
+  gap: fluid(
+    map.get($base, card-gap),
+    map.get($wide, card-gap),
+    $breakpoint-base,
+    $breakpoint-wide
+  );
 
-  @media (min-width: 768px) {
+  @media (min-width: $breakpoint-wide) {
     border-width: fluid(
       map.get($wide, card-border-width),
       map.get($desktop, card-border-width),
-      768px,
-      1920px
+      $breakpoint-wide,
+      $breakpoint-desktop
     );
     box-shadow: #{fluid-value(
         map.get($wide, card-shadow-offset),
         map.get($desktop, card-shadow-offset),
-        768px,
-        1920px
+        $breakpoint-wide,
+        $breakpoint-desktop
       )}
       $color-black;
     max-width: fluid(
       map.get($wide, card-max-width),
       map.get($desktop, card-max-width),
-      768px,
-      1920px
+      $breakpoint-wide,
+      $breakpoint-desktop
     );
-    padding: fluid(map.get($wide, card-padding), map.get($desktop, card-padding), 768px, 1920px);
-    gap: fluid(map.get($wide, card-gap), map.get($desktop, card-gap), 768px, 1920px);
+    padding: fluid(
+      map.get($wide, card-padding),
+      map.get($desktop, card-padding),
+      $breakpoint-wide,
+      $breakpoint-desktop
+    );
+    gap: fluid(
+      map.get($wide, card-gap),
+      map.get($desktop, card-gap),
+      $breakpoint-wide,
+      $breakpoint-desktop
+    );
   }
 }
 
@@ -69,16 +94,16 @@
   border-width: fluid(
     map.get($base, tabs-border-width),
     map.get($wide, tabs-border-width),
-    375px,
-    768px
+    $breakpoint-base,
+    $breakpoint-wide
   );
 
-  @media (min-width: 768px) {
+  @media (min-width: $breakpoint-wide) {
     border-width: fluid(
       map.get($wide, tabs-border-width),
       map.get($desktop, tabs-border-width),
-      768px,
-      1920px
+      $breakpoint-wide,
+      $breakpoint-desktop
     );
   }
 }
@@ -97,7 +122,12 @@
   font-family: $font-family-primary;
   font-weight: $weight-bold;
   font-size: $font-size-label-large;
-  padding: fluid-value(map.get($base, tab-padding), map.get($wide, tab-padding), 375px, 768px);
+  padding: fluid-value(
+    map.get($base, tab-padding),
+    map.get($wide, tab-padding),
+    $breakpoint-base,
+    $breakpoint-wide
+  );
 
   &:not(.is-active):hover {
     background: $color-surface;
@@ -108,12 +138,12 @@
     color: $color-white;
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: $breakpoint-wide) {
     padding: fluid-value(
       map.get($wide, tab-padding),
       map.get($desktop, tab-padding),
-      768px,
-      1920px
+      $breakpoint-wide,
+      $breakpoint-desktop
     );
   }
 }
@@ -126,7 +156,12 @@
   display: flex;
   flex-direction: column;
   align-self: stretch;
-  gap: fluid(map.get($base, header-gap), map.get($wide, header-gap), 375px, 768px);
+  gap: fluid(
+    map.get($base, header-gap),
+    map.get($wide, header-gap),
+    $breakpoint-base,
+    $breakpoint-wide
+  );
 
   h2 {
     margin: 0;
@@ -144,8 +179,13 @@
     font-size: $font-size-label-medium;
   }
 
-  @media (min-width: 768px) {
-    gap: fluid(map.get($wide, header-gap), map.get($desktop, header-gap), 768px, 1920px);
+  @media (min-width: $breakpoint-wide) {
+    gap: fluid(
+      map.get($wide, header-gap),
+      map.get($desktop, header-gap),
+      $breakpoint-wide,
+      $breakpoint-desktop
+    );
   }
 }
 
@@ -157,7 +197,12 @@
   display: flex;
   flex-direction: column;
   align-self: stretch;
-  gap: fluid(map.get($base, field-gap), map.get($wide, field-gap), 375px, 768px);
+  gap: fluid(
+    map.get($base, field-gap),
+    map.get($wide, field-gap),
+    $breakpoint-base,
+    $breakpoint-wide
+  );
 
   label {
     color: $color-on-primary;
@@ -166,8 +211,13 @@
     font-size: $font-size-label-medium;
   }
 
-  @media (min-width: 768px) {
-    gap: fluid(map.get($wide, field-gap), map.get($desktop, field-gap), 768px, 1920px);
+  @media (min-width: $breakpoint-wide) {
+    gap: fluid(
+      map.get($wide, field-gap),
+      map.get($desktop, field-gap),
+      $breakpoint-wide,
+      $breakpoint-desktop
+    );
   }
 }
 
@@ -186,16 +236,26 @@
   border-width: fluid(
     map.get($base, input-border-width),
     map.get($wide, input-border-width),
-    375px,
-    768px
+    $breakpoint-base,
+    $breakpoint-wide
   );
-  padding: fluid-value(map.get($base, input-padding), map.get($wide, input-padding), 375px, 768px);
-  height: fluid(map.get($base, input-height), map.get($wide, input-height), 375px, 768px);
+  padding: fluid-value(
+    map.get($base, input-padding),
+    map.get($wide, input-padding),
+    $breakpoint-base,
+    $breakpoint-wide
+  );
+  height: fluid(
+    map.get($base, input-height),
+    map.get($wide, input-height),
+    $breakpoint-base,
+    $breakpoint-wide
+  );
   gap: fluid(
     list.nth(map.get($base, input-padding), 2),
     list.nth(map.get($wide, input-padding), 2),
-    375px,
-    768px
+    $breakpoint-base,
+    $breakpoint-wide
   );
 
   .field-icon {
@@ -227,25 +287,30 @@
     }
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: $breakpoint-wide) {
     border-width: fluid(
       map.get($wide, input-border-width),
       map.get($desktop, input-border-width),
-      768px,
-      1920px
+      $breakpoint-wide,
+      $breakpoint-desktop
     );
     padding: fluid-value(
       map.get($wide, input-padding),
       map.get($desktop, input-padding),
-      768px,
-      1920px
+      $breakpoint-wide,
+      $breakpoint-desktop
     );
-    height: fluid(map.get($wide, input-height), map.get($desktop, input-height), 768px, 1920px);
+    height: fluid(
+      map.get($wide, input-height),
+      map.get($desktop, input-height),
+      $breakpoint-wide,
+      $breakpoint-desktop
+    );
     gap: fluid(
       list.nth(map.get($wide, input-padding), 2),
       list.nth(map.get($desktop, input-padding), 2),
-      768px,
-      1920px
+      $breakpoint-wide,
+      $breakpoint-desktop
     );
   }
 }
@@ -270,41 +335,46 @@
   border-width: fluid(
     map.get($base, cta-border-width),
     map.get($wide, cta-border-width),
-    375px,
-    768px
+    $breakpoint-base,
+    $breakpoint-wide
   );
   box-shadow: #{fluid-value(
       map.get($base, cta-shadow-offset),
       map.get($wide, cta-shadow-offset),
-      375px,
-      768px
+      $breakpoint-base,
+      $breakpoint-wide
     )}
     $color-on-primary;
-  padding: fluid-value(map.get($base, cta-padding), map.get($wide, cta-padding), 375px, 768px);
+  padding: fluid-value(
+    map.get($base, cta-padding),
+    map.get($wide, cta-padding),
+    $breakpoint-base,
+    $breakpoint-wide
+  );
 
   &:hover {
     background: $color-primary-high;
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: $breakpoint-wide) {
     border-width: fluid(
       map.get($wide, cta-border-width),
       map.get($desktop, cta-border-width),
-      768px,
-      1920px
+      $breakpoint-wide,
+      $breakpoint-desktop
     );
     box-shadow: #{fluid-value(
         map.get($wide, cta-shadow-offset),
         map.get($desktop, cta-shadow-offset),
-        768px,
-        1920px
+        $breakpoint-wide,
+        $breakpoint-desktop
       )}
       $color-on-primary;
     padding: fluid-value(
       map.get($wide, cta-padding),
       map.get($desktop, cta-padding),
-      768px,
-      1920px
+      $breakpoint-wide,
+      $breakpoint-desktop
     );
   }
 }
@@ -329,16 +399,21 @@
   border-width: fluid(
     map.get($base, google-border-width),
     map.get($wide, google-border-width),
-    375px,
-    768px
+    $breakpoint-base,
+    $breakpoint-wide
   );
   padding: fluid-value(
     map.get($base, google-padding),
     map.get($wide, google-padding),
-    375px,
-    768px
+    $breakpoint-base,
+    $breakpoint-wide
   );
-  gap: fluid(map.get($base, actions-gap), map.get($wide, actions-gap), 375px, 768px);
+  gap: fluid(
+    map.get($base, actions-gap),
+    map.get($wide, actions-gap),
+    $breakpoint-base,
+    $breakpoint-wide
+  );
 
   &:hover {
     background: $color-surface;
@@ -351,44 +426,49 @@
     width: fluid(
       list.nth(map.get($base, google-padding), 2),
       list.nth(map.get($wide, google-padding), 2),
-      375px,
-      768px
+      $breakpoint-base,
+      $breakpoint-wide
     );
     height: fluid(
       list.nth(map.get($base, google-padding), 2),
       list.nth(map.get($wide, google-padding), 2),
-      375px,
-      768px
+      $breakpoint-base,
+      $breakpoint-wide
     );
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: $breakpoint-wide) {
     border-width: fluid(
       map.get($wide, google-border-width),
       map.get($desktop, google-border-width),
-      768px,
-      1920px
+      $breakpoint-wide,
+      $breakpoint-desktop
     );
     padding: fluid-value(
       map.get($wide, google-padding),
       map.get($desktop, google-padding),
-      768px,
-      1920px
+      $breakpoint-wide,
+      $breakpoint-desktop
     );
-    gap: fluid(map.get($wide, actions-gap), map.get($desktop, actions-gap), 768px, 1920px);
+    gap: fluid(
+      map.get($wide, actions-gap),
+      map.get($desktop, actions-gap),
+      $breakpoint-wide,
+      $breakpoint-desktop
+    );
 
     .google-icon {
       width: fluid(
         list.nth(map.get($wide, google-padding), 2),
         list.nth(map.get($desktop, google-padding), 2),
-        768px,
-        1920px
+        $breakpoint-wide,
+        $breakpoint-desktop
       );
       height: fluid(
         list.nth(map.get($wide, google-padding), 2),
         list.nth(map.get($desktop, google-padding), 2),
-        768px,
-        1920px
+        $breakpoint-wide,
+        $breakpoint-desktop
       );
     }
   }
@@ -402,13 +482,18 @@
   display: flex;
   align-items: center;
   align-self: stretch;
-  gap: fluid(map.get($base, divider-gap), map.get($wide, divider-gap), 375px, 768px);
+  gap: fluid(
+    map.get($base, divider-gap),
+    map.get($wide, divider-gap),
+    $breakpoint-base,
+    $breakpoint-wide
+  );
 
   .divider-line {
     flex: 1;
     height: 0;
     border-top: 1px solid $color-on-primary;
-    opacity: 0.2;
+    opacity: $divider-line-opacity;
   }
 
   .divider-label {
@@ -420,8 +505,13 @@
     text-transform: uppercase;
   }
 
-  @media (min-width: 768px) {
-    gap: fluid(map.get($wide, divider-gap), map.get($desktop, divider-gap), 768px, 1920px);
+  @media (min-width: $breakpoint-wide) {
+    gap: fluid(
+      map.get($wide, divider-gap),
+      map.get($desktop, divider-gap),
+      $breakpoint-wide,
+      $breakpoint-desktop
+    );
   }
 }
 
@@ -433,7 +523,12 @@
   display: flex;
   justify-content: center;
   align-self: stretch;
-  gap: fluid(map.get($base, footer-gap), map.get($wide, footer-gap), 375px, 768px);
+  gap: fluid(
+    map.get($base, footer-gap),
+    map.get($wide, footer-gap),
+    $breakpoint-base,
+    $breakpoint-wide
+  );
   color: $color-on-bg;
   font-family: $font-family-primary;
   font-weight: $weight-regular;
@@ -455,7 +550,12 @@
     }
   }
 
-  @media (min-width: 768px) {
-    gap: fluid(map.get($wide, footer-gap), map.get($desktop, footer-gap), 768px, 1920px);
+  @media (min-width: $breakpoint-wide) {
+    gap: fluid(
+      map.get($wide, footer-gap),
+      map.get($desktop, footer-gap),
+      $breakpoint-wide,
+      $breakpoint-desktop
+    );
   }
 }

@@ -9,7 +9,19 @@ body.auth-dialog-open {
   overflow: hidden;
 }
 
+.auth-dialog.open {
+  opacity: 1;
+  transform: scale(1);
+
+  &::backdrop {
+    background-color: rgba($color-black, $backdrop-opacity-open);
+  }
+}
+
 .auth-dialog {
+  opacity: 0;
+  transform: scale(0);
+  transition: $dialog-transition;
   padding: 0;
   border: none;
   background: transparent;
@@ -17,32 +29,33 @@ body.auth-dialog-open {
   padding-right: fluid(
     list.nth(map.get(map.get($auth-dialog-frame, base), card-shadow-offset), 1),
     list.nth(map.get(map.get($auth-dialog-frame, wide), card-shadow-offset), 1),
-    375px,
-    768px
+    $breakpoint-base,
+    $breakpoint-wide
   );
   padding-bottom: fluid(
     list.nth(map.get(map.get($auth-dialog-frame, base), card-shadow-offset), 2),
     list.nth(map.get(map.get($auth-dialog-frame, wide), card-shadow-offset), 2),
-    375px,
-    768px
+    $breakpoint-base,
+    $breakpoint-wide
   );
 
   &::backdrop {
-    background: rgba($color-black, 0.5);
+    background-color: rgba($color-black, $backdrop-opacity-closed);
+    transition: $backdrop-transition;
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: $breakpoint-wide) {
     padding-right: fluid(
       list.nth(map.get(map.get($auth-dialog-frame, wide), card-shadow-offset), 1),
       list.nth(map.get(map.get($auth-dialog-frame, desktop), card-shadow-offset), 1),
-      768px,
-      1920px
+      $breakpoint-wide,
+      $breakpoint-desktop
     );
     padding-bottom: fluid(
       list.nth(map.get(map.get($auth-dialog-frame, wide), card-shadow-offset), 2),
       list.nth(map.get(map.get($auth-dialog-frame, desktop), card-shadow-offset), 2),
-      768px,
-      1920px
+      $breakpoint-wide,
+      $breakpoint-desktop
     );
   }
 }
@@ -68,4 +81,9 @@ body.auth-dialog-open {
 .auth-dialog-view {
   display: flex;
   flex-direction: column;
+  transition: $view-fade-transition;
+
+  &.fade-out {
+    opacity: 0;
+  }
 }

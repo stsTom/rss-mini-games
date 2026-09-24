@@ -1,0 +1,14 @@
+@use './tokens' as *;
+
+html {
+  scrollbar-gutter: stable;
+}
+
+body {
+  font-family: $font-family-primary;
+}
+
+button,
+a {
+  cursor: pointer;
+}

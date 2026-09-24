@@ -12,3 +12,32 @@ $header-frame: (
     height: 85px,
   ),
 );
+
+$icon-button-size: 32px;
+
+$header-brand-gap: 8px;
+
+$burger-frame: (
+  gap: 4px,
+  padding: 8px,
+  line-width-base: 14px,
+  line-width-wide: 16px,
+);
+
+$burger-menu-frame: (
+  panel-padding: 24px,
+  nav-gap: 16px,
+  nav-margin-top: 32px,
+  bottom-gap: 12px,
+);
+
+$header-controls-gap: (
+  compact: 8px,
+  base: 16px,
+  wide: 32px,
+);
+
+$nav-desktop-gap: (
+  base: 4px,
+  desktop: 40px,
+);

@@ -10,7 +10,10 @@
   display: flex;
   align-items: center;
   background-image:
-    linear-gradient(rgba($color-bg-footer, 0.65), rgba($color-bg-footer, 0.65)),
+    linear-gradient(
+      rgba($color-bg-footer, $hero-overlay-opacity),
+      rgba($color-bg-footer, $hero-overlay-opacity)
+    ),
     url('/home-page-hero.png');
   background-size: cover;
   background-position: center;
@@ -29,67 +32,82 @@
   $wide: map.get($hero-frame, wide);
   $desktop: map.get($hero-frame, desktop);
 
-  padding: fluid-value(map.get($base, card-padding), map.get($wide, card-padding), 375px, 768px);
-  gap: fluid-value(map.get($base, card-gap), map.get($wide, card-gap), 375px, 768px);
+  padding: fluid-value(
+    map.get($base, card-padding),
+    map.get($wide, card-padding),
+    $breakpoint-base,
+    $breakpoint-wide
+  );
+  gap: fluid-value(
+    map.get($base, card-gap),
+    map.get($wide, card-gap),
+    $breakpoint-base,
+    $breakpoint-wide
+  );
   border: solid $color-on-primary;
   border-width: fluid-value(
     map.get($base, card-border-width),
     map.get($wide, card-border-width),
-    375px,
-    768px
+    $breakpoint-base,
+    $breakpoint-wide
   );
   box-shadow: #{fluid-value(
       map.get($base, card-shadow-offset),
       map.get($wide, card-shadow-offset),
-      375px,
-      768px
+      $breakpoint-base,
+      $breakpoint-wide
     )}
     $color-on-primary;
   border-radius: fluid-value(
     map.get($base, card-radius),
     map.get($wide, card-radius),
-    375px,
-    768px
+    $breakpoint-base,
+    $breakpoint-wide
   );
   max-width: fluid-value(
     map.get($base, card-max-width),
     map.get($wide, card-max-width),
-    375px,
-    768px
+    $breakpoint-base,
+    $breakpoint-wide
   );
 
-  @media (min-width: 768px) {
+  @media (min-width: $breakpoint-wide) {
     padding: fluid-value(
       map.get($wide, card-padding),
       map.get($desktop, card-padding),
-      768px,
-      1920px
+      $breakpoint-wide,
+      $breakpoint-desktop
     );
-    gap: fluid-value(map.get($wide, card-gap), map.get($desktop, card-gap), 768px, 1920px);
+    gap: fluid-value(
+      map.get($wide, card-gap),
+      map.get($desktop, card-gap),
+      $breakpoint-wide,
+      $breakpoint-desktop
+    );
     border-width: fluid-value(
       map.get($wide, card-border-width),
       map.get($desktop, card-border-width),
-      768px,
-      1920px
+      $breakpoint-wide,
+      $breakpoint-desktop
     );
     box-shadow: #{fluid-value(
         map.get($wide, card-shadow-offset),
         map.get($desktop, card-shadow-offset),
-        768px,
-        1920px
+        $breakpoint-wide,
+        $breakpoint-desktop
       )}
       $color-on-primary;
     border-radius: fluid-value(
       map.get($wide, card-radius),
       map.get($desktop, card-radius),
-      768px,
-      1920px
+      $breakpoint-wide,
+      $breakpoint-desktop
     );
     max-width: fluid-value(
       map.get($wide, card-max-width),
       map.get($desktop, card-max-width),
-      768px,
-      1920px
+      $breakpoint-wide,
+      $breakpoint-desktop
     );
   }
 }
