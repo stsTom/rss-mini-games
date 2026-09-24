@@ -1,3 +1,4 @@
+@use 'sass:map';
 @use '../../styles/tokens' as *;
 @use '../../styles/mixins' as *;
 @use 'styles/tokens' as *;
@@ -9,10 +10,10 @@ button[data-header-visibility='mobile'] {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 4px;
-  width: 32px;
-  height: 32px;
-  padding: 8px;
+  gap: map.get($burger-frame, gap);
+  width: $icon-button-size;
+  height: $icon-button-size;
+  padding: map.get($burger-frame, padding);
   background: $color-white;
   border-radius: $border-rad-small;
 
@@ -26,11 +27,11 @@ button[data-header-visibility='mobile'] {
 }
 
 .burger-line {
-  width: 14px;
+  width: map.get($burger-frame, line-width-base);
   height: 0;
   border-top: 2px solid $color-on-primary;
 
   @include wide-screen {
-    width: 16px;
+    width: map.get($burger-frame, line-width-wide);
   }
 }

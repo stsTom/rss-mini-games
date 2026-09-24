@@ -1,11 +1,5 @@
-@use 'styles/tokens' as *;
-@use 'styles/functions' as *;
+@use '../../styles/mixins' as *;
 
 .rss-link > span {
-  font-weight: $weight-regular;
-  font-size: fluid($font-size-label-medium, $font-size-label-large, 375px, 768px);
-
-  @media (min-width: 768px) {
-    font-size: $font-size-label-large;
-  }
+  @include footer-caption-text;
 }

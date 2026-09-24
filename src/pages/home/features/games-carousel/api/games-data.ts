@@ -5,7 +5,6 @@ interface GamesSeedResponse {
   data: Game[];
 }
 
-// Hardcoded until carousel navigation exists; navigation will change this to mutable state.
 const FOCUSED_INDEX = 0;
 
 function gameAtOffset(featured: Game[], offset: number): Game {

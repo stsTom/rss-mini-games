@@ -1,5 +1,7 @@
 import './login-form.scss';
 
+const GOOGLE_ICON_SRC = '/icons/google.svg';
+
 export interface LoginFormOptions {
   onSwitchToRegister: () => void;
 }
@@ -73,7 +75,7 @@ export function createLoginForm(options: LoginFormOptions): HTMLFormElement {
   googleButton.classList.add('google-button');
   const googleIcon = document.createElement('img');
   googleIcon.classList.add('google-icon');
-  googleIcon.src = '/icons/google.svg';
+  googleIcon.src = GOOGLE_ICON_SRC;
   googleIcon.alt = '';
   const googleLabel = document.createElement('span');
   googleLabel.textContent = 'Continue with Google';

@@ -19,6 +19,7 @@ export function createExploreLinks(): HTMLElement {
     const link = document.createElement('a');
     link.href = `#${id}`;
     link.textContent = label;
+    link.dataset.text = label;
     exploreLinks.append(link);
   }
 

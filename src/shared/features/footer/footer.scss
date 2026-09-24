@@ -15,9 +15,6 @@ footer {
   @include footer-brand-block;
 
   @include desktop-screen {
-    // The links block keeps its natural (unshrunk) width below, so the
-    // brand block is the only side allowed to give way: it shrinks and
-    // wraps its tagline instead of forcing the row past the viewport.
     flex: 1 1 auto;
     min-width: 0;
   }
@@ -87,10 +84,6 @@ footer {
   @include footer-lower-row;
 
   @include wide-screen {
-    // Dissolves this wrapper into the surrounding flex row so its two links
-    // become direct siblings of the copyright/attribution text, letting the
-    // single space-between on .lower-footer spread all four elements evenly
-    // across the full width instead of bunching the links together.
     display: contents;
   }
 }
@@ -104,8 +97,8 @@ footer {
   text-decoration: none;
 
   img {
-    width: 20px;
-    height: 20px;
+    width: $footer-icon-size;
+    height: $footer-icon-size;
   }
 }
 
