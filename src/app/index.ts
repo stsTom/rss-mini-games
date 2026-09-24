@@ -1,3 +1,4 @@
+import '../../styles/global.scss';
 import { createHeader } from '../shared/features/header/header.js';
 import { createHero } from '../pages/home/features/hero/hero.js';
 import { createGamesCarousel } from '../pages/home/features/games-carousel/games-carousel.js';
