@@ -1,6 +1,7 @@
 import './row.scss';
 import { createPlayerCell } from '../player-cell/player-cell.js';
 import type { LeaderboardEntry } from '../../interfaces.js';
+import { LEADERBOARD_VISIBILITY, SCORE_VISIBILITY } from '../../dataset-values.js';
 
 const TOP_RANKS_VISIBLE_BELOW_DESKTOP = 3;
 
@@ -19,12 +20,12 @@ function formatScoreFull(score: number): string {
 function createScoreValue(score: number): HTMLElement[] {
   const abbreviated = document.createElement('span');
   abbreviated.classList.add('leaderboard-score-value');
-  abbreviated.dataset.scoreVisibility = 'abbreviated';
+  abbreviated.dataset.scoreVisibility = SCORE_VISIBILITY.abbreviated;
   abbreviated.textContent = formatScoreAbbreviated(score);
 
   const full = document.createElement('span');
   full.classList.add('leaderboard-score-value');
-  full.dataset.scoreVisibility = 'full';
+  full.dataset.scoreVisibility = SCORE_VISIBILITY.full;
   full.textContent = formatScoreFull(score);
 
   return [abbreviated, full];
@@ -35,7 +36,7 @@ export function createLeaderboardRow(entry: LeaderboardEntry): HTMLElement {
   row.classList.add('leaderboard-row');
 
   if (entry.rank > TOP_RANKS_VISIBLE_BELOW_DESKTOP) {
-    row.dataset.leaderboardVisibility = 'desktop-only';
+    row.dataset.leaderboardVisibility = LEADERBOARD_VISIBILITY.desktopOnly;
   }
 
   const rank = document.createElement('div');
@@ -48,7 +49,7 @@ export function createLeaderboardRow(entry: LeaderboardEntry): HTMLElement {
 
   const gamesPlayed = document.createElement('div');
   gamesPlayed.classList.add('leaderboard-cell', 'leaderboard-cell-games');
-  gamesPlayed.dataset.leaderboardVisibility = 'wide-and-up';
+  gamesPlayed.dataset.leaderboardVisibility = LEADERBOARD_VISIBILITY.wideAndUp;
   gamesPlayed.textContent = String(entry.gamesPlayed);
 
   const totalScore = document.createElement('div');
@@ -61,7 +62,7 @@ export function createLeaderboardRow(entry: LeaderboardEntry): HTMLElement {
 
   const favoriteGame = document.createElement('div');
   favoriteGame.classList.add('leaderboard-cell', 'leaderboard-cell-favorite-game');
-  favoriteGame.dataset.leaderboardVisibility = 'desktop-only';
+  favoriteGame.dataset.leaderboardVisibility = LEADERBOARD_VISIBILITY.desktopOnly;
   favoriteGame.textContent = entry.favoriteGameName;
 
   row.append(rank, player, gamesPlayed, totalScore, streak, favoriteGame);

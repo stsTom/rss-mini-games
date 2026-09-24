@@ -46,11 +46,13 @@ export function createAuthDialog(): AuthDialog {
     registerTab.classList.toggle('is-active', tab === 'register');
 
     if (dialog.classList.contains('open')) {
-      view.classList.add('fade-out');
-      setTimeout(() => {
+      const handleFadeOutEnd = (): void => {
+        view.removeEventListener('transitionend', handleFadeOutEnd);
         view.replaceChildren(tab === 'login' ? loginForm : registerForm);
         view.classList.remove('fade-out');
-      }, 250);
+      };
+      view.addEventListener('transitionend', handleFadeOutEnd);
+      view.classList.add('fade-out');
       return;
     }
 

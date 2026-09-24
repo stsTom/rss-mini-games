@@ -14,14 +14,14 @@ body.auth-dialog-open {
   transform: scale(1);
 
   &::backdrop {
-    background-color: rgba($color-black, 0.5);
+    background-color: rgba($color-black, $backdrop-opacity-open);
   }
 }
 
 .auth-dialog {
   opacity: 0;
   transform: scale(0);
-  transition: all 0.19s ease-out;
+  transition: $dialog-transition;
   padding: 0;
   border: none;
   background: transparent;
@@ -29,33 +29,33 @@ body.auth-dialog-open {
   padding-right: fluid(
     list.nth(map.get(map.get($auth-dialog-frame, base), card-shadow-offset), 1),
     list.nth(map.get(map.get($auth-dialog-frame, wide), card-shadow-offset), 1),
-    375px,
-    768px
+    $breakpoint-base,
+    $breakpoint-wide
   );
   padding-bottom: fluid(
     list.nth(map.get(map.get($auth-dialog-frame, base), card-shadow-offset), 2),
     list.nth(map.get(map.get($auth-dialog-frame, wide), card-shadow-offset), 2),
-    375px,
-    768px
+    $breakpoint-base,
+    $breakpoint-wide
   );
 
   &::backdrop {
-    background-color: rgba($color-black, 0.1);
-    transition: background-color 0.4s ease-out;
+    background-color: rgba($color-black, $backdrop-opacity-closed);
+    transition: $backdrop-transition;
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: $breakpoint-wide) {
     padding-right: fluid(
       list.nth(map.get(map.get($auth-dialog-frame, wide), card-shadow-offset), 1),
       list.nth(map.get(map.get($auth-dialog-frame, desktop), card-shadow-offset), 1),
-      768px,
-      1920px
+      $breakpoint-wide,
+      $breakpoint-desktop
     );
     padding-bottom: fluid(
       list.nth(map.get(map.get($auth-dialog-frame, wide), card-shadow-offset), 2),
       list.nth(map.get(map.get($auth-dialog-frame, desktop), card-shadow-offset), 2),
-      768px,
-      1920px
+      $breakpoint-wide,
+      $breakpoint-desktop
     );
   }
 }
@@ -81,7 +81,7 @@ body.auth-dialog-open {
 .auth-dialog-view {
   display: flex;
   flex-direction: column;
-  transition: opacity 0.2s ease-out;
+  transition: $view-fade-transition;
 
   &.fade-out {
     opacity: 0;

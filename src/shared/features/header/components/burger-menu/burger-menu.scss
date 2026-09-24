@@ -1,3 +1,4 @@
+@use 'sass:map';
 @use '../../styles/tokens' as *;
 @use '../../styles/mixins' as *;
 @use 'styles/tokens' as *;
@@ -6,9 +7,9 @@
 .burger-menu {
   position: fixed;
   inset: 0;
-  z-index: 100;
+  z-index: $z-index-overlay;
   box-sizing: border-box;
-  padding: 24px;
+  padding: map.get($burger-menu-frame, panel-padding);
   background: $color-bg-footer;
 }
 
@@ -21,7 +22,7 @@
 .burger-menu-brand {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: $header-brand-gap;
 }
 
 .burger-menu-logo {
@@ -40,8 +41,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: $icon-button-size;
+  height: $icon-button-size;
   padding: 0;
   background: $color-bg-footer-low;
   border: 2px solid transparent;
@@ -58,8 +59,8 @@
 .burger-menu nav {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  margin-top: 32px;
+  gap: map.get($burger-menu-frame, nav-gap);
+  margin-top: map.get($burger-menu-frame, nav-margin-top);
 }
 
 .burger-menu nav a {
@@ -79,7 +80,7 @@
 .burger-menu-bottom {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: map.get($burger-menu-frame, bottom-gap);
   margin-top: auto;
 }
 

@@ -1,3 +1,19 @@
+// Icons
+$icon-mail: '/icons/evelope.svg';
+$icon-lock: '/icons/lock.svg';
+$icon-eye: '/icons/eye.svg';
+$icon-user: '/icons/user.svg';
+
+// Motion
+$dialog-transition: all 0.19s ease-out;
+$backdrop-transition: background-color 0.4s ease-out;
+$view-fade-transition: opacity 0.2s ease-out;
+
+// Opacity
+$backdrop-opacity-closed: 0.1;
+$backdrop-opacity-open: 0.5;
+$divider-line-opacity: 0.2;
+
 $auth-dialog-frame: (
   base: (
     card-padding: 24px,

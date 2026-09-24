@@ -2,13 +2,13 @@
 @use 'tokens' as *;
 
 @mixin wide-screen {
-  @media (min-width: 376px) {
+  @media (min-width: #{$breakpoint-base + 1}) {
     @content;
   }
 }
 
 @mixin desktop-screen {
-  @media (min-width: 769px) {
+  @media (min-width: #{$breakpoint-wide + 1}) {
     @content;
   }
 }

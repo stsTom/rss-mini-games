@@ -1,3 +1,4 @@
+@use 'sass:map';
 @use '../../styles/tokens' as *;
 @use '../../styles/mixins' as *;
 @use 'styles/tokens' as *;
@@ -12,11 +13,18 @@ nav[data-header-visibility='desktop'] {
   @include desktop-screen {
     display: flex;
     align-items: center;
-    gap: fluid(4px, 40px, 769px, 1920px);
+    gap: fluid(
+      map.get($nav-desktop-gap, base),
+      map.get($nav-desktop-gap, desktop),
+      $breakpoint-wide + 1,
+      $breakpoint-desktop
+    );
   }
 }
 
 nav a {
+  position: relative;
+  display: inline-block;
   text-decoration: none;
   font-size: $font-size-body-medium;
   font-weight: $weight-medium;
@@ -27,7 +35,12 @@ nav a {
 
 nav[data-header-visibility='desktop'] a {
   @include desktop-screen {
-    font-size: fluid($font-size-body-small, $font-size-body-medium, 769px, 1920px);
+    font-size: fluid(
+      $font-size-body-small,
+      $font-size-body-medium,
+      $breakpoint-wide + 1,
+      $breakpoint-desktop
+    );
   }
 }
 

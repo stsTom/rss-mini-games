@@ -4,8 +4,6 @@
 @use 'styles/tokens' as *;
 @use 'styles/functions' as *;
 
-// container-type: inline-size queries the slot's content-box, which the
-// carousel-frame border shrinks relative to its rendered (border-box) width.
 $carousel-card-border-width: map.get(map.get($carousel-frame, base), card-border-width);
 
 .games-carousel-card-info {
@@ -16,12 +14,7 @@ $carousel-card-border-width: map.get(map.get($carousel-frame, base), card-border
   bottom: 0;
   padding: $size-times-1 * 2;
   color: $color-white;
-  background: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0) 0%,
-    rgba(0, 0, 0, 0.4) 17.31%,
-    rgba(0, 0, 0, 0.85) 46.15%
-  );
+  background: $card-info-overlay-gradient;
 
   h3 {
     margin: 0 0 $size-times-1;
@@ -37,10 +30,20 @@ $carousel-card-border-width: map.get(map.get($carousel-frame, base), card-border
   display: flex;
   justify-content: space-between;
   font-weight: $weight-bold;
-  font-size: fluid($font-size-label-medium, $font-size-label-large, 375px, 768px);
+  font-size: fluid(
+    $font-size-label-medium,
+    $font-size-label-large,
+    $breakpoint-base,
+    $breakpoint-wide
+  );
 
-  @media (min-width: 768px) {
-    font-size: fluid($font-size-label-large, $font-size-label-extra-large, 768px, 1920px);
+  @media (min-width: $breakpoint-wide) {
+    font-size: fluid(
+      $font-size-label-large,
+      $font-size-label-extra-large,
+      $breakpoint-wide,
+      $breakpoint-desktop
+    );
   }
 }
 
@@ -76,15 +79,12 @@ $carousel-card-border-width: map.get(map.get($carousel-frame, base), card-border
   -webkit-mask-image: url('/icons/heart.svg');
 }
 
-@container (min-width: #{287.5px - $carousel-card-border-width * 2}) {
+@container (min-width: #{$card-info-visible-threshold - $carousel-card-border-width * 2}) {
   .games-carousel-card-info {
     display: block;
   }
 }
 
-// The focus card always shows its footer regardless of rendered width, even
-// below the 288px threshold that governs peek/thumb — it's the carousel's
-// highlighted card and should never lose its title/rating/likes.
 [data-slot-role='focus'] .games-carousel-card-info {
   display: block;
 }
