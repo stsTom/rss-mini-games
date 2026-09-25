@@ -1,6 +1,7 @@
 @use '../../styles/mixins' as *;
 @use 'styles/mixins' as *;
 @use 'styles/tokens' as *;
+@use '../../styles/tokens' as *;
 
 .games-carousel-content {
   display: flex;
@@ -53,6 +54,10 @@
 [data-slot-role='peek-left'],
 [data-slot-role='peek-right'] {
   @include carousel-slot-width(peek-width, 0);
+
+  @media (min-width: $carousel-peek-footer-breakpoint) {
+    flex-basis: $carousel-peek-footer-width;
+  }
 }
 
 [data-slot-role='focus'] {

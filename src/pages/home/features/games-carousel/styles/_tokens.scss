@@ -64,4 +64,7 @@ $carousel-layout: (
   ),
 );
 
+$carousel-peek-footer-breakpoint: 1280px;
+$carousel-peek-footer-width: map.get(map.get($carousel-layout, desktop), peek-width);
+
 $card-info-visible-threshold: map.get(map.get($carousel-layout, desktop), peek-width) - 0.5px;
