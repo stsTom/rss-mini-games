@@ -18,6 +18,12 @@ $game-details-dialog-frame: (
     rating-gap: 4px,
     rating-glyph-size: 18px,
     title-line-height: 44px,
+    description-line-height: 20px,
+    widgets-gap: 16px,
+    widget-basis: 120px,
+    widget-padding: 8px 16px,
+    widget-gap: 8px,
+    widget-shadow-offset: 3px 3px,
   ),
   wide: (
     card-width: 600px,
@@ -38,6 +44,12 @@ $game-details-dialog-frame: (
     rating-gap: 4px,
     rating-glyph-size: 18px,
     title-line-height: 44px,
+    description-line-height: 20px,
+    widgets-gap: 16px,
+    widget-basis: 120px,
+    widget-padding: 8px 16px,
+    widget-gap: 8px,
+    widget-shadow-offset: 3px 3px,
   ),
   desktop: (
     card-width: 600px,
@@ -58,5 +70,13 @@ $game-details-dialog-frame: (
     rating-gap: 4px,
     rating-glyph-size: 18px,
     title-line-height: 44px,
+    description-line-height: 20px,
+    widgets-gap: 16px,
+    widget-basis: 120px,
+    widget-padding: 8px 16px,
+    widget-gap: 8px,
+    widget-shadow-offset: 3px 3px,
   ),
 );
+
+$game-details-widget-border-width: 1px;
