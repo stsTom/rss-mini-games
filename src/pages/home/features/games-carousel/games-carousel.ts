@@ -50,6 +50,12 @@ export async function createGamesCarousel(): Promise<HTMLElement> {
       return;
     }
 
+    const root = document.documentElement;
+    const { left, right } = content.getBoundingClientRect();
+    root.style.setProperty('--games-carousel-clip-left', `${left}px`);
+    root.style.setProperty('--games-carousel-clip-right', `${right}px`);
+    root.dataset.gamesCarouselDirection = step > 0 ? 'next' : 'previous';
+
     transition?.skipTransition();
     transition = document.startViewTransition(render);
   }

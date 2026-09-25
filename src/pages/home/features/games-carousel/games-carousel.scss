@@ -25,6 +25,12 @@
 
 ::view-transition {
   pointer-events: none;
+  clip-path: polygon(
+    var(--games-carousel-clip-left) 0,
+    var(--games-carousel-clip-right) 0,
+    var(--games-carousel-clip-right) 100%,
+    var(--games-carousel-clip-left) 100%
+  );
 }
 
 ::view-transition-group(*) {
@@ -39,4 +45,50 @@
   overflow: clip;
   @include carousel-frame-shape;
   @include carousel-frame-outline;
+}
+
+$carousel-slide-step: calc(100% + #{$size-times-1});
+
+@keyframes games-carousel-slide-out-left {
+  to {
+    transform: translateX(calc(-1 * #{$carousel-slide-step}));
+  }
+}
+
+@keyframes games-carousel-slide-out-right {
+  to {
+    transform: translateX($carousel-slide-step);
+  }
+}
+
+@keyframes games-carousel-slide-in-left {
+  from {
+    transform: translateX(calc(-1 * #{$carousel-slide-step}));
+  }
+}
+
+@keyframes games-carousel-slide-in-right {
+  from {
+    transform: translateX($carousel-slide-step);
+  }
+}
+
+:root[data-games-carousel-direction='next'] {
+  &::view-transition-old(*):only-child {
+    animation-name: games-carousel-slide-out-left;
+  }
+
+  &::view-transition-new(*):only-child {
+    animation-name: games-carousel-slide-in-right;
+  }
+}
+
+:root[data-games-carousel-direction='previous'] {
+  &::view-transition-old(*):only-child {
+    animation-name: games-carousel-slide-out-right;
+  }
+
+  &::view-transition-new(*):only-child {
+    animation-name: games-carousel-slide-in-left;
+  }
 }
