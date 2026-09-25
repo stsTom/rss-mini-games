@@ -18,7 +18,9 @@ function ringOffset(position: number, index: number, length: number): number {
 export async function createGamesCarousel(): Promise<HTMLElement> {
   const games = await fetchFeaturedGames();
   const cards = games.map((game) => createGamesCarouselSlot(game));
+  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   let index = 0;
+  let transition: ViewTransition | undefined;
 
   const section = document.createElement('section');
   section.classList.add('games-carousel');
@@ -41,7 +43,14 @@ export async function createGamesCarousel(): Promise<HTMLElement> {
 
   function navigate(step: number): void {
     index = wrap(index + step, cards.length);
-    render();
+
+    if (!('startViewTransition' in document) || reducedMotion.matches) {
+      render();
+      return;
+    }
+
+    transition?.skipTransition();
+    transition = document.startViewTransition(render);
   }
 
   render();

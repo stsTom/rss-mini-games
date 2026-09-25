@@ -7,6 +7,7 @@ export type SlotRole = 'thumb-left' | 'peek-left' | 'focus' | 'peek-right' | 'th
 export function createGamesCarouselSlot(game: Game): HTMLElement {
   const slot = document.createElement('div');
   slot.classList.add('games-carousel-slot');
+  slot.style.viewTransitionName = `game-${game.slug}`;
 
   const image = document.createElement('img');
   image.classList.add('games-carousel-slot-image');
