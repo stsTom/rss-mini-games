@@ -1,5 +1,7 @@
 import './game-details-dialog.scss';
 import { createDialogLayout } from '../../components/dialog-layout/dialog-layout.js';
+import { createGameDetailsHero } from './components/hero/hero.js';
+import { fetchGameDetails } from './api/game-details-data.js';
 import type { Game } from '../../interfaces.js';
 
 export interface GameDetailsDialog {
@@ -7,7 +9,8 @@ export interface GameDetailsDialog {
   open: (game: Game, onClose?: () => void) => void;
 }
 
-export function createGameDetailsDialog(): GameDetailsDialog {
+export async function createGameDetailsDialog(): Promise<GameDetailsDialog> {
+  const details = await fetchGameDetails();
   let handleClose: (() => void) | undefined;
 
   const layout = createDialogLayout({
@@ -21,7 +24,7 @@ export function createGameDetailsDialog(): GameDetailsDialog {
   layout.card.classList.add('game-details-dialog-card');
 
   const render = (): void => {
-    layout.card.replaceChildren();
+    layout.card.replaceChildren(createGameDetailsHero({ game: details, onClose: layout.close }));
   };
 
   const open = (_game: Game, onClose?: () => void): void => {

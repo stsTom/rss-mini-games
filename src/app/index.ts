@@ -10,7 +10,7 @@ import { createGameDetailsDialog } from '../shared/features/game-details-dialog/
 const main = document.querySelector('main');
 
 if (main) {
-  const gameDetailsDialog = createGameDetailsDialog();
+  const gameDetailsDialog = await createGameDetailsDialog();
 
   main.append(createHeader(), createHero());
   main.append(await createGamesCarousel({ onGameSelect: gameDetailsDialog.open }));

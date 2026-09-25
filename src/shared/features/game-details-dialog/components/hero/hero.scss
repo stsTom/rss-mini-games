@@ -1,0 +1,36 @@
+@use '../../styles/mixins' as *;
+@use 'styles/tokens' as *;
+
+.game-details-hero {
+  @include game-details-fluid(height, hero-height);
+  @include game-details-fluid(padding, hero-padding);
+  position: relative;
+  flex: none;
+  box-sizing: border-box;
+  background-position: center;
+  background-size: cover;
+}
+
+.game-details-hero-close {
+  @include game-details-fluid(width, close-size);
+  @include game-details-fluid(height, close-size);
+  @include game-details-fluid(top, close-offset);
+  @include game-details-fluid(right, close-offset);
+  @include game-details-fluid(border-width, close-border-width);
+  @include game-details-fluid(font-size, close-glyph-size);
+  position: absolute;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: $color-white;
+  border-style: solid;
+  border-color: $color-on-primary;
+  border-radius: $border-rad-full;
+  @include game-details-fluid(box-shadow, close-shadow-offset, $color-black);
+
+  &:hover {
+    background: $color-surface;
+  }
+}

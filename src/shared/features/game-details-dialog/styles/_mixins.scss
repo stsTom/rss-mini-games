@@ -1,0 +1,28 @@
+@use 'sass:map';
+@use './tokens' as *;
+@use 'styles/tokens' as *;
+@use 'styles/functions' as *;
+
+@mixin game-details-fluid($property, $key, $suffix: null) {
+  $base: map.get($game-details-dialog-frame, base);
+  $wide: map.get($game-details-dialog-frame, wide);
+  $desktop: map.get($game-details-dialog-frame, desktop);
+
+  #{$property}: fluid-value(
+      map.get($base, $key),
+      map.get($wide, $key),
+      $breakpoint-base,
+      $breakpoint-wide
+    )
+    $suffix;
+
+  @media (min-width: $breakpoint-wide) {
+    #{$property}: fluid-value(
+        map.get($wide, $key),
+        map.get($desktop, $key),
+        $breakpoint-wide,
+        $breakpoint-desktop
+      )
+      $suffix;
+  }
+}
