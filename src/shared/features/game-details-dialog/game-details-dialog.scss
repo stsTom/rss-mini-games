@@ -1,0 +1,17 @@
+@use './styles/tokens' as *;
+@use '../../../../styles/tokens' as *;
+@use '../../components/dialog-layout/styles/mixins' as layout;
+
+.game-details-dialog {
+  @media (width < #{$breakpoint-wide}) {
+    max-width: 100%;
+    padding: 0;
+  }
+}
+
+.game-details-dialog-card {
+  @include layout.dialog-card($game-details-dialog-frame);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
