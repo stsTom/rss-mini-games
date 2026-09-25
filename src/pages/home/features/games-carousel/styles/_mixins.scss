@@ -4,18 +4,11 @@
 @use 'styles/mixins' as *;
 @use 'styles/functions' as *;
 
-@mixin carousel-frame {
+@mixin carousel-frame-shape {
   $base: map.get($carousel-frame, base);
   $wide: map.get($carousel-frame, wide);
   $desktop: map.get($carousel-frame, desktop);
 
-  border: solid $color-on-primary;
-  border-width: fluid-value(
-    map.get($base, card-border-width),
-    map.get($wide, card-border-width),
-    $breakpoint-base,
-    $breakpoint-wide
-  );
   box-shadow: #{fluid-value(
       map.get($base, card-shadow-offset),
       map.get($wide, card-shadow-offset),
@@ -26,6 +19,63 @@
   border-radius: fluid-value(
     map.get($base, card-radius),
     map.get($wide, card-radius),
+    $breakpoint-base,
+    $breakpoint-wide
+  );
+
+  @media (min-width: $breakpoint-wide) {
+    box-shadow: #{fluid-value(
+        map.get($wide, card-shadow-offset),
+        map.get($desktop, card-shadow-offset),
+        $breakpoint-wide,
+        $breakpoint-desktop
+      )}
+      $color-on-primary;
+    border-radius: fluid-value(
+      map.get($wide, card-radius),
+      map.get($desktop, card-radius),
+      $breakpoint-wide,
+      $breakpoint-desktop
+    );
+  }
+}
+
+@mixin carousel-frame-outline {
+  $base: map.get($carousel-frame, base);
+  $wide: map.get($carousel-frame, wide);
+  $desktop: map.get($carousel-frame, desktop);
+  $width-narrow: fluid-value(
+    map.get($base, card-border-width),
+    map.get($wide, card-border-width),
+    $breakpoint-base,
+    $breakpoint-wide
+  );
+  $width-wide: fluid-value(
+    map.get($wide, card-border-width),
+    map.get($desktop, card-border-width),
+    $breakpoint-wide,
+    $breakpoint-desktop
+  );
+
+  outline: $width-narrow solid $color-on-primary;
+  outline-offset: calc(-1 * #{$width-narrow});
+
+  @media (min-width: $breakpoint-wide) {
+    outline-width: $width-wide;
+    outline-offset: calc(-1 * #{$width-wide});
+  }
+}
+
+@mixin carousel-frame {
+  $base: map.get($carousel-frame, base);
+  $wide: map.get($carousel-frame, wide);
+  $desktop: map.get($carousel-frame, desktop);
+
+  @include carousel-frame-shape;
+  border: solid $color-on-primary;
+  border-width: fluid-value(
+    map.get($base, card-border-width),
+    map.get($wide, card-border-width),
     $breakpoint-base,
     $breakpoint-wide
   );
@@ -40,19 +90,6 @@
     border-width: fluid-value(
       map.get($wide, card-border-width),
       map.get($desktop, card-border-width),
-      $breakpoint-wide,
-      $breakpoint-desktop
-    );
-    box-shadow: #{fluid-value(
-        map.get($wide, card-shadow-offset),
-        map.get($desktop, card-shadow-offset),
-        $breakpoint-wide,
-        $breakpoint-desktop
-      )}
-      $color-on-primary;
-    border-radius: fluid-value(
-      map.get($wide, card-radius),
-      map.get($desktop, card-radius),
       $breakpoint-wide,
       $breakpoint-desktop
     );
