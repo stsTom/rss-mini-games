@@ -6,6 +6,14 @@ $carousel-nav-button-size: (
   desktop: 48px,
 );
 
+$carousel-track-gap: $size-times-1;
+
+// Motion
+$carousel-slide-transition: (
+  duration: 0.35s,
+  easing: ease-out,
+);
+
 $card-info-overlay-gradient: linear-gradient(
   180deg,
   rgba(0, 0, 0, 0) 0%,
@@ -57,5 +65,8 @@ $carousel-layout: (
     thumb-width: 120px,
   ),
 );
+
+$carousel-peek-footer-breakpoint: 1280px;
+$carousel-peek-footer-width: map.get(map.get($carousel-layout, desktop), peek-width);
 
 $card-info-visible-threshold: map.get(map.get($carousel-layout, desktop), peek-width) - 0.5px;

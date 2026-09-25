@@ -1,3 +1,4 @@
+@use 'sass:map';
 @use './styles/tokens' as *;
 @use './styles/mixins' as *;
 @use '../../../../../styles/tokens' as *;
@@ -13,5 +14,108 @@
 
   @media (min-width: $breakpoint-wide) {
     gap: fluid($size-times-1 * 3, $size-times-1 * 5, $breakpoint-wide, $breakpoint-desktop);
+  }
+}
+
+// Slide transition
+
+:root {
+  view-transition-name: none;
+}
+
+::view-transition {
+  pointer-events: none;
+  clip-path: polygon(
+    var(--games-carousel-clip-left) 0,
+    var(--games-carousel-clip-right) 0,
+    var(--games-carousel-clip-right) 100%,
+    var(--games-carousel-clip-left) 100%
+  );
+}
+
+::view-transition-group(*) {
+  animation-duration: map.get($carousel-slide-transition, duration);
+  animation-timing-function: map.get($carousel-slide-transition, easing);
+}
+
+::view-transition-old(*.games-carousel-card),
+::view-transition-new(*.games-carousel-card) {
+  height: 100%;
+  object-fit: none;
+  overflow: clip;
+  animation-name: none;
+  @include carousel-frame-shape;
+  @include carousel-frame-outline;
+}
+
+::view-transition-group-children(*.games-carousel-card) {
+  overflow: clip;
+  @include carousel-frame-inner-radius;
+}
+
+::view-transition-old(*.games-carousel-card-info),
+::view-transition-new(*.games-carousel-card-info) {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
+
+::view-transition-old(*.games-carousel-card-info-start),
+::view-transition-new(*.games-carousel-card-info-start) {
+  height: 100%;
+  object-fit: none;
+  object-position: left center;
+}
+
+::view-transition-old(*.games-carousel-card-info-end),
+::view-transition-new(*.games-carousel-card-info-end) {
+  height: 100%;
+  object-fit: none;
+  object-position: right center;
+}
+
+$carousel-slide-step: calc(100% + #{$carousel-track-gap});
+
+@keyframes games-carousel-slide-out-left {
+  to {
+    transform: translateX(calc(-1 * #{$carousel-slide-step}));
+  }
+}
+
+@keyframes games-carousel-slide-out-right {
+  to {
+    transform: translateX($carousel-slide-step);
+  }
+}
+
+@keyframes games-carousel-slide-in-left {
+  from {
+    transform: translateX(calc(-1 * #{$carousel-slide-step}));
+  }
+}
+
+@keyframes games-carousel-slide-in-right {
+  from {
+    transform: translateX($carousel-slide-step);
+  }
+}
+
+:root[data-games-carousel-direction='next'] {
+  &::view-transition-old(*.games-carousel-card):only-child {
+    animation-name: games-carousel-slide-out-left;
+  }
+
+  &::view-transition-new(*.games-carousel-card):only-child {
+    animation-name: games-carousel-slide-in-right;
+  }
+}
+
+:root[data-games-carousel-direction='previous'] {
+  &::view-transition-old(*.games-carousel-card):only-child {
+    animation-name: games-carousel-slide-out-right;
+  }
+
+  &::view-transition-new(*.games-carousel-card):only-child {
+    animation-name: games-carousel-slide-in-left;
   }
 }
