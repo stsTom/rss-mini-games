@@ -13,6 +13,7 @@ export function createGamesCarouselSlot(game: Game): HTMLElement {
   image.classList.add('games-carousel-slot-image');
   image.src = game.cardImage;
   image.alt = game.name;
+  image.draggable = false;
   slot.append(image, createCardInfo(game));
 
   return slot;

@@ -6,6 +6,8 @@
   display: flex;
   box-sizing: border-box;
   gap: $size-times-1;
+  touch-action: pan-y;
+  user-select: none;
   @include carousel-track-padding;
 }
 

@@ -5,6 +5,7 @@ import { fetchFeaturedGames } from './api/games-data.js';
 
 const SLOT_ROLES: SlotRole[] = ['thumb-left', 'peek-left', 'focus', 'peek-right', 'thumb-right'];
 const FOCUS_ROLE_INDEX = SLOT_ROLES.indexOf('focus');
+const SWIPE_THRESHOLD_PX = 50;
 
 function wrap(value: number, length: number): number {
   return ((value % length) + length) % length;
@@ -52,6 +53,35 @@ export async function createGamesCarousel(): Promise<HTMLElement> {
     transition?.skipTransition();
     transition = document.startViewTransition(render);
   }
+
+  let swipeStart: { x: number; y: number } | undefined;
+
+  content.addEventListener('pointerdown', (event) => {
+    if (!event.isPrimary) {
+      return;
+    }
+
+    swipeStart = { x: event.clientX, y: event.clientY };
+    content.setPointerCapture(event.pointerId);
+  });
+
+  content.addEventListener('pointerup', (event) => {
+    if (!swipeStart || !event.isPrimary) {
+      return;
+    }
+
+    const dx = event.clientX - swipeStart.x;
+    const dy = event.clientY - swipeStart.y;
+    swipeStart = undefined;
+
+    if (Math.abs(dx) >= SWIPE_THRESHOLD_PX && Math.abs(dx) > Math.abs(dy)) {
+      navigate(dx < 0 ? 1 : -1);
+    }
+  });
+
+  content.addEventListener('pointercancel', () => {
+    swipeStart = undefined;
+  });
 
   render();
 
