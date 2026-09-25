@@ -27,6 +27,10 @@
   object-fit: cover;
 }
 
+.games-carousel-slot:not([data-slot-role]) {
+  display: none;
+}
+
 [data-slot-role='thumb-left'],
 [data-slot-role='thumb-right'] {
   display: none;
@@ -43,5 +47,22 @@
 }
 
 [data-slot-role='focus'] {
+  order: 3;
   @include carousel-slot-width(focus-width);
+}
+
+[data-slot-role='thumb-left'] {
+  order: 1;
+}
+
+[data-slot-role='peek-left'] {
+  order: 2;
+}
+
+[data-slot-role='peek-right'] {
+  order: 4;
+}
+
+[data-slot-role='thumb-right'] {
+  order: 5;
 }

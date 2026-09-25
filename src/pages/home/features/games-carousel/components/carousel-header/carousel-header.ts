@@ -21,7 +21,15 @@ function createArrowIcon(direction: 'previous' | 'next'): SVGSVGElement {
   return svg;
 }
 
-export function createGamesCarouselHeader(): HTMLElement {
+interface CarouselHeaderHandlers {
+  onPrevious: () => void;
+  onNext: () => void;
+}
+
+export function createGamesCarouselHeader({
+  onPrevious,
+  onNext,
+}: CarouselHeaderHandlers): HTMLElement {
   const header = document.createElement('div');
   header.classList.add('games-carousel-header');
 
@@ -50,6 +58,9 @@ export function createGamesCarouselHeader(): HTMLElement {
   nextButton.classList.add('games-carousel-header-control', 'games-carousel-header-control--next');
   nextButton.setAttribute('aria-label', 'Next');
   nextButton.append(createArrowIcon('next'));
+
+  previousButton.addEventListener('click', onPrevious);
+  nextButton.addEventListener('click', onNext);
 
   const controls = document.createElement('div');
   controls.classList.add('games-carousel-header-controls');
