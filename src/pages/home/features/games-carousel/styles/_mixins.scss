@@ -66,6 +66,46 @@
   }
 }
 
+@mixin carousel-frame-inner-radius {
+  $base: map.get($carousel-frame, base);
+  $wide: map.get($carousel-frame, wide);
+  $desktop: map.get($carousel-frame, desktop);
+  $radius-narrow: calc(
+    #{fluid-value(
+        map.get($base, card-radius),
+        map.get($wide, card-radius),
+        $breakpoint-base,
+        $breakpoint-wide
+      )} -
+      #{fluid-value(
+        map.get($base, card-border-width),
+        map.get($wide, card-border-width),
+        $breakpoint-base,
+        $breakpoint-wide
+      )}
+  );
+  $radius-wide: calc(
+    #{fluid-value(
+        map.get($wide, card-radius),
+        map.get($desktop, card-radius),
+        $breakpoint-wide,
+        $breakpoint-desktop
+      )} -
+      #{fluid-value(
+        map.get($wide, card-border-width),
+        map.get($desktop, card-border-width),
+        $breakpoint-wide,
+        $breakpoint-desktop
+      )}
+  );
+
+  border-radius: $radius-narrow;
+
+  @media (min-width: $breakpoint-wide) {
+    border-radius: $radius-wide;
+  }
+}
+
 @mixin carousel-frame {
   $base: map.get($carousel-frame, base);
   $wide: map.get($carousel-frame, wide);
@@ -146,15 +186,16 @@
   }
 }
 
-@mixin carousel-slot-width($key) {
+@mixin carousel-slot-width($key, $shrink: 1) {
   $base: map.get($carousel-layout, base);
   $wide: map.get($carousel-layout, wide);
   $desktop: map.get($carousel-layout, desktop);
 
-  flex: 0 1 fluid(map.get($base, $key), map.get($wide, $key), $breakpoint-base, $breakpoint-wide);
+  flex: 0 $shrink
+    fluid(map.get($base, $key), map.get($wide, $key), $breakpoint-base, $breakpoint-wide);
 
   @media (min-width: $breakpoint-wide) {
-    flex: 0 1
+    flex: 0 $shrink
       fluid(map.get($wide, $key), map.get($desktop, $key), $breakpoint-wide, $breakpoint-desktop);
   }
 }

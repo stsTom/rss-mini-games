@@ -17,7 +17,14 @@
   box-sizing: border-box;
   overflow: hidden;
   container-type: inline-size;
+  view-transition-class: games-carousel-card;
   @include carousel-frame;
+}
+
+.games-carousel--capturing .games-carousel-slot {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
 }
 
 .games-carousel-slot-image {
@@ -36,7 +43,7 @@
 [data-slot-role='thumb-left'],
 [data-slot-role='thumb-right'] {
   display: none;
-  @include carousel-slot-width(thumb-width);
+  @include carousel-slot-width(thumb-width, 0);
 
   @include desktop-screen {
     display: flex;
@@ -45,7 +52,7 @@
 
 [data-slot-role='peek-left'],
 [data-slot-role='peek-right'] {
-  @include carousel-slot-width(peek-width);
+  @include carousel-slot-width(peek-width, 0);
 }
 
 [data-slot-role='focus'] {

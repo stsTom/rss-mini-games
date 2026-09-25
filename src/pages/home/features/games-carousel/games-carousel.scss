@@ -38,13 +38,26 @@
   animation-timing-function: map.get($carousel-slide-transition, easing);
 }
 
-::view-transition-old(*),
-::view-transition-new(*) {
+::view-transition-old(*.games-carousel-card),
+::view-transition-new(*.games-carousel-card) {
   height: 100%;
   object-fit: none;
   overflow: clip;
+  animation-name: none;
   @include carousel-frame-shape;
   @include carousel-frame-outline;
+}
+
+::view-transition-group-children(*.games-carousel-card) {
+  overflow: clip;
+  @include carousel-frame-inner-radius;
+}
+
+::view-transition-old(*.games-carousel-card-info),
+::view-transition-new(*.games-carousel-card-info) {
+  height: 100%;
+  object-fit: none;
+  object-position: left bottom;
 }
 
 $carousel-slide-step: calc(100% + #{$size-times-1});
@@ -74,21 +87,21 @@ $carousel-slide-step: calc(100% + #{$size-times-1});
 }
 
 :root[data-games-carousel-direction='next'] {
-  &::view-transition-old(*):only-child {
+  &::view-transition-old(*.games-carousel-card):only-child {
     animation-name: games-carousel-slide-out-left;
   }
 
-  &::view-transition-new(*):only-child {
+  &::view-transition-new(*.games-carousel-card):only-child {
     animation-name: games-carousel-slide-in-right;
   }
 }
 
 :root[data-games-carousel-direction='previous'] {
-  &::view-transition-old(*):only-child {
+  &::view-transition-old(*.games-carousel-card):only-child {
     animation-name: games-carousel-slide-out-right;
   }
 
-  &::view-transition-new(*):only-child {
+  &::view-transition-new(*.games-carousel-card):only-child {
     animation-name: games-carousel-slide-in-left;
   }
 }

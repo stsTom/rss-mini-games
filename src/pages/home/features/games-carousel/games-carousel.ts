@@ -57,7 +57,18 @@ export async function createGamesCarousel(): Promise<HTMLElement> {
     root.dataset.gamesCarouselDirection = step > 0 ? 'next' : 'previous';
 
     transition?.skipTransition();
-    transition = document.startViewTransition(render);
+    section.classList.remove('games-carousel--capturing');
+
+    const current = document.startViewTransition(() => {
+      section.classList.add('games-carousel--capturing');
+      render();
+    });
+    transition = current;
+    void current.finished.finally(() => {
+      if (transition === current) {
+        section.classList.remove('games-carousel--capturing');
+      }
+    });
   }
 
   let swipeStart: { x: number; y: number } | undefined;
