@@ -6,6 +6,7 @@ import { fetchFeaturedGames } from './api/games-data.js';
 const SLOT_ROLES: SlotRole[] = ['thumb-left', 'peek-left', 'focus', 'peek-right', 'thumb-right'];
 const FOCUS_ROLE_INDEX = SLOT_ROLES.indexOf('focus');
 const SWIPE_THRESHOLD_PX = 50;
+const AUTOPLAY_DELAY_MS = 4000;
 
 function wrap(value: number, length: number): number {
   return ((value % length) + length) % length;
@@ -42,7 +43,23 @@ export async function createGamesCarousel(): Promise<HTMLElement> {
     }
   }
 
+  let autoplayTimer: ReturnType<typeof setTimeout> | undefined;
+
+  function stopAutoplay(): void {
+    clearTimeout(autoplayTimer);
+  }
+
+  function scheduleAutoplay(): void {
+    stopAutoplay();
+    autoplayTimer = setTimeout(() => {
+      if (section.isConnected) {
+        navigate(1);
+      }
+    }, AUTOPLAY_DELAY_MS);
+  }
+
   function navigate(step: number): void {
+    scheduleAutoplay();
     index = wrap(index + step, cards.length);
 
     if (!('startViewTransition' in document) || reducedMotion.matches) {
@@ -78,6 +95,7 @@ export async function createGamesCarousel(): Promise<HTMLElement> {
       return;
     }
 
+    stopAutoplay();
     swipeStart = { x: event.clientX, y: event.clientY };
     content.setPointerCapture(event.pointerId);
   });
@@ -93,14 +111,18 @@ export async function createGamesCarousel(): Promise<HTMLElement> {
 
     if (Math.abs(dx) >= SWIPE_THRESHOLD_PX && Math.abs(dx) > Math.abs(dy)) {
       navigate(dx < 0 ? 1 : -1);
+    } else {
+      scheduleAutoplay();
     }
   });
 
   content.addEventListener('pointercancel', () => {
     swipeStart = undefined;
+    scheduleAutoplay();
   });
 
   render();
+  scheduleAutoplay();
 
   section.append(
     createGamesCarouselHeader({

@@ -60,7 +60,7 @@
   object-position: left bottom;
 }
 
-$carousel-slide-step: calc(100% + #{$size-times-1});
+$carousel-slide-step: calc(100% + #{$carousel-track-gap});
 
 @keyframes games-carousel-slide-out-left {
   to {
