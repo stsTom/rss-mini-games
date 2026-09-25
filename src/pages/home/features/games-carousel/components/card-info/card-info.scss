@@ -7,7 +7,7 @@
 $carousel-card-border-width: map.get(map.get($carousel-frame, base), card-border-width);
 
 .games-carousel-card-info {
-  display: none;
+  visibility: hidden;
   position: absolute;
   left: 0;
   right: 0;
@@ -20,6 +20,19 @@ $carousel-card-border-width: map.get(map.get($carousel-frame, base), card-border
     view-transition-name: match-element;
     view-transition-class: games-carousel-card-info;
     view-transition-group: nearest;
+
+    h3,
+    .games-carousel-card-rating {
+      view-transition-name: match-element;
+      view-transition-class: games-carousel-card-info-start;
+      view-transition-group: nearest;
+    }
+
+    .games-carousel-card-likes {
+      view-transition-name: match-element;
+      view-transition-class: games-carousel-card-info-end;
+      view-transition-group: nearest;
+    }
   }
 
   h3 {
@@ -87,10 +100,10 @@ $carousel-card-border-width: map.get(map.get($carousel-frame, base), card-border
 
 @container (min-width: #{$card-info-visible-threshold - $carousel-card-border-width * 2}) {
   .games-carousel-card-info {
-    display: block;
+    visibility: visible;
   }
 }
 
 [data-slot-role='focus'] .games-carousel-card-info {
-  display: block;
+  visibility: visible;
 }

@@ -55,9 +55,23 @@
 
 ::view-transition-old(*.games-carousel-card-info),
 ::view-transition-new(*.games-carousel-card-info) {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
+
+::view-transition-old(*.games-carousel-card-info-start),
+::view-transition-new(*.games-carousel-card-info-start) {
   height: 100%;
   object-fit: none;
-  object-position: left bottom;
+  object-position: left center;
+}
+
+::view-transition-old(*.games-carousel-card-info-end),
+::view-transition-new(*.games-carousel-card-info-end) {
+  height: 100%;
+  object-fit: none;
+  object-position: right center;
 }
 
 $carousel-slide-step: calc(100% + #{$carousel-track-gap});
