@@ -1,0 +1,75 @@
+@use 'sass:map';
+@use 'sass:math';
+@use './tokens' as *;
+@use 'styles/tokens' as *;
+@use 'styles/functions' as *;
+
+@function frame-fluid($from, $to, $vw-from, $vw-to) {
+  @if math.compatible($from, $to) {
+    @return fluid($from, $to, $vw-from, $vw-to);
+  }
+  @return $from;
+}
+
+@mixin dialog-card($size-frame) {
+  $base: map.get($size-frame, base);
+  $wide: map.get($size-frame, wide);
+  $desktop: map.get($size-frame, desktop);
+
+  box-sizing: border-box;
+  background: $color-bg;
+  border: $dialog-card-border-width solid $color-on-primary;
+  border-radius: $border-rad-extra-large;
+  box-shadow: $dialog-card-shadow-offset $color-black;
+  width: frame-fluid(
+    map.get($base, card-width),
+    map.get($wide, card-width),
+    $breakpoint-base,
+    $breakpoint-wide
+  );
+  max-width: frame-fluid(
+    map.get($base, card-max-width),
+    map.get($wide, card-max-width),
+    $breakpoint-base,
+    $breakpoint-wide
+  );
+  padding: fluid(
+    map.get($base, card-padding),
+    map.get($wide, card-padding),
+    $breakpoint-base,
+    $breakpoint-wide
+  );
+  gap: fluid(
+    map.get($base, card-gap),
+    map.get($wide, card-gap),
+    $breakpoint-base,
+    $breakpoint-wide
+  );
+
+  @media (min-width: $breakpoint-wide) {
+    width: frame-fluid(
+      map.get($wide, card-width),
+      map.get($desktop, card-width),
+      $breakpoint-wide,
+      $breakpoint-desktop
+    );
+    max-width: frame-fluid(
+      map.get($wide, card-max-width),
+      map.get($desktop, card-max-width),
+      $breakpoint-wide,
+      $breakpoint-desktop
+    );
+    padding: fluid(
+      map.get($wide, card-padding),
+      map.get($desktop, card-padding),
+      $breakpoint-wide,
+      $breakpoint-desktop
+    );
+    gap: fluid(
+      map.get($wide, card-gap),
+      map.get($desktop, card-gap),
+      $breakpoint-wide,
+      $breakpoint-desktop
+    );
+  }
+}
