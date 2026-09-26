@@ -4,6 +4,7 @@ import { createGameDetailsHero } from './components/hero/hero.js';
 import { createGameDetailsSummary } from './components/summary/summary.js';
 import { createGameDetailsInfoWidgets } from './components/info-widgets/info-widgets.js';
 import { createGameDetailsActions } from './components/actions/actions.js';
+import { createGameDetailsTopRecords } from './components/top-records/top-records.js';
 import { fetchGameDetails } from './api/game-details-data.js';
 import type { Game } from '../../interfaces.js';
 
@@ -38,7 +39,8 @@ export async function createGameDetailsDialog(): Promise<GameDetailsDialog> {
       createGameDetailsSummary(details),
       description,
       createGameDetailsInfoWidgets(details.specs),
-      createGameDetailsActions()
+      createGameDetailsActions(),
+      createGameDetailsTopRecords(details.topRecords)
     );
 
     layout.card.replaceChildren(

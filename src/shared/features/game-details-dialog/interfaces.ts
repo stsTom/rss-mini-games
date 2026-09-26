@@ -5,6 +5,13 @@ export interface GameSpecs {
   price: string;
 }
 
+export interface GameRecord {
+  position: number;
+  playerName: string;
+  score: number;
+  achievedAt: string;
+}
+
 export interface GameDetails {
   slug: string;
   name: string;
@@ -13,6 +20,7 @@ export interface GameDetails {
   likesCount: number;
   fullDescription: string;
   specs: GameSpecs;
+  topRecords: GameRecord[];
 }
 
 export interface GameDetailsResponse {
