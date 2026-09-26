@@ -24,6 +24,10 @@ $game-details-dialog-frame: (
     widget-padding: 8px 16px,
     widget-gap: 8px,
     widget-shadow-offset: 3px 3px,
+    actions-gap: 16px,
+    action-height: 48px,
+    action-padding: 16px 24px,
+    action-glyph-size: 20px,
   ),
   wide: (
     card-width: 600px,
@@ -50,6 +54,10 @@ $game-details-dialog-frame: (
     widget-padding: 8px 16px,
     widget-gap: 8px,
     widget-shadow-offset: 3px 3px,
+    actions-gap: 16px,
+    action-height: 48px,
+    action-padding: 16px 24px,
+    action-glyph-size: 20px,
   ),
   desktop: (
     card-width: 600px,
@@ -76,7 +84,17 @@ $game-details-dialog-frame: (
     widget-padding: 8px 16px,
     widget-gap: 8px,
     widget-shadow-offset: 3px 3px,
+    actions-gap: 16px,
+    action-height: 48px,
+    action-padding: 16px 24px,
+    action-glyph-size: 20px,
   ),
 );
 
 $game-details-widget-border-width: 1px;
+$game-details-action-border-width: 2px;
+$game-details-action-shadow-offset: 4px 4px;
+$game-details-favorite-compact-size: 48px;
+$game-details-action-transition:
+  transform 0.1s ease-out,
+  box-shadow 0.1s ease-out;

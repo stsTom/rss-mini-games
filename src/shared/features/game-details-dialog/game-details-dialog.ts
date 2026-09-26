@@ -3,6 +3,7 @@ import { createDialogLayout } from '../../components/dialog-layout/dialog-layout
 import { createGameDetailsHero } from './components/hero/hero.js';
 import { createGameDetailsSummary } from './components/summary/summary.js';
 import { createGameDetailsInfoWidgets } from './components/info-widgets/info-widgets.js';
+import { createGameDetailsActions } from './components/actions/actions.js';
 import { fetchGameDetails } from './api/game-details-data.js';
 import type { Game } from '../../interfaces.js';
 
@@ -36,7 +37,8 @@ export async function createGameDetailsDialog(): Promise<GameDetailsDialog> {
     body.append(
       createGameDetailsSummary(details),
       description,
-      createGameDetailsInfoWidgets(details.specs)
+      createGameDetailsInfoWidgets(details.specs),
+      createGameDetailsActions()
     );
 
     layout.card.replaceChildren(
