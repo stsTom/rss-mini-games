@@ -1,8 +1,5 @@
 import './pagination.scss';
-import { GAMES_COUNT } from '../card-grid/card-grid.js';
-import { GAMES_PER_PAGE } from '../../constants.js';
 
-const TOTAL_PAGES = Math.ceil(GAMES_COUNT / GAMES_PER_PAGE);
 const MAX_PAGES = 4;
 const MOBILE_VISIBLE_PAGES = 3;
 const GLYPH_PREVIOUS = '‹';

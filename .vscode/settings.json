@@ -1,4 +1,12 @@
 {
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "sonarlint.rules": {
+    "css:S4660": {
+      "level": "on",
+      "parameters": {
+        "ignorePseudoElements": "ng-deep,v-deep,deep,view-transition-group-children"
+      }
+    }
+  }
 }
