@@ -32,3 +32,25 @@
   font-weight: $weight-regular;
   font-size: $font-size-body-medium;
 }
+
+.game-details-section {
+  @include game-details-fluid(gap, section-gap);
+  display: flex;
+  flex-direction: column;
+  font-family: $font-family-primary;
+  color: $color-on-primary;
+}
+
+.game-details-section-heading {
+  @include game-details-fluid(gap, section-heading-gap);
+  display: flex;
+  align-items: center;
+  margin: 0;
+  font-weight: $weight-bold;
+  font-size: $font-size-label-extra-large;
+
+  [aria-hidden='true'] {
+    @include game-details-fluid(font-size, section-glyph-size);
+    font-weight: $weight-regular;
+  }
+}

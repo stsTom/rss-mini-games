@@ -5,16 +5,31 @@ import { createGameDetailsSummary } from './components/summary/summary.js';
 import { createGameDetailsInfoWidgets } from './components/info-widgets/info-widgets.js';
 import { createGameDetailsActions } from './components/actions/actions.js';
 import { createGameDetailsTopRecords } from './components/top-records/top-records.js';
-import { fetchGameDetails } from './api/game-details-data.js';
+import { createGameDetailsCommentForm } from './components/comment-form/comment-form.js';
+import { fetchGameComments, fetchGameDetails } from './api/game-details-data.js';
 import type { Game } from '../../interfaces.js';
+import type { GameCommentsResponse } from './interfaces.js';
 
 export interface GameDetailsDialog {
   element: HTMLDialogElement;
   open: (game: Game, onClose?: () => void) => void;
 }
 
+function createCommentsSection({ meta }: GameCommentsResponse): HTMLElement {
+  const section = document.createElement('section');
+  section.classList.add('game-details-section');
+
+  const heading = document.createElement('h3');
+  heading.classList.add('game-details-section-heading');
+  heading.textContent = `Comments (${meta.totalComments})`;
+
+  section.append(heading, createGameDetailsCommentForm());
+
+  return section;
+}
+
 export async function createGameDetailsDialog(): Promise<GameDetailsDialog> {
-  const details = await fetchGameDetails();
+  const [details, comments] = await Promise.all([fetchGameDetails(), fetchGameComments()]);
   let handleClose: (() => void) | undefined;
 
   const layout = createDialogLayout({
@@ -40,7 +55,8 @@ export async function createGameDetailsDialog(): Promise<GameDetailsDialog> {
       description,
       createGameDetailsInfoWidgets(details.specs),
       createGameDetailsActions(),
-      createGameDetailsTopRecords(details.topRecords)
+      createGameDetailsTopRecords(details.topRecords),
+      createCommentsSection(comments)
     );
 
     layout.card.replaceChildren(

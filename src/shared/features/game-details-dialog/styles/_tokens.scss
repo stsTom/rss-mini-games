@@ -35,6 +35,13 @@ $game-details-dialog-frame: (
     record-padding: 16px,
     record-gap: 8px,
     medal-size: 16px,
+    comment-form-gap: 16px,
+    avatar-size: 40px,
+    textarea-padding: 8px 16px,
+    textarea-min-height: 48px,
+    textarea-line-height: 17px,
+    send-size: 40px,
+    send-glyph-size: 20px,
   ),
   wide: (
     card-width: 600px,
@@ -72,6 +79,13 @@ $game-details-dialog-frame: (
     record-padding: 16px,
     record-gap: 16px,
     medal-size: 16px,
+    comment-form-gap: 16px,
+    avatar-size: 40px,
+    textarea-padding: 8px 16px,
+    textarea-min-height: 48px,
+    textarea-line-height: 17px,
+    send-size: 40px,
+    send-glyph-size: 20px,
   ),
   desktop: (
     card-width: 600px,
@@ -109,6 +123,13 @@ $game-details-dialog-frame: (
     record-padding: 16px,
     record-gap: 16px,
     medal-size: 16px,
+    comment-form-gap: 16px,
+    avatar-size: 40px,
+    textarea-padding: 8px 16px,
+    textarea-min-height: 48px,
+    textarea-line-height: 17px,
+    send-size: 40px,
+    send-glyph-size: 20px,
   ),
 );
 
@@ -119,3 +140,6 @@ $game-details-favorite-compact-size: 48px;
 $game-details-action-transition:
   transform 0.1s ease-out,
   box-shadow 0.1s ease-out;
+$game-details-avatar-border-width: 1.5px;
+$game-details-textarea-border-width: 1px;
+$comment-textarea-max-height: 88px;

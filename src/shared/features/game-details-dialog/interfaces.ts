@@ -26,3 +26,18 @@ export interface GameDetails {
 export interface GameDetailsResponse {
   data: GameDetails;
 }
+
+export interface GameComment {
+  commentId: string;
+  authorName: string;
+  text: string;
+  likesCount: number;
+  createdAt: string;
+}
+
+export interface GameCommentsResponse {
+  data: GameComment[];
+  meta: {
+    totalComments: number;
+  };
+}
