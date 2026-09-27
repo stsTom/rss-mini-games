@@ -13,14 +13,14 @@ if (main) {
   const gameDetailsDialog = await createGameDetailsDialog();
 
   const pageRenderers: Record<PageType, () => HTMLElement | Promise<HTMLElement>> = {
-    home: () => createHomePage({ onGameSelect: gameDetailsDialog.open }),
+    home: () => createHomePage({ onGameSelect: gameDetailsDialog.open, router }),
     library: () => createLibraryPage({ onGameSelect: gameDetailsDialog.open }),
   };
 
-  let currentPage = await pageRenderers[router.currentPage]();
+  let currentPage = await pageRenderers[router.currentPage]!();
 
   router.subscribe(async (page) => {
-    const nextPage = await pageRenderers[page]();
+    const nextPage = await pageRenderers[page]!();
 
     if (router.currentPage !== page) {
       return;
