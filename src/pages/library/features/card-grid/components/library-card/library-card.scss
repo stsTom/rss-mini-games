@@ -1,0 +1,131 @@
+@use '../../../../styles/tokens' as *;
+@use '../../../../styles/mixins' as *;
+@use 'styles/tokens' as *;
+@use 'styles/mixins' as *;
+
+.library-card {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  color: $color-on-primary;
+  background: $color-white;
+  border: $library-card-border-width solid $color-on-primary;
+  border-radius: $border-rad-large;
+  box-shadow: $library-card-shadow;
+  @include library-fluid(gap, card-gap);
+
+  > :not(.library-card-image) {
+    @include library-fluid(margin-inline, card-padding);
+  }
+
+  .game-card-meta {
+    justify-content: flex-start;
+    @include library-fluid(gap, card-meta-gap);
+    @include library-fluid(font-size, card-meta-size);
+  }
+
+  @include wide-screen {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: 0;
+    @include library-fluid(height, card-height);
+
+    .library-card-heading {
+      @include library-fluid(margin-top, card-padding);
+    }
+  }
+}
+
+.library-card-image {
+  display: block;
+  width: 100%;
+  @include library-fluid(height, card-image-height);
+  object-fit: cover;
+  border-bottom: $library-card-border-width solid $color-on-primary;
+
+  @include wide-screen {
+    grid-row: 1 / -1;
+    height: 100%;
+    min-height: 0;
+    border-bottom: none;
+    border-right: $library-card-border-width solid $color-on-primary;
+    @include library-fluid(width, card-image-width);
+  }
+}
+
+.library-card-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: $weight-bold;
+  @include library-fluid(gap, card-gap);
+  @include library-fluid(font-size, card-title-size);
+}
+
+.library-card-title-group {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  @include library-fluid(gap, card-meta-gap);
+
+  .game-card-title {
+    min-width: 0;
+    @include library-fluid(font-size, card-name-size);
+  }
+}
+
+.library-card-category {
+  flex: none;
+  font-size: $font-size-label-medium;
+  background: $color-secondary;
+  border: $library-card-badge-border-width solid $color-on-primary;
+  border-radius: $border-rad-full;
+  @include library-fluid(padding, card-badge-padding);
+}
+
+.library-card-price {
+  flex: none;
+}
+
+.library-card-price--free {
+  color: $color-price-free;
+}
+
+.library-card-description {
+  display: -webkit-box;
+  align-self: center;
+  margin: 0;
+  overflow: hidden;
+  color: $color-on-bg;
+  font-weight: $weight-medium;
+  line-height: $library-card-description-line-height;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $library-card-description-lines;
+  line-clamp: $library-card-description-lines;
+  @include library-fluid(font-size, card-text-size);
+
+  @media (min-width: $breakpoint-desktop) {
+    -webkit-line-clamp: $library-card-description-lines-desktop;
+    line-clamp: $library-card-description-lines-desktop;
+  }
+}
+
+.library-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  @include library-fluid(gap, card-gap);
+  @include library-fluid(margin-bottom, card-padding);
+}
+
+.library-card-details {
+  @include button-variant-colors(primary);
+  flex: none;
+  border-radius: $border-rad-small;
+  font-family: $font-family-primary;
+  font-size: $font-size-label-large;
+  font-weight: $weight-bold;
+  @include library-fluid(padding, card-details-padding);
+}
