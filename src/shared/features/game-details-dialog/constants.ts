@@ -23,3 +23,4 @@ export const DAYS_PER_MONTH = 30;
 
 export const COMMENT_TEXTAREA_MAX_HEIGHT_PX = 88;
 export const CURRENT_USER_INITIAL = 'U';
+export const AVATAR_COLOR_COUNT = 5;

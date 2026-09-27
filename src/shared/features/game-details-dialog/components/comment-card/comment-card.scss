@@ -1,0 +1,90 @@
+@use 'sass:list';
+@use '../../styles/mixins' as *;
+@use '../../styles/tokens' as *;
+@use 'styles/tokens' as *;
+
+.game-details-comments {
+  @include game-details-fluid(gap, comments-gap);
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.game-details-comment {
+  @include game-details-fluid(padding, comment-padding);
+  @include game-details-fluid(gap, comment-gap);
+  @include game-details-fluid(box-shadow, comment-shadow-offset, $color-on-primary);
+  display: flex;
+  flex-direction: column;
+  background: $color-white;
+  border-radius: $border-rad-medium;
+}
+
+.game-details-comment-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.game-details-comment-author {
+  @include game-details-fluid(gap, comment-author-gap);
+  display: flex;
+  align-items: center;
+  font-weight: $weight-bold;
+  font-size: $font-size-label-large;
+}
+
+.game-details-comment-avatar {
+  @include game-details-fluid(width, comment-avatar-size);
+  @include game-details-fluid(height, comment-avatar-size);
+  box-sizing: border-box;
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  border: $game-details-comment-avatar-border-width solid $color-on-primary;
+  border-radius: $border-rad-full;
+  font-size: $font-size-label-medium;
+
+  @for $i from 1 through list.length($game-details-avatar-colors) {
+    &[data-avatar-color='#{$i}'] {
+      background: list.nth($game-details-avatar-colors, $i);
+    }
+  }
+}
+
+.game-details-comment-time {
+  color: $color-on-bg;
+  font-size: $font-size-label-medium;
+}
+
+.game-details-comment-text {
+  @include game-details-fluid(line-height, comment-text-line-height);
+  margin: 0;
+  font-size: $font-size-label-large;
+}
+
+.game-details-comment-like {
+  @include game-details-fluid(gap, like-gap);
+  display: flex;
+  align-items: center;
+  align-self: flex-start;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: $color-on-primary;
+  font-family: $font-family-primary;
+  font-weight: $weight-bold;
+  font-size: $font-size-label-medium;
+
+  &:hover,
+  &.is-active {
+    color: $color-like;
+  }
+
+  [aria-hidden='true'] {
+    @include game-details-fluid(font-size, like-glyph-size);
+  }
+}

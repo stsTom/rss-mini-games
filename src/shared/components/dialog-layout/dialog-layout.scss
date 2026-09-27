@@ -1,4 +1,3 @@
-@use 'sass:list';
 @use './styles/tokens' as *;
 @use '../../../../styles/tokens' as *;
 
@@ -13,7 +12,7 @@ body.dialog-open {
   border: none;
   background: transparent;
   overflow: auto;
-  padding: 0 list.nth($dialog-card-shadow-offset, 1) list.nth($dialog-card-shadow-offset, 2) 0;
+  padding: 0 $dialog-card-shadow-x $dialog-card-shadow-y 0;
 
   &::backdrop {
     background-color: rgba($color-black, $backdrop-opacity-closed);

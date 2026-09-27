@@ -8,4 +8,6 @@ $backdrop-opacity-open: 0.5;
 
 // Card frame
 $dialog-card-border-width: 3px;
-$dialog-card-shadow-offset: 8px 8px;
+$dialog-card-shadow-x: 8px;
+$dialog-card-shadow-y: 8px;
+$dialog-card-shadow-offset: $dialog-card-shadow-x $dialog-card-shadow-y;

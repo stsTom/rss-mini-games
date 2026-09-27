@@ -1,3 +1,5 @@
+@use 'styles/tokens' as *;
+
 $game-details-dialog-frame: (
   base: (
     card-width: 100vw,
@@ -42,6 +44,15 @@ $game-details-dialog-frame: (
     textarea-line-height: 17px,
     send-size: 40px,
     send-glyph-size: 20px,
+    comments-gap: 16px,
+    comment-padding: 16px,
+    comment-gap: 8px,
+    comment-shadow-offset: 3px 3px,
+    comment-author-gap: 8px,
+    comment-avatar-size: 28px,
+    comment-text-line-height: 18px,
+    like-gap: 4px,
+    like-glyph-size: 16px,
   ),
   wide: (
     card-width: 600px,
@@ -86,6 +97,15 @@ $game-details-dialog-frame: (
     textarea-line-height: 17px,
     send-size: 40px,
     send-glyph-size: 20px,
+    comments-gap: 16px,
+    comment-padding: 16px,
+    comment-gap: 8px,
+    comment-shadow-offset: 3px 3px,
+    comment-author-gap: 8px,
+    comment-avatar-size: 28px,
+    comment-text-line-height: 18px,
+    like-gap: 4px,
+    like-glyph-size: 16px,
   ),
   desktop: (
     card-width: 600px,
@@ -130,12 +150,23 @@ $game-details-dialog-frame: (
     textarea-line-height: 17px,
     send-size: 40px,
     send-glyph-size: 20px,
+    comments-gap: 16px,
+    comment-padding: 16px,
+    comment-gap: 8px,
+    comment-shadow-offset: 3px 3px,
+    comment-author-gap: 8px,
+    comment-avatar-size: 28px,
+    comment-text-line-height: 18px,
+    like-gap: 4px,
+    like-glyph-size: 16px,
   ),
 );
 
 $game-details-widget-border-width: 1px;
 $game-details-action-border-width: 2px;
-$game-details-action-shadow-offset: 4px 4px;
+$game-details-action-shadow-x: 4px;
+$game-details-action-shadow-y: 4px;
+$game-details-action-shadow-offset: $game-details-action-shadow-x $game-details-action-shadow-y;
 $game-details-favorite-compact-size: 48px;
 $game-details-action-transition:
   transform 0.1s ease-out,
@@ -143,3 +174,11 @@ $game-details-action-transition:
 $game-details-avatar-border-width: 1.5px;
 $game-details-textarea-border-width: 1px;
 $comment-textarea-max-height: 88px;
+$game-details-comment-avatar-border-width: 1px;
+$game-details-avatar-colors: (
+  $color-avatar-random-1,
+  $color-avatar-random-2,
+  $color-avatar-random-3,
+  $color-avatar-random-4,
+  $color-avatar-random-5
+);

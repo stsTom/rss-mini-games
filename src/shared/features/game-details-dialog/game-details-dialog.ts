@@ -6,6 +6,7 @@ import { createGameDetailsInfoWidgets } from './components/info-widgets/info-wid
 import { createGameDetailsActions } from './components/actions/actions.js';
 import { createGameDetailsTopRecords } from './components/top-records/top-records.js';
 import { createGameDetailsCommentForm } from './components/comment-form/comment-form.js';
+import { createGameDetailsCommentCard } from './components/comment-card/comment-card.js';
 import { fetchGameComments, fetchGameDetails } from './api/game-details-data.js';
 import type { Game } from '../../interfaces.js';
 import type { GameCommentsResponse } from './interfaces.js';
@@ -15,7 +16,7 @@ export interface GameDetailsDialog {
   open: (game: Game, onClose?: () => void) => void;
 }
 
-function createCommentsSection({ meta }: GameCommentsResponse): HTMLElement {
+function createCommentsSection({ data, meta }: GameCommentsResponse): HTMLElement {
   const section = document.createElement('section');
   section.classList.add('game-details-section');
 
@@ -23,7 +24,11 @@ function createCommentsSection({ meta }: GameCommentsResponse): HTMLElement {
   heading.classList.add('game-details-section-heading');
   heading.textContent = `Comments (${meta.totalComments})`;
 
-  section.append(heading, createGameDetailsCommentForm());
+  const list = document.createElement('ul');
+  list.classList.add('game-details-comments');
+  list.append(...data.map((comment, index) => createGameDetailsCommentCard(comment, index)));
+
+  section.append(heading, createGameDetailsCommentForm(), list);
 
   return section;
 }

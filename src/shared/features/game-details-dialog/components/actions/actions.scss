@@ -1,4 +1,3 @@
-@use 'sass:list';
 @use '../../styles/mixins' as *;
 @use '../../styles/tokens' as *;
 @use 'styles/tokens' as *;
@@ -28,10 +27,7 @@
 
   &:active {
     box-shadow: none;
-    transform: translate(
-      list.nth($game-details-action-shadow-offset, 1),
-      list.nth($game-details-action-shadow-offset, 2)
-    );
+    transform: translate($game-details-action-shadow-x, $game-details-action-shadow-y);
   }
 
   [aria-hidden='true'] {
