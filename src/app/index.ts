@@ -14,7 +14,7 @@ if (main) {
 
   const pageRenderers: Record<PageType, () => HTMLElement | Promise<HTMLElement>> = {
     home: () => createHomePage({ onGameSelect: gameDetailsDialog.open }),
-    library: () => createLibraryPage(),
+    library: () => createLibraryPage({ onGameSelect: gameDetailsDialog.open }),
   };
 
   let currentPage = await pageRenderers[router.currentPage]();
