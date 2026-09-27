@@ -1,4 +1,5 @@
 import './games-section.scss';
+import { createSortDropdown } from './components/sort-dropdown/sort-dropdown.js';
 
 const CATEGORIES = ['All Games', 'Puzzle', 'Card', 'Match', 'Farm', 'Strategy', 'Arcade'];
 
@@ -35,7 +36,7 @@ function createChips(): HTMLElement {
 export function createGamesSection(): HTMLElement {
   const section = document.createElement('div');
   section.classList.add('games-section');
-  section.append(createChips());
+  section.append(createChips(), createSortDropdown());
 
   return section;
 }
