@@ -1,0 +1,67 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/tokens' as *;
+@use 'styles/tokens' as *;
+
+.game-details-comment-form {
+  @include game-details-fluid(gap, comment-form-gap);
+  display: flex;
+  align-items: center;
+}
+
+.game-details-comment-form-avatar {
+  @include game-details-fluid(width, avatar-size);
+  @include game-details-fluid(height, avatar-size);
+  box-sizing: border-box;
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  background: $color-primary;
+  border: $game-details-avatar-border-width solid $color-on-primary;
+  border-radius: $border-rad-full;
+  font-weight: $weight-bold;
+  font-size: $font-size-label-large;
+}
+
+.game-details-comment-form-input {
+  @include game-details-fluid(padding, textarea-padding);
+  @include game-details-fluid(min-height, textarea-min-height);
+  @include game-details-fluid(line-height, textarea-line-height);
+  box-sizing: border-box;
+  flex: 1;
+  min-width: 0;
+  max-height: $comment-textarea-max-height;
+  overflow-y: hidden;
+  resize: none;
+  background: $color-white;
+  border: $game-details-textarea-border-width solid $color-on-primary;
+  border-radius: $border-rad-small;
+  color: $color-on-primary;
+  font-family: $font-family-primary;
+  font-weight: $weight-regular;
+  font-size: $font-size-label-large;
+
+  &::placeholder {
+    color: $color-text-placeholder;
+  }
+}
+
+.game-details-comment-form-send {
+  @include game-details-fluid(width, send-size);
+  @include game-details-fluid(height, send-size);
+  @include game-details-fluid(font-size, send-glyph-size);
+  box-sizing: border-box;
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: $color-bg-footer-low;
+  border: $game-details-avatar-border-width solid $color-on-primary;
+  border-radius: $border-rad-small;
+  color: $color-white;
+
+  &:hover {
+    background: $color-bg-footer-lowest;
+  }
+}

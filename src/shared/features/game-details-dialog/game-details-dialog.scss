@@ -1,0 +1,56 @@
+@use './styles/tokens' as *;
+@use './styles/mixins' as *;
+@use '../../../../styles/tokens' as *;
+@use '../../components/dialog-layout/styles/mixins' as layout;
+
+.game-details-dialog {
+  @media (width < #{$breakpoint-wide}) {
+    max-width: 100%;
+    padding: 0;
+  }
+}
+
+.game-details-dialog-card {
+  @include layout.dialog-card($game-details-dialog-frame);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.game-details-body {
+  @include game-details-fluid(padding, body-padding);
+  @include game-details-fluid(gap, body-gap);
+  display: flex;
+  flex-direction: column;
+}
+
+.game-details-description {
+  @include game-details-fluid(line-height, description-line-height);
+  margin: 0;
+  color: $color-on-bg;
+  font-family: $font-family-primary;
+  font-weight: $weight-regular;
+  font-size: $font-size-body-medium;
+}
+
+.game-details-section {
+  @include game-details-fluid(gap, section-gap);
+  display: flex;
+  flex-direction: column;
+  font-family: $font-family-primary;
+  color: $color-on-primary;
+}
+
+.game-details-section-heading {
+  @include game-details-fluid(gap, section-heading-gap);
+  display: flex;
+  align-items: center;
+  margin: 0;
+  font-weight: $weight-bold;
+  font-size: $font-size-label-extra-large;
+
+  [aria-hidden='true'] {
+    @include game-details-fluid(font-size, section-glyph-size);
+    font-weight: $weight-regular;
+  }
+}

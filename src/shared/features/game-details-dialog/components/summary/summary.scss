@@ -1,0 +1,46 @@
+@use '../../styles/mixins' as *;
+@use 'styles/tokens' as *;
+
+.game-details-summary {
+  @include game-details-fluid(row-gap, summary-gap);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  @media (min-width: $breakpoint-wide) {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.game-details-summary-title {
+  @include game-details-fluid(line-height, title-line-height);
+  margin: 0;
+  color: $color-on-primary;
+  font-family: $font-family-primary;
+  font-weight: $weight-bold;
+  font-size: $font-size-display-medium;
+}
+
+.game-details-summary-ratings {
+  @include game-details-fluid(column-gap, ratings-gap);
+  display: flex;
+  flex: none;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.game-details-summary-item {
+  @include game-details-fluid(gap, rating-gap);
+  display: flex;
+  align-items: center;
+  color: $color-on-primary;
+  font-family: $font-family-primary;
+  font-weight: $weight-bold;
+  font-size: $font-size-label-large;
+
+  [aria-hidden='true'] {
+    @include game-details-fluid(font-size, rating-glyph-size);
+  }
+}

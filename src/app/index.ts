@@ -5,13 +5,17 @@ import { createGamesCarousel } from '../pages/home/features/games-carousel/games
 import { createLeaderboard } from '../pages/home/features/leaderboard/leaderboard.js';
 import { createDeveloperCta } from '../pages/home/features/developer-cta/developer-cta.js';
 import { createFooter } from '../shared/features/footer/footer.js';
+import { createGameDetailsDialog } from '../shared/features/game-details-dialog/game-details-dialog.js';
 
 const main = document.querySelector('main');
 
 if (main) {
+  const gameDetailsDialog = await createGameDetailsDialog();
+
   main.append(createHeader(), createHero());
-  main.append(await createGamesCarousel());
+  main.append(await createGamesCarousel({ onGameSelect: gameDetailsDialog.open }));
   main.append(await createLeaderboard());
   main.append(createDeveloperCta());
   main.append(createFooter());
+  main.append(gameDetailsDialog.element);
 }

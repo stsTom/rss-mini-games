@@ -2,6 +2,7 @@ import './games-carousel.scss';
 import { createGamesCarouselHeader } from './components/carousel-header/carousel-header.js';
 import { createGamesCarouselSlot, type SlotRole } from './components/slot/slot.js';
 import { fetchFeaturedGames } from './api/games-data.js';
+import type { Game } from '../../../../shared/interfaces.js';
 
 const SLOT_ROLES: SlotRole[] = ['thumb-left', 'peek-left', 'focus', 'peek-right', 'thumb-right'];
 const FOCUS_ROLE_INDEX = SLOT_ROLES.indexOf('focus');
@@ -17,7 +18,13 @@ function ringOffset(position: number, index: number, length: number): number {
   return offset > length / 2 ? offset - length : offset;
 }
 
-export async function createGamesCarousel(): Promise<HTMLElement> {
+export interface GamesCarouselOptions {
+  onGameSelect?: (game: Game, onClose: () => void) => void;
+}
+
+export async function createGamesCarousel({
+  onGameSelect,
+}: GamesCarouselOptions = {}): Promise<HTMLElement> {
   const games = await fetchFeaturedGames();
   const cards = games.map((game) => createGamesCarouselSlot(game));
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
@@ -111,6 +118,16 @@ export async function createGamesCarousel(): Promise<HTMLElement> {
 
     if (Math.abs(dx) >= SWIPE_THRESHOLD_PX && Math.abs(dx) > Math.abs(dy)) {
       navigate(dx < 0 ? 1 : -1);
+      return;
+    }
+
+    const slot = document
+      .elementFromPoint(event.clientX, event.clientY)
+      ?.closest<HTMLElement>('.games-carousel-slot');
+    const game = slot ? games[cards.indexOf(slot)] : undefined;
+
+    if (game && onGameSelect) {
+      onGameSelect(game, scheduleAutoplay);
     } else {
       scheduleAutoplay();
     }

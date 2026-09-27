@@ -1,0 +1,39 @@
+@use './styles/tokens' as *;
+@use '../../../../styles/tokens' as *;
+
+body.dialog-open {
+  overflow: hidden;
+}
+
+.dialog-layout {
+  opacity: 0;
+  transform: scale(0);
+  transition: $dialog-transition;
+  border: none;
+  background: transparent;
+  overflow: auto;
+  padding: 0 $dialog-card-shadow-x $dialog-card-shadow-y 0;
+
+  &::backdrop {
+    background-color: rgba($color-black, $backdrop-opacity-closed);
+    transition: $backdrop-transition;
+  }
+
+  &.open {
+    opacity: 1;
+    transform: scale(1);
+
+    &::backdrop {
+      background-color: rgba($color-black, $backdrop-opacity-open);
+    }
+
+    @starting-style {
+      opacity: 0;
+      transform: scale(0);
+
+      &::backdrop {
+        background-color: rgba($color-black, $backdrop-opacity-closed);
+      }
+    }
+  }
+}
