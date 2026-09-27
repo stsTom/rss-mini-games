@@ -1,0 +1,48 @@
+@use 'sass:math';
+@use 'styles/tokens' as *;
+
+.game-card-title {
+  margin: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-weight: $weight-bold;
+}
+
+.game-card-meta {
+  display: flex;
+  justify-content: space-between;
+  font-weight: $weight-bold;
+}
+
+.game-card-rating,
+.game-card-likes {
+  display: flex;
+  align-items: center;
+  gap: math.div($size-times-1, 2);
+}
+
+.game-card-icon {
+  display: inline-block;
+  flex-shrink: 0;
+  width: 1em;
+  height: 1em;
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+}
+
+.game-card-icon--star {
+  background-color: $color-primary;
+  mask-image: url('/icons/star.svg');
+  -webkit-mask-image: url('/icons/star.svg');
+}
+
+.game-card-icon--heart {
+  background-color: $color-like;
+  mask-image: url('/icons/heart.svg');
+  -webkit-mask-image: url('/icons/heart.svg');
+}
