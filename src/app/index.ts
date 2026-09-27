@@ -1,21 +1,37 @@
 import '../../styles/global.scss';
 import { createHeader } from '../shared/features/header/header.js';
-import { createHero } from '../pages/home/features/hero/hero.js';
-import { createGamesCarousel } from '../pages/home/features/games-carousel/games-carousel.js';
-import { createLeaderboard } from '../pages/home/features/leaderboard/leaderboard.js';
-import { createDeveloperCta } from '../pages/home/features/developer-cta/developer-cta.js';
+import { createHomePage } from '../pages/home/home.js';
+import { createLibraryPage } from '../pages/library/library.js';
 import { createFooter } from '../shared/features/footer/footer.js';
 import { createGameDetailsDialog } from '../shared/features/game-details-dialog/game-details-dialog.js';
+import { createRouter, type PageType } from '../shared/services/router.js';
 
 const main = document.querySelector('main');
 
 if (main) {
+  const router = createRouter();
   const gameDetailsDialog = await createGameDetailsDialog();
 
-  main.append(createHeader(), createHero());
-  main.append(await createGamesCarousel({ onGameSelect: gameDetailsDialog.open }));
-  main.append(await createLeaderboard());
-  main.append(createDeveloperCta());
+  const pageRenderers: Record<PageType, () => HTMLElement | Promise<HTMLElement>> = {
+    home: () => createHomePage({ onGameSelect: gameDetailsDialog.open }),
+    library: () => createLibraryPage(),
+  };
+
+  let currentPage = await pageRenderers[router.currentPage]();
+
+  router.subscribe(async (page) => {
+    const nextPage = await pageRenderers[page]();
+
+    if (router.currentPage !== page) {
+      return;
+    }
+
+    currentPage.replaceWith(nextPage);
+    currentPage = nextPage;
+    window.scrollTo(0, 0);
+  });
+
+  main.append(createHeader({ onPageChange: router.onPageChange }), currentPage);
   main.append(createFooter());
   main.append(gameDetailsDialog.element);
 }
