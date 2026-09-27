@@ -6,8 +6,13 @@ import { createBurgerMenu } from './components/burger-menu/burger-menu.js';
 import { createSignInButton } from './components/sign-in-button/sign-in-button.js';
 import { createSignUpButton } from './components/sign-up-button/sign-up-button.js';
 import { createAuthDialog } from '../auth-dialog/auth-dialog.js';
+import type { Router } from '../../services/router.js';
 
-export function createHeader(): HTMLElement {
+export interface HeaderOptions {
+  router: Router;
+}
+
+export function createHeader({ router }: HeaderOptions): HTMLElement {
   const header = document.createElement('header');
 
   const authDialog = createAuthDialog();
@@ -15,6 +20,7 @@ export function createHeader(): HTMLElement {
   const burgerMenu = createBurgerMenu({
     onSignIn: authDialog.openLogin,
     onSignUp: authDialog.openRegister,
+    router,
   });
   const burger = createBurger();
   burger.addEventListener('click', () => {
@@ -24,7 +30,7 @@ export function createHeader(): HTMLElement {
   const controls = document.createElement('div');
   controls.classList.add('header-controls');
   controls.append(
-    createNav(),
+    createNav({ router }),
     createSignInButton(true, authDialog.openLogin),
     createSignUpButton(true, authDialog.openRegister),
     burger

@@ -67,7 +67,7 @@
   color: $color-on-bg-footer;
 }
 
-.burger-menu nav a:first-child {
+.burger-menu nav a[aria-current='true'] {
   color: $color-primary;
 }
 

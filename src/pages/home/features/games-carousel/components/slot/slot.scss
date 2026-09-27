@@ -1,7 +1,9 @@
+@use 'sass:map';
 @use '../../styles/mixins' as *;
 @use 'styles/mixins' as *;
 @use 'styles/tokens' as *;
 @use '../../styles/tokens' as *;
+@use 'styles/functions' as *;
 
 .games-carousel-content {
   display: flex;
@@ -79,4 +81,71 @@
 
 [data-slot-role='thumb-right'] {
   order: 5;
+}
+
+// Card info
+
+$carousel-card-border-width: map.get(map.get($carousel-frame, base), card-border-width);
+
+.games-carousel-card-info {
+  visibility: hidden;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: $size-times-1 * 2;
+  color: $color-white;
+  background: $card-info-overlay-gradient;
+
+  @supports (view-transition-group: nearest) {
+    view-transition-name: match-element;
+    view-transition-class: games-carousel-card-info;
+    view-transition-group: nearest;
+
+    .game-card-title,
+    .game-card-rating {
+      view-transition-name: match-element;
+      view-transition-class: games-carousel-card-info-start;
+      view-transition-group: nearest;
+    }
+
+    .game-card-likes {
+      view-transition-name: match-element;
+      view-transition-class: games-carousel-card-info-end;
+      view-transition-group: nearest;
+    }
+  }
+
+  .game-card-title {
+    margin-bottom: $size-times-1;
+    font-size: $font-size-body-large;
+  }
+
+  .game-card-meta {
+    font-size: fluid(
+      $font-size-label-medium,
+      $font-size-label-large,
+      $breakpoint-base,
+      $breakpoint-wide
+    );
+
+    @media (min-width: $breakpoint-wide) {
+      font-size: fluid(
+        $font-size-label-large,
+        $font-size-label-extra-large,
+        $breakpoint-wide,
+        $breakpoint-desktop
+      );
+    }
+  }
+}
+
+@container (min-width: #{$card-info-visible-threshold - $carousel-card-border-width * 2}) {
+  .games-carousel-card-info {
+    visibility: visible;
+  }
+}
+
+[data-slot-role='focus'] .games-carousel-card-info {
+  visibility: visible;
 }

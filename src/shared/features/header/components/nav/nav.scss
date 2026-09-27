@@ -44,7 +44,7 @@ nav[data-header-visibility='desktop'] a {
   }
 }
 
-nav a:first-child {
+nav a[aria-current='true'] {
   font-weight: $weight-bold;
   color: $color-on-primary;
 }
