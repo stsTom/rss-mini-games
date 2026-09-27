@@ -3,7 +3,7 @@ import { createNav } from '../nav/nav.js';
 import { createSignInButton } from '../sign-in-button/sign-in-button.js';
 import { createSignUpButton } from '../sign-up-button/sign-up-button.js';
 import { BURGER_MENU_STATE } from '../../dataset-values.js';
-import type { PageType } from '../../../../services/router.js';
+import type { Router } from '../../../../services/router.js';
 
 export interface BurgerMenu {
   element: HTMLElement;
@@ -14,7 +14,7 @@ export interface BurgerMenu {
 export interface BurgerMenuOptions {
   onSignIn: () => void;
   onSignUp: () => void;
-  onPageChange: (page: PageType) => void;
+  router: Router;
 }
 
 export function createBurgerMenu(options: BurgerMenuOptions): BurgerMenu {
@@ -57,12 +57,12 @@ export function createBurgerMenu(options: BurgerMenuOptions): BurgerMenu {
     panel.dataset.burgerMenu = BURGER_MENU_STATE.closed;
   };
 
-  const nav = createNav({
-    hasVisibility: false,
-    onPageChange: (page) => {
+  const nav = createNav({ hasVisibility: false, router: options.router });
+
+  nav.addEventListener('click', (event) => {
+    if (event.target instanceof Element && event.target.closest('a')) {
       close();
-      options.onPageChange(page);
-    },
+    }
   });
 
   const signInButton = createSignInButton(false, () => {

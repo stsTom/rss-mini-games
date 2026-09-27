@@ -31,7 +31,7 @@ if (main) {
     window.scrollTo(0, 0);
   });
 
-  main.append(createHeader({ onPageChange: router.onPageChange }), currentPage);
+  main.append(createHeader({ router }), currentPage);
   main.append(createFooter());
   main.append(gameDetailsDialog.element);
 }
