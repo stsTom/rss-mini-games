@@ -1,0 +1,25 @@
+@use 'styles/tokens' as *;
+
+$library-frame: (
+  base: (
+    page-padding: 16px 16px,
+    page-gap: 24px,
+    header-gap: 4px,
+    title-size: $font-size-headline-medium,
+    subtitle-size: $font-size-body-small,
+  ),
+  wide: (
+    page-padding: 24px 40px,
+    page-gap: 32px,
+    header-gap: 8px,
+    title-size: $font-size-headline-large,
+    subtitle-size: $font-size-body-medium,
+  ),
+  desktop: (
+    page-padding: 40px 120px,
+    page-gap: 40px,
+    header-gap: 8px,
+    title-size: $font-size-display-medium,
+    subtitle-size: $font-size-body-large,
+  ),
+);

@@ -1,3 +1,4 @@
+import './library.scss';
 import { createLibraryHeader } from './features/library-header/library-header.js';
 
 export function createLibraryPage(): HTMLElement {

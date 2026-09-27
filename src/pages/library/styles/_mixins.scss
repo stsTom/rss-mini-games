@@ -1,0 +1,26 @@
+@use 'sass:map';
+@use './tokens' as *;
+@use 'styles/tokens' as *;
+@use 'styles/functions' as *;
+
+@mixin library-fluid($property, $key) {
+  $base: map.get($library-frame, base);
+  $wide: map.get($library-frame, wide);
+  $desktop: map.get($library-frame, desktop);
+
+  #{$property}: fluid-value(
+    map.get($base, $key),
+    map.get($wide, $key),
+    $breakpoint-base,
+    $breakpoint-wide
+  );
+
+  @media (min-width: $breakpoint-wide) {
+    #{$property}: fluid-value(
+      map.get($wide, $key),
+      map.get($desktop, $key),
+      $breakpoint-wide,
+      $breakpoint-desktop
+    );
+  }
+}

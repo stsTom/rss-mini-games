@@ -1,3 +1,5 @@
+import './library-header.scss';
+
 export function createLibraryHeader(): HTMLElement {
   const header = document.createElement('div');
   header.classList.add('library-header');
