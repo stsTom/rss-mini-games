@@ -1,0 +1,15 @@
+@use './tokens' as *;
+
+html {
+  scrollbar-gutter: stable;
+}
+
+body {
+  font-family: $font-family-primary;
+  margin: 0;
+}
+
+button,
+a {
+  cursor: pointer;
+}

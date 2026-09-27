@@ -1,0 +1,22 @@
+@use '../../styles/mixins' as *;
+@use 'styles/tokens' as *;
+
+.library-header {
+  display: flex;
+  flex-direction: column;
+  @include library-fluid(gap, header-gap);
+}
+
+.library-header-title {
+  margin: 0;
+  color: $color-on-primary;
+  font-weight: $weight-bold;
+  @include library-fluid(font-size, title-size);
+}
+
+.library-header-subtitle {
+  margin: 0;
+  color: $color-on-bg;
+  font-weight: $weight-medium;
+  @include library-fluid(font-size, subtitle-size);
+}

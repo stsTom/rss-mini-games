@@ -1,4 +1,6 @@
+@use 'sass:map';
 @use '../../styles/mixins' as *;
+@use '../../styles/tokens' as *;
 @use 'styles/tokens' as *;
 @use 'styles/functions' as *;
 
@@ -22,18 +24,41 @@
 
   button {
     @include footer-community-icon;
-    border: none;
     padding: 0;
   }
 
   img {
-    width: fluid(16px, 16px, 375px, 768px);
-    height: fluid(16px, 16px, 375px, 768px);
+    $base: map.get($footer-frame, base);
+    $wide: map.get($footer-frame, wide);
+    $desktop: map.get($footer-frame, desktop);
+
+    width: fluid(
+      map.get($base, community-icon-glyph-size),
+      map.get($wide, community-icon-glyph-size),
+      $breakpoint-base,
+      $breakpoint-wide
+    );
+    height: fluid(
+      map.get($base, community-icon-glyph-size),
+      map.get($wide, community-icon-glyph-size),
+      $breakpoint-base,
+      $breakpoint-wide
+    );
     filter: brightness(0) invert(1);
 
-    @media (min-width: 768px) {
-      width: fluid(16px, 20px, 768px, 1920px);
-      height: fluid(16px, 20px, 768px, 1920px);
+    @media (min-width: $breakpoint-wide) {
+      width: fluid(
+        map.get($wide, community-icon-glyph-size),
+        map.get($desktop, community-icon-glyph-size),
+        $breakpoint-wide,
+        $breakpoint-desktop
+      );
+      height: fluid(
+        map.get($wide, community-icon-glyph-size),
+        map.get($desktop, community-icon-glyph-size),
+        $breakpoint-wide,
+        $breakpoint-desktop
+      );
     }
   }
 }

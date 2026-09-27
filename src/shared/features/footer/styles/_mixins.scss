@@ -12,19 +12,29 @@
   padding: fluid-value(
     map.get($base, section-padding),
     map.get($wide, section-padding),
-    375px,
-    768px
+    $breakpoint-base,
+    $breakpoint-wide
   );
-  gap: fluid(map.get($base, section-gap), map.get($wide, section-gap), 375px, 768px);
+  gap: fluid(
+    map.get($base, section-gap),
+    map.get($wide, section-gap),
+    $breakpoint-base,
+    $breakpoint-wide
+  );
 
-  @media (min-width: 768px) {
+  @media (min-width: $breakpoint-wide) {
     padding: fluid-value(
       map.get($wide, section-padding),
       map.get($desktop, section-padding),
-      768px,
-      1920px
+      $breakpoint-wide,
+      $breakpoint-desktop
     );
-    gap: fluid(map.get($wide, section-gap), map.get($desktop, section-gap), 768px, 1920px);
+    gap: fluid(
+      map.get($wide, section-gap),
+      map.get($desktop, section-gap),
+      $breakpoint-wide,
+      $breakpoint-desktop
+    );
   }
 }
 
@@ -33,10 +43,20 @@
   $wide: map.get($footer-frame, wide);
   $desktop: map.get($footer-frame, desktop);
 
-  gap: fluid(map.get($base, brand-gap), map.get($wide, brand-gap), 375px, 768px);
+  gap: fluid(
+    map.get($base, brand-gap),
+    map.get($wide, brand-gap),
+    $breakpoint-base,
+    $breakpoint-wide
+  );
 
-  @media (min-width: 768px) {
-    gap: fluid(map.get($wide, brand-gap), map.get($desktop, brand-gap), 768px, 1920px);
+  @media (min-width: $breakpoint-wide) {
+    gap: fluid(
+      map.get($wide, brand-gap),
+      map.get($desktop, brand-gap),
+      $breakpoint-wide,
+      $breakpoint-desktop
+    );
   }
 }
 
@@ -45,10 +65,20 @@
   $wide: map.get($footer-frame, wide);
   $desktop: map.get($footer-frame, desktop);
 
-  gap: fluid(map.get($base, upper-gap), map.get($wide, upper-gap), 375px, 768px);
+  gap: fluid(
+    map.get($base, upper-gap),
+    map.get($wide, upper-gap),
+    $breakpoint-base,
+    $breakpoint-wide
+  );
 
-  @media (min-width: 768px) {
-    gap: fluid(map.get($wide, upper-gap), map.get($desktop, upper-gap), 768px, 1920px);
+  @media (min-width: $breakpoint-wide) {
+    gap: fluid(
+      map.get($wide, upper-gap),
+      map.get($desktop, upper-gap),
+      $breakpoint-wide,
+      $breakpoint-desktop
+    );
   }
 }
 
@@ -57,10 +87,20 @@
   $wide: map.get($footer-frame, wide);
   $desktop: map.get($footer-frame, desktop);
 
-  gap: fluid(map.get($base, links-row-gap), map.get($wide, links-row-gap), 375px, 768px);
+  gap: fluid(
+    map.get($base, links-row-gap),
+    map.get($wide, links-row-gap),
+    $breakpoint-base,
+    $breakpoint-wide
+  );
 
-  @media (min-width: 768px) {
-    gap: fluid(map.get($wide, links-row-gap), map.get($desktop, links-row-gap), 768px, 1920px);
+  @media (min-width: $breakpoint-wide) {
+    gap: fluid(
+      map.get($wide, links-row-gap),
+      map.get($desktop, links-row-gap),
+      $breakpoint-wide,
+      $breakpoint-desktop
+    );
   }
 }
 
@@ -69,10 +109,20 @@
   $wide: map.get($footer-frame, wide);
   $desktop: map.get($footer-frame, desktop);
 
-  gap: fluid(map.get($base, link-list-gap), map.get($wide, link-list-gap), 375px, 768px);
+  gap: fluid(
+    map.get($base, link-list-gap),
+    map.get($wide, link-list-gap),
+    $breakpoint-base,
+    $breakpoint-wide
+  );
 
-  @media (min-width: 768px) {
-    gap: fluid(map.get($wide, link-list-gap), map.get($desktop, link-list-gap), 768px, 1920px);
+  @media (min-width: $breakpoint-wide) {
+    gap: fluid(
+      map.get($wide, link-list-gap),
+      map.get($desktop, link-list-gap),
+      $breakpoint-wide,
+      $breakpoint-desktop
+    );
   }
 }
 
@@ -81,10 +131,20 @@
   $wide: map.get($footer-frame, wide);
   $desktop: map.get($footer-frame, desktop);
 
-  gap: fluid(map.get($base, community-gap), map.get($wide, community-gap), 375px, 768px);
+  gap: fluid(
+    map.get($base, community-gap),
+    map.get($wide, community-gap),
+    $breakpoint-base,
+    $breakpoint-wide
+  );
 
-  @media (min-width: 768px) {
-    gap: fluid(map.get($wide, community-gap), map.get($desktop, community-gap), 768px, 1920px);
+  @media (min-width: $breakpoint-wide) {
+    gap: fluid(
+      map.get($wide, community-gap),
+      map.get($desktop, community-gap),
+      $breakpoint-wide,
+      $breakpoint-desktop
+    );
   }
 }
 
@@ -98,33 +158,39 @@
   align-items: center;
   justify-content: center;
   background: $color-bg-footer-low;
+  border: 2px solid transparent;
   border-radius: $border-rad-full;
   width: fluid(
     map.get($base, community-icon-size),
     map.get($wide, community-icon-size),
-    375px,
-    768px
+    $breakpoint-base,
+    $breakpoint-wide
   );
   height: fluid(
     map.get($base, community-icon-size),
     map.get($wide, community-icon-size),
-    375px,
-    768px
+    $breakpoint-base,
+    $breakpoint-wide
   );
 
-  @media (min-width: 768px) {
+  @media (min-width: $breakpoint-wide) {
     width: fluid(
       map.get($wide, community-icon-size),
       map.get($desktop, community-icon-size),
-      768px,
-      1920px
+      $breakpoint-wide,
+      $breakpoint-desktop
     );
     height: fluid(
       map.get($wide, community-icon-size),
       map.get($desktop, community-icon-size),
-      768px,
-      1920px
+      $breakpoint-wide,
+      $breakpoint-desktop
     );
+  }
+
+  &:hover {
+    background: $color-bg-footer-lowest;
+    border-color: $color-primary;
   }
 }
 
@@ -133,13 +199,47 @@
   $wide: map.get($footer-frame, wide);
   $desktop: map.get($footer-frame, desktop);
 
-  gap: fluid(map.get($base, lower-gap), map.get($wide, lower-gap), 375px, 768px);
-  padding-top: fluid(map.get($base, lower-gap), map.get($wide, lower-gap), 375px, 768px);
+  gap: fluid(
+    map.get($base, lower-gap),
+    map.get($wide, lower-gap),
+    $breakpoint-base,
+    $breakpoint-wide
+  );
+  padding-top: fluid(
+    map.get($base, lower-gap),
+    map.get($wide, lower-gap),
+    $breakpoint-base,
+    $breakpoint-wide
+  );
   border-top: 1px solid $color-bg-footer-low;
 
-  @media (min-width: 768px) {
-    gap: fluid(map.get($wide, lower-gap), map.get($desktop, lower-gap), 768px, 1920px);
-    padding-top: fluid(map.get($wide, lower-gap), map.get($desktop, lower-gap), 768px, 1920px);
+  @media (min-width: $breakpoint-wide) {
+    gap: fluid(
+      map.get($wide, lower-gap),
+      map.get($desktop, lower-gap),
+      $breakpoint-wide,
+      $breakpoint-desktop
+    );
+    padding-top: fluid(
+      map.get($wide, lower-gap),
+      map.get($desktop, lower-gap),
+      $breakpoint-wide,
+      $breakpoint-desktop
+    );
+  }
+}
+
+@mixin footer-caption-text {
+  font-weight: $weight-regular;
+  font-size: fluid(
+    $font-size-label-medium,
+    $font-size-label-large,
+    $breakpoint-base,
+    $breakpoint-wide
+  );
+
+  @media (min-width: $breakpoint-wide) {
+    font-size: $font-size-label-large;
   }
 }
 
@@ -148,9 +248,19 @@
   $wide: map.get($footer-frame, wide);
   $desktop: map.get($footer-frame, desktop);
 
-  gap: fluid(map.get($base, lower-row-gap), map.get($wide, lower-row-gap), 375px, 768px);
+  gap: fluid(
+    map.get($base, lower-row-gap),
+    map.get($wide, lower-row-gap),
+    $breakpoint-base,
+    $breakpoint-wide
+  );
 
-  @media (min-width: 768px) {
-    gap: fluid(map.get($wide, lower-row-gap), map.get($desktop, lower-row-gap), 768px, 1920px);
+  @media (min-width: $breakpoint-wide) {
+    gap: fluid(
+      map.get($wide, lower-row-gap),
+      map.get($desktop, lower-row-gap),
+      $breakpoint-wide,
+      $breakpoint-desktop
+    );
   }
 }

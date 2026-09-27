@@ -1,0 +1,67 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/tokens' as *;
+@use 'styles/tokens' as *;
+
+.game-details-actions {
+  @include game-details-fluid(gap, actions-gap);
+  display: flex;
+}
+
+.game-details-action {
+  @include game-details-fluid(height, action-height);
+  @include game-details-fluid(padding, action-padding);
+  @include game-details-fluid(gap, rating-gap);
+  box-sizing: border-box;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  border: $game-details-action-border-width solid $color-on-primary;
+  border-radius: $border-rad-medium;
+  box-shadow: $game-details-action-shadow-offset $color-on-primary;
+  color: $color-on-primary;
+  font-family: $font-family-primary;
+  font-weight: $weight-bold;
+  font-size: $font-size-label-extra-large;
+  transition: $game-details-action-transition;
+
+  &:active {
+    box-shadow: none;
+    transform: translate($game-details-action-shadow-x, $game-details-action-shadow-y);
+  }
+
+  [aria-hidden='true'] {
+    @include game-details-fluid(font-size, action-glyph-size);
+  }
+}
+
+.game-details-action--play {
+  background: $color-primary;
+
+  &:hover {
+    background: $color-primary-high;
+  }
+}
+
+.game-details-action--favorite {
+  background: $color-white;
+
+  &:hover {
+    background: $color-surface;
+  }
+
+  &.is-active {
+    border-color: $color-like;
+    color: $color-like;
+  }
+
+  @media (width < #{$breakpoint-wide}) {
+    flex: none;
+    width: $game-details-favorite-compact-size;
+    padding: 0;
+
+    .game-details-action-label {
+      display: none;
+    }
+  }
+}

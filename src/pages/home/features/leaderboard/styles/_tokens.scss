@@ -53,3 +53,10 @@ $leaderboard-columns: (
   wide: 80 160 110 110 110,
   desktop: 80 294.4 294.4 294.4 294.4 294.4,
 );
+
+// Border widths
+$border-width-thin: 1px;
+$border-width-standard: 1.5px;
+$border-width-thick: 2.5px;
+
+$favorite-badge-padding: 4px ($size-times-1 * 1.5);

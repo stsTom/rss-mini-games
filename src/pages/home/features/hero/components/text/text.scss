@@ -1,3 +1,5 @@
+@use 'sass:map';
+@use '../../styles/tokens' as *;
 @use 'styles/tokens' as *;
 @use 'styles/mixins' as *;
 @use 'styles/functions' as *;
@@ -6,14 +8,24 @@
   margin: 0;
   font-weight: $weight-medium;
   color: $color-on-bg;
-  font-size: fluid($font-size-label-medium, $font-size-body-small, 375px, 768px);
-  line-height: 140%;
+  font-size: fluid(
+    $font-size-label-medium,
+    $font-size-body-small,
+    $breakpoint-base,
+    $breakpoint-wide
+  );
+  line-height: map.get($text-line-height, base);
 
-  @media (min-width: 768px) {
-    font-size: fluid($font-size-body-small, $font-size-body-large, 768px, 1920px);
+  @media (min-width: $breakpoint-wide) {
+    font-size: fluid(
+      $font-size-body-small,
+      $font-size-body-large,
+      $breakpoint-wide,
+      $breakpoint-desktop
+    );
   }
 
   @include desktop-screen {
-    line-height: 150%;
+    line-height: map.get($text-line-height, desktop);
   }
 }

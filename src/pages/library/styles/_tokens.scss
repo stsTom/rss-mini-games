@@ -1,0 +1,116 @@
+@use 'styles/tokens' as *;
+
+$library-frame: (
+  base: (
+    page-padding: 16px 16px,
+    page-gap: 24px,
+    header-gap: 4px,
+    title-size: $font-size-headline-medium,
+    subtitle-size: $font-size-body-small,
+    section-gap: 16px,
+    chips-gap: 8px,
+    chips-padding: 0 4px 4px 0,
+    chip-padding: 6px 16px,
+    chip-font-size: $font-size-label-medium,
+    sort-gap: 8px,
+    sort-padding: 8px 16px,
+    sort-font-size: $font-size-label-medium,
+    grid-gap: 16px,
+    card-gap: 16px,
+    card-padding: 16px,
+    card-title-size: $font-size-headline-small,
+    card-name-size: $font-size-body-medium,
+    card-text-size: $font-size-body-small,
+    card-meta-size: $font-size-label-medium,
+    card-meta-gap: 16px,
+    card-badge-padding: 2px 8px,
+    card-details-padding: 8px 16px,
+    card-image-height: 160px,
+    card-height: 152px,
+    card-image-width: 270px,
+    page-button-size: 36px,
+    pagination-gap: 8px,
+  ),
+  wide: (
+    page-padding: 24px 40px,
+    page-gap: 32px,
+    header-gap: 8px,
+    title-size: $font-size-headline-large,
+    subtitle-size: $font-size-body-medium,
+    section-gap: 16px,
+    chips-gap: 8px,
+    chips-padding: 0 4px 4px 0,
+    chip-padding: 8px 16px,
+    chip-font-size: $font-size-label-large,
+    sort-gap: 8px,
+    sort-padding: 8px 16px,
+    sort-font-size: $font-size-label-large,
+    grid-gap: 24px,
+    card-gap: 8px,
+    card-padding: 16px,
+    card-title-size: $font-size-headline-small,
+    card-name-size: $font-size-body-medium,
+    card-text-size: $font-size-body-small,
+    card-meta-size: $font-size-label-medium,
+    card-meta-gap: 16px,
+    card-badge-padding: 4px 8px,
+    card-details-padding: 8px 16px,
+    card-image-height: 160px,
+    card-height: 152px,
+    card-image-width: 270px,
+    page-button-size: 40px,
+    pagination-gap: 8px,
+  ),
+  desktop: (
+    page-padding: 40px 120px,
+    page-gap: 40px,
+    header-gap: 8px,
+    title-size: $font-size-display-medium,
+    subtitle-size: $font-size-body-large,
+    section-gap: 24px,
+    chips-gap: 12px,
+    chips-padding: 0 4px 4px 0,
+    chip-padding: 8px 20px,
+    chip-font-size: $font-size-label-extra-large,
+    sort-gap: 8px,
+    sort-padding: 10px 20px,
+    sort-font-size: $font-size-label-large,
+    grid-gap: 32px,
+    card-gap: 16px,
+    card-padding: 16px,
+    card-title-size: $font-size-headline-medium,
+    card-name-size: $font-size-headline-small,
+    card-text-size: $font-size-body-medium,
+    card-meta-size: $font-size-label-large,
+    card-meta-gap: 24px,
+    card-badge-padding: 4px 8px,
+    card-details-padding: 10px 20px,
+    card-image-height: 160px,
+    card-height: 200px,
+    card-image-width: 320px,
+    page-button-size: 48px,
+    pagination-gap: 12px,
+  ),
+);
+
+$library-chip-shadow: 2px 2px 0 $color-on-primary;
+$library-sort-list-offset: 4px;
+$library-sort-border-width: 2px;
+$library-sort-option-padding: 16px;
+$library-sort-option-gap: 8px;
+$library-sort-menu-width: 200px;
+$library-sort-menu-shadow: 4px 4px 0 $color-black;
+$library-sort-divider-width: 1px;
+$library-sort-chevron-size: 24px;
+$library-sort-chevron-color: #444746;
+$library-sort-check-size: 14px;
+$library-sort-transition: 0.15s ease-out;
+$library-sort-chevron-open-rotation: 180deg;
+$library-grid-columns: 2;
+$library-card-border-width: 2.5px;
+$library-card-shadow: 4px 4px 0 $color-on-primary;
+$library-card-description-line-height: 1.4;
+$library-card-badge-border-width: 1.5px;
+$library-card-description-lines: 2;
+$library-card-description-lines-desktop: 3;
+$library-pagination-disabled-opacity: 0.4;

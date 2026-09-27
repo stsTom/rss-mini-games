@@ -1,0 +1,43 @@
+@use '../../styles/tokens' as *;
+@use '../../styles/mixins' as *;
+@use 'styles/tokens' as *;
+@use 'styles/mixins' as *;
+
+.games-section {
+  display: flex;
+  flex-direction: column;
+  @include library-fluid(gap, section-gap);
+
+  @include desktop-screen {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.games-section-chips {
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none;
+  @include library-fluid(gap, chips-gap);
+  @include library-fluid(padding, chips-padding);
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.games-section-chip {
+  @include button-variant-colors(outline);
+  flex: none;
+  border-radius: $border-rad-full;
+  font-family: $font-family-primary;
+  font-weight: $weight-bold;
+  white-space: nowrap;
+  @include library-fluid(padding, chip-padding);
+  @include library-fluid(font-size, chip-font-size);
+
+  &[aria-pressed='true'] {
+    background-color: $color-primary;
+  }
+}

@@ -1,5 +1,7 @@
 import './register-form.scss';
 
+const GOOGLE_ICON_SRC = '/icons/google.svg';
+
 export interface RegisterFormOptions {
   onSwitchToLogin: () => void;
 }
@@ -108,7 +110,7 @@ export function createRegisterForm(options: RegisterFormOptions): HTMLFormElemen
   googleButton.classList.add('google-button');
   const googleIcon = document.createElement('img');
   googleIcon.classList.add('google-icon');
-  googleIcon.src = '/icons/google.svg';
+  googleIcon.src = GOOGLE_ICON_SRC;
   googleIcon.alt = '';
   const googleLabel = document.createElement('span');
   googleLabel.textContent = 'Sign up with Google';

@@ -1,16 +1,17 @@
 import './leaderboard.scss';
 import { fetchLeaderboard } from './api/leaderboard-data.js';
 import { createLeaderboardRow } from './components/row/row.js';
+import { LEADERBOARD_LABEL, LEADERBOARD_VISIBILITY } from './dataset-values.js';
 
 function createLabelPair(shortText: string, longText: string): HTMLElement[] {
   const short = document.createElement('span');
   short.classList.add('leaderboard-label');
-  short.dataset.leaderboardVisibility = 'short-label';
+  short.dataset.leaderboardVisibility = LEADERBOARD_LABEL.short;
   short.textContent = shortText;
 
   const long = document.createElement('span');
   long.classList.add('leaderboard-label');
-  long.dataset.leaderboardVisibility = 'long-label';
+  long.dataset.leaderboardVisibility = LEADERBOARD_LABEL.long;
   long.textContent = longText;
 
   return [short, long];
@@ -30,7 +31,7 @@ function createHeaderRow(): HTMLElement {
 
   const games = document.createElement('div');
   games.classList.add('leaderboard-cell', 'leaderboard-cell-games');
-  games.dataset.leaderboardVisibility = 'wide-and-up';
+  games.dataset.leaderboardVisibility = LEADERBOARD_VISIBILITY.wideAndUp;
   games.append(...createLabelPair('Games', 'Games Played'));
 
   const score = document.createElement('div');
@@ -43,7 +44,7 @@ function createHeaderRow(): HTMLElement {
 
   const favoriteGame = document.createElement('div');
   favoriteGame.classList.add('leaderboard-cell', 'leaderboard-cell-favorite-game');
-  favoriteGame.dataset.leaderboardVisibility = 'desktop-only';
+  favoriteGame.dataset.leaderboardVisibility = LEADERBOARD_VISIBILITY.desktopOnly;
   favoriteGame.textContent = 'Favorite Game';
 
   headerRow.append(rank, player, games, score, streak, favoriteGame);

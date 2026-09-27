@@ -65,10 +65,20 @@
   .leaderboard-cell-score,
   .leaderboard-cell-streak {
     color: $color-on-primary;
-    font-size: fluid($font-size-label-large, $font-size-label-large, 375px, 768px);
+    font-size: fluid(
+      $font-size-label-large,
+      $font-size-label-large,
+      $breakpoint-base,
+      $breakpoint-wide
+    );
 
-    @media (min-width: 768px) {
-      font-size: fluid($font-size-label-large, $font-size-body-medium, 768px, 1920px);
+    @media (min-width: $breakpoint-wide) {
+      font-size: fluid(
+        $font-size-label-large,
+        $font-size-body-medium,
+        $breakpoint-wide,
+        $breakpoint-desktop
+      );
     }
   }
 
@@ -119,9 +129,9 @@
       width: fit-content;
       max-width: 100%;
       background: $color-bg;
-      border: 1.5px solid $color-on-primary;
+      border: $border-width-standard solid $color-on-primary;
       border-radius: $border-rad-full;
-      padding: 4px $size-times-1 * 1.5;
+      padding: $favorite-badge-padding;
       color: $color-on-primary;
       font-weight: $weight-bold;
       font-size: $font-size-label-medium;
@@ -146,16 +156,16 @@
   font-size: fluid(
     map.get(map.get($leaderboard-frame, base), header-label-font-size),
     map.get(map.get($leaderboard-frame, wide), header-label-font-size),
-    375px,
-    768px
+    $breakpoint-base,
+    $breakpoint-wide
   );
 
-  @media (min-width: 768px) {
+  @media (min-width: $breakpoint-wide) {
     font-size: fluid(
       map.get(map.get($leaderboard-frame, wide), header-label-font-size),
       map.get(map.get($leaderboard-frame, desktop), header-label-font-size),
-      768px,
-      1920px
+      $breakpoint-wide,
+      $breakpoint-desktop
     );
   }
 }

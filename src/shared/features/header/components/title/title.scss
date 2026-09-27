@@ -12,7 +12,7 @@
   display: flex;
   flex-shrink: 0;
   align-items: center;
-  gap: 8px;
+  gap: $header-brand-gap;
   margin: 0;
 }
 
@@ -21,11 +21,21 @@
 }
 
 .title-wordmark {
-  font-size: fluid($font-size-headline-small, $font-size-headline-small, 375px, 768px);
+  font-size: fluid(
+    $font-size-headline-small,
+    $font-size-headline-small,
+    $breakpoint-base,
+    $breakpoint-wide
+  );
   font-weight: $weight-bold;
   color: $color-on-primary;
 
-  @media (min-width: 768px) {
-    font-size: fluid($font-size-headline-small, $font-size-headline-medium, 768px, 1920px);
+  @media (min-width: $breakpoint-wide) {
+    font-size: fluid(
+      $font-size-headline-small,
+      $font-size-headline-medium,
+      $breakpoint-wide,
+      $breakpoint-desktop
+    );
   }
 }

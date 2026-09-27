@@ -28,19 +28,19 @@
   height: fluid(
     map.get(map.get($leaderboard-frame, base), accent-bar-height),
     map.get(map.get($leaderboard-frame, wide), accent-bar-height),
-    375px,
-    768px
+    $breakpoint-base,
+    $breakpoint-wide
   );
   background: $color-primary;
-  border: 1.5px solid $color-on-primary;
+  border: $border-width-standard solid $color-on-primary;
   border-radius: $border-rad-extra-small;
 
-  @media (min-width: 768px) {
+  @media (min-width: $breakpoint-wide) {
     height: fluid(
       map.get(map.get($leaderboard-frame, wide), accent-bar-height),
       map.get(map.get($leaderboard-frame, desktop), accent-bar-height),
-      768px,
-      1920px
+      $breakpoint-wide,
+      $breakpoint-desktop
     );
   }
 }
@@ -62,16 +62,16 @@
   font-size: fluid(
     map.get(map.get($leaderboard-frame, base), heading-font-size),
     map.get(map.get($leaderboard-frame, wide), heading-font-size),
-    375px,
-    768px
+    $breakpoint-base,
+    $breakpoint-wide
   );
 
-  @media (min-width: 768px) {
+  @media (min-width: $breakpoint-wide) {
     font-size: fluid(
       map.get(map.get($leaderboard-frame, wide), heading-font-size),
       map.get(map.get($leaderboard-frame, desktop), heading-font-size),
-      768px,
-      1920px
+      $breakpoint-wide,
+      $breakpoint-desktop
     );
   }
 }

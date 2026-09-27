@@ -1,4 +1,5 @@
 import './auth-dialog.scss';
+import { createDialogLayout } from '../../components/dialog-layout/dialog-layout.js';
 import { createLoginForm } from './components/login-form/login-form.js';
 import { createRegisterForm } from './components/register-form/register-form.js';
 
@@ -11,11 +12,9 @@ export interface AuthDialog {
 }
 
 export function createAuthDialog(): AuthDialog {
-  const dialog = document.createElement('dialog');
-  dialog.classList.add('auth-dialog');
-
-  const content = document.createElement('div');
-  content.classList.add('auth-dialog-content');
+  const layout = createDialogLayout({ className: 'auth-dialog' });
+  const dialog = layout.element;
+  layout.card.classList.add('auth-dialog-content');
 
   const tabs = document.createElement('div');
   tabs.classList.add('auth-dialog-tabs');
@@ -33,13 +32,28 @@ export function createAuthDialog(): AuthDialog {
   const view = document.createElement('div');
   view.classList.add('auth-dialog-view');
 
-  content.append(tabs, view);
-  dialog.append(content);
+  layout.card.append(tabs, view);
 
   const setActiveTab = (tab: AuthDialogTab): void => {
+    if (tab === dialog.dataset.authDialogTab) {
+      return;
+    }
+
     dialog.dataset.authDialogTab = tab;
     loginTab.classList.toggle('is-active', tab === 'login');
     registerTab.classList.toggle('is-active', tab === 'register');
+
+    if (dialog.open) {
+      const handleFadeOutEnd = (): void => {
+        view.removeEventListener('transitionend', handleFadeOutEnd);
+        view.replaceChildren(tab === 'login' ? loginForm : registerForm);
+        view.classList.remove('fade-out');
+      };
+      view.addEventListener('transitionend', handleFadeOutEnd);
+      view.classList.add('fade-out');
+      return;
+    }
+
     view.replaceChildren(tab === 'login' ? loginForm : registerForm);
   };
 
@@ -57,19 +71,13 @@ export function createAuthDialog(): AuthDialog {
 
   const openLogin = (): void => {
     setActiveTab('login');
-    dialog.showModal();
-    document.body.classList.add('auth-dialog-open');
+    layout.open();
   };
 
   const openRegister = (): void => {
     setActiveTab('register');
-    dialog.showModal();
-    document.body.classList.add('auth-dialog-open');
+    layout.open();
   };
-
-  dialog.addEventListener('close', () => {
-    document.body.classList.remove('auth-dialog-open');
-  });
 
   loginTab.addEventListener('click', () => {
     setActiveTab('login');
@@ -77,14 +85,6 @@ export function createAuthDialog(): AuthDialog {
 
   registerTab.addEventListener('click', () => {
     setActiveTab('register');
-  });
-
-  setActiveTab('login');
-
-  dialog.addEventListener('click', (event) => {
-    if (event.target === dialog) {
-      dialog.close();
-    }
   });
 
   return { element: dialog, openLogin, openRegister };

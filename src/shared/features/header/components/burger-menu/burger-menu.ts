@@ -2,6 +2,8 @@ import './burger-menu.scss';
 import { createNav } from '../nav/nav.js';
 import { createSignInButton } from '../sign-in-button/sign-in-button.js';
 import { createSignUpButton } from '../sign-up-button/sign-up-button.js';
+import { BURGER_MENU_STATE } from '../../dataset-values.js';
+import type { Router } from '../../../../services/router.js';
 
 export interface BurgerMenu {
   element: HTMLElement;
@@ -12,12 +14,13 @@ export interface BurgerMenu {
 export interface BurgerMenuOptions {
   onSignIn: () => void;
   onSignUp: () => void;
+  router: Router;
 }
 
 export function createBurgerMenu(options: BurgerMenuOptions): BurgerMenu {
   const panel = document.createElement('div');
   panel.classList.add('burger-menu');
-  panel.dataset.burgerMenu = 'closed';
+  panel.dataset.burgerMenu = BURGER_MENU_STATE.closed;
 
   const top = document.createElement('div');
   top.classList.add('burger-menu-top');
@@ -43,18 +46,24 @@ export function createBurgerMenu(options: BurgerMenuOptions): BurgerMenu {
 
   top.append(brand, closeButton);
 
-  const nav = createNav(false);
-
   const bottom = document.createElement('div');
   bottom.classList.add('burger-menu-bottom');
 
   const open = (): void => {
-    panel.dataset.burgerMenu = 'open';
+    panel.dataset.burgerMenu = BURGER_MENU_STATE.open;
   };
 
   const close = (): void => {
-    panel.dataset.burgerMenu = 'closed';
+    panel.dataset.burgerMenu = BURGER_MENU_STATE.closed;
   };
+
+  const nav = createNav({ hasVisibility: false, router: options.router });
+
+  nav.addEventListener('click', (event) => {
+    if (event.target instanceof Element && event.target.closest('a')) {
+      close();
+    }
+  });
 
   const signInButton = createSignInButton(false, () => {
     close();

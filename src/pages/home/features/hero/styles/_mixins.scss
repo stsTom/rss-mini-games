@@ -12,28 +12,28 @@
   padding: fluid-value(
     map.get($base, section-padding),
     map.get($wide, section-padding),
-    375px,
-    768px
+    $breakpoint-base,
+    $breakpoint-wide
   );
   min-height: fluid-value(
     map.get($base, section-min-height),
     map.get($wide, section-min-height),
-    375px,
-    768px
+    $breakpoint-base,
+    $breakpoint-wide
   );
 
-  @media (min-width: 768px) {
+  @media (min-width: $breakpoint-wide) {
     padding: fluid-value(
       map.get($wide, section-padding),
       map.get($desktop, section-padding),
-      768px,
-      1920px
+      $breakpoint-wide,
+      $breakpoint-desktop
     );
     min-height: fluid-value(
       map.get($wide, section-min-height),
       map.get($desktop, section-min-height),
-      768px,
-      1920px
+      $breakpoint-wide,
+      $breakpoint-desktop
     );
   }
 }
@@ -48,11 +48,31 @@
   text-decoration: none;
   border-radius: $border-rad-small;
   font-weight: $weight-bold;
-  padding: fluid-value(map.get($base, padding), map.get($wide, padding), 375px, 768px);
-  font-size: fluid(map.get($base, font-size), map.get($wide, font-size), 375px, 768px);
+  padding: fluid-value(
+    map.get($base, padding),
+    map.get($wide, padding),
+    $breakpoint-base,
+    $breakpoint-wide
+  );
+  font-size: fluid(
+    map.get($base, font-size),
+    map.get($wide, font-size),
+    $breakpoint-base,
+    $breakpoint-wide
+  );
 
-  @media (min-width: 768px) {
-    padding: fluid-value(map.get($wide, padding), map.get($desktop, padding), 768px, 1920px);
-    font-size: fluid(map.get($wide, font-size), map.get($desktop, font-size), 768px, 1920px);
+  @media (min-width: $breakpoint-wide) {
+    padding: fluid-value(
+      map.get($wide, padding),
+      map.get($desktop, padding),
+      $breakpoint-wide,
+      $breakpoint-desktop
+    );
+    font-size: fluid(
+      map.get($wide, font-size),
+      map.get($desktop, font-size),
+      $breakpoint-wide,
+      $breakpoint-desktop
+    );
   }
 }

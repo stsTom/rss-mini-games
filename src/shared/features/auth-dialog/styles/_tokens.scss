@@ -1,10 +1,21 @@
+// Icons
+$icon-mail: '/icons/evelope.svg';
+$icon-lock: '/icons/lock.svg';
+$icon-eye: '/icons/eye.svg';
+$icon-user: '/icons/user.svg';
+
+// Motion
+$view-fade-transition: opacity 0.2s ease-out;
+
+// Opacity
+$divider-line-opacity: 0.2;
+
 $auth-dialog-frame: (
   base: (
+    card-width: 100%,
     card-padding: 24px,
     card-gap: 16px,
     card-max-width: 343px,
-    card-border-width: 3px,
-    card-shadow-offset: 8px 8px,
     tabs-border-width: 2.5px,
     tab-padding: 12px 20px,
     header-gap: 8px,
@@ -23,11 +34,10 @@ $auth-dialog-frame: (
     footer-gap: 4px,
   ),
   wide: (
+    card-width: 100%,
     card-padding: 24px,
     card-gap: 16px,
     card-max-width: 420px,
-    card-border-width: 3px,
-    card-shadow-offset: 8px 8px,
     tabs-border-width: 2.5px,
     tab-padding: 12px 20px,
     header-gap: 8px,
@@ -46,11 +56,10 @@ $auth-dialog-frame: (
     footer-gap: 4px,
   ),
   desktop: (
+    card-width: 100%,
     card-padding: 24px,
     card-gap: 16px,
     card-max-width: 420px,
-    card-border-width: 3px,
-    card-shadow-offset: 8px 8px,
     tabs-border-width: 2.5px,
     tab-padding: 12px 20px,
     header-gap: 8px,

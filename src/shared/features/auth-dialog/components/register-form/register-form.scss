@@ -11,16 +11,16 @@
   gap: fluid(
     map.get(map.get($auth-dialog-frame, base), card-gap),
     map.get(map.get($auth-dialog-frame, wide), card-gap),
-    375px,
-    768px
+    $breakpoint-base,
+    $breakpoint-wide
   );
 
-  @media (min-width: 768px) {
+  @media (min-width: $breakpoint-wide) {
     gap: fluid(
       map.get(map.get($auth-dialog-frame, wide), card-gap),
       map.get(map.get($auth-dialog-frame, desktop), card-gap),
-      768px,
-      1920px
+      $breakpoint-wide,
+      $breakpoint-desktop
     );
   }
 }
@@ -36,16 +36,16 @@
   gap: fluid(
     map.get(map.get($auth-dialog-frame, base), fields-gap),
     map.get(map.get($auth-dialog-frame, wide), fields-gap),
-    375px,
-    768px
+    $breakpoint-base,
+    $breakpoint-wide
   );
 
-  @media (min-width: 768px) {
+  @media (min-width: $breakpoint-wide) {
     gap: fluid(
       map.get(map.get($auth-dialog-frame, wide), fields-gap),
       map.get(map.get($auth-dialog-frame, desktop), fields-gap),
-      768px,
-      1920px
+      $breakpoint-wide,
+      $breakpoint-desktop
     );
   }
 }
@@ -59,23 +59,23 @@
 }
 
 .register-form .field-icon--person {
-  mask-image: url('/icons/user.svg');
-  -webkit-mask-image: url('/icons/user.svg');
+  mask-image: url($icon-user);
+  -webkit-mask-image: url($icon-user);
 }
 
 .register-form .field-icon--mail {
-  mask-image: url('/icons/evelope.svg');
-  -webkit-mask-image: url('/icons/evelope.svg');
+  mask-image: url($icon-mail);
+  -webkit-mask-image: url($icon-mail);
 }
 
 .register-form .field-icon--lock {
-  mask-image: url('/icons/lock.svg');
-  -webkit-mask-image: url('/icons/lock.svg');
+  mask-image: url($icon-lock);
+  -webkit-mask-image: url($icon-lock);
 }
 
 .register-form .field-icon--eye {
-  mask-image: url('/icons/eye.svg');
-  -webkit-mask-image: url('/icons/eye.svg');
+  mask-image: url($icon-eye);
+  -webkit-mask-image: url($icon-eye);
 }
 
 .register-form .actions {
@@ -85,16 +85,16 @@
   gap: fluid(
     map.get(map.get($auth-dialog-frame, base), actions-gap),
     map.get(map.get($auth-dialog-frame, wide), actions-gap),
-    375px,
-    768px
+    $breakpoint-base,
+    $breakpoint-wide
   );
 
-  @media (min-width: 768px) {
+  @media (min-width: $breakpoint-wide) {
     gap: fluid(
       map.get(map.get($auth-dialog-frame, wide), actions-gap),
       map.get(map.get($auth-dialog-frame, desktop), actions-gap),
-      768px,
-      1920px
+      $breakpoint-wide,
+      $breakpoint-desktop
     );
   }
 }

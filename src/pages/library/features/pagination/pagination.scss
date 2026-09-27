@@ -1,0 +1,53 @@
+@use '../../styles/tokens' as *;
+@use '../../styles/mixins' as *;
+@use 'styles/tokens' as *;
+@use 'styles/mixins' as *;
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @include library-fluid(gap, pagination-gap);
+}
+
+.pagination-button {
+  @include button-variant-colors(outline);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: $border-rad-full;
+  font-family: $font-family-primary;
+  font-weight: $weight-bold;
+  @include library-fluid(width, page-button-size);
+  @include library-fluid(height, page-button-size);
+  @include library-fluid(font-size, chip-font-size);
+
+  &[aria-current='page'],
+  &[aria-current='page']:hover {
+    color: $color-white;
+    background-color: $color-bg-footer;
+    border-color: $color-bg-footer;
+  }
+
+  &:disabled {
+    opacity: $library-pagination-disabled-opacity;
+    cursor: not-allowed;
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
+
+  &[data-mobile-hidden='true'] {
+    display: none;
+
+    @include wide-screen {
+      display: flex;
+    }
+  }
+}
+
+.pagination-arrow {
+  @include library-fluid(font-size, card-title-size);
+}

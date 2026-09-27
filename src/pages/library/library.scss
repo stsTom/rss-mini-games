@@ -1,0 +1,9 @@
+@use './styles/mixins' as *;
+
+.library {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  @include library-fluid(padding, page-padding);
+  @include library-fluid(gap, page-gap);
+}

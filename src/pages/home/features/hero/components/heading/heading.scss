@@ -1,3 +1,5 @@
+@use 'sass:map';
+@use '../../styles/tokens' as *;
 @use 'styles/tokens' as *;
 @use 'styles/mixins' as *;
 @use 'styles/functions' as *;
@@ -6,18 +8,28 @@
   margin: 0;
   font-weight: $weight-bold;
   color: $color-on-primary;
-  font-size: fluid($font-size-display-small, $font-size-display-medium, 375px, 768px);
-  line-height: 120%;
+  font-size: fluid(
+    $font-size-display-small,
+    $font-size-display-medium,
+    $breakpoint-base,
+    $breakpoint-wide
+  );
+  line-height: map.get($heading-line-height, base);
 
   @include wide-screen {
-    line-height: 115%;
+    line-height: map.get($heading-line-height, wide);
   }
 
-  @media (min-width: 768px) {
-    font-size: fluid($font-size-display-medium, $font-size-display-large, 768px, 1920px);
+  @media (min-width: $breakpoint-wide) {
+    font-size: fluid(
+      $font-size-display-medium,
+      $font-size-display-large,
+      $breakpoint-wide,
+      $breakpoint-desktop
+    );
   }
 
   @include desktop-screen {
-    line-height: 110%;
+    line-height: map.get($heading-line-height, desktop);
   }
 }

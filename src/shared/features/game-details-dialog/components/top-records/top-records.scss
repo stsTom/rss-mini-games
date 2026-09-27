@@ -1,0 +1,56 @@
+@use '../../styles/mixins' as *;
+@use 'styles/tokens' as *;
+
+.game-details-records {
+  @include game-details-fluid(gap, records-gap);
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.game-details-record {
+  @include game-details-fluid(padding, record-padding);
+  @include game-details-fluid(gap, record-gap);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: $color-white;
+  border-radius: $border-rad-small;
+  font-weight: $weight-bold;
+  font-size: $font-size-label-large;
+}
+
+.game-details-record-player,
+.game-details-record-result {
+  @include game-details-fluid(gap, record-gap);
+  display: flex;
+  align-items: center;
+}
+
+.game-details-record-medal {
+  @include game-details-fluid(font-size, medal-size);
+  font-weight: $weight-regular;
+}
+
+.game-details-record-time {
+  color: $color-on-bg;
+  font-weight: $weight-regular;
+  font-size: $font-size-label-medium;
+}
+
+.game-details-record-player {
+  min-width: 0;
+}
+
+.game-details-record-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.game-details-record-result {
+  flex: none;
+  white-space: nowrap;
+}

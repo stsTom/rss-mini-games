@@ -24,19 +24,29 @@
   padding: fluid-value(
     map.get($base, section-padding),
     map.get($wide, section-padding),
-    375px,
-    768px
+    $breakpoint-base,
+    $breakpoint-wide
   );
-  gap: fluid(map.get($base, section-gap), map.get($wide, section-gap), 375px, 768px);
+  gap: fluid(
+    map.get($base, section-gap),
+    map.get($wide, section-gap),
+    $breakpoint-base,
+    $breakpoint-wide
+  );
 
-  @media (min-width: 768px) {
+  @media (min-width: $breakpoint-wide) {
     padding: fluid-value(
       map.get($wide, section-padding),
       map.get($desktop, section-padding),
-      768px,
-      1920px
+      $breakpoint-wide,
+      $breakpoint-desktop
     );
-    gap: fluid(map.get($wide, section-gap), map.get($desktop, section-gap), 768px, 1920px);
+    gap: fluid(
+      map.get($wide, section-gap),
+      map.get($desktop, section-gap),
+      $breakpoint-wide,
+      $breakpoint-desktop
+    );
   }
 }
 
@@ -45,22 +55,22 @@
   $wide: map.get($leaderboard-frame, wide);
   $desktop: map.get($leaderboard-frame, desktop);
 
-  border: 2.5px solid $color-on-primary;
+  border: $border-width-thick solid $color-on-primary;
   border-radius: $border-rad-large;
   box-shadow: #{fluid-value(
       map.get($base, table-shadow-offset),
       map.get($wide, table-shadow-offset),
-      375px,
-      768px
+      $breakpoint-base,
+      $breakpoint-wide
     )}
     $color-on-primary;
 
-  @media (min-width: 768px) {
+  @media (min-width: $breakpoint-wide) {
     box-shadow: #{fluid-value(
         map.get($wide, table-shadow-offset),
         map.get($desktop, table-shadow-offset),
-        768px,
-        1920px
+        $breakpoint-wide,
+        $breakpoint-desktop
       )}
       $color-on-primary;
   }
@@ -72,23 +82,33 @@
   $desktop: map.get($leaderboard-frame, desktop);
 
   background: $color-tertiary;
-  border-bottom: 1.5px solid $color-on-primary;
+  border-bottom: $border-width-standard solid $color-on-primary;
   padding: fluid-value(
     map.get($base, header-row-padding),
     map.get($wide, header-row-padding),
-    375px,
-    768px
+    $breakpoint-base,
+    $breakpoint-wide
   );
-  gap: fluid(map.get($base, header-row-gap), map.get($wide, header-row-gap), 375px, 768px);
+  gap: fluid(
+    map.get($base, header-row-gap),
+    map.get($wide, header-row-gap),
+    $breakpoint-base,
+    $breakpoint-wide
+  );
 
-  @media (min-width: 768px) {
+  @media (min-width: $breakpoint-wide) {
     padding: fluid-value(
       map.get($wide, header-row-padding),
       map.get($desktop, header-row-padding),
-      768px,
-      1920px
+      $breakpoint-wide,
+      $breakpoint-desktop
     );
-    gap: fluid(map.get($wide, header-row-gap), map.get($desktop, header-row-gap), 768px, 1920px);
+    gap: fluid(
+      map.get($wide, header-row-gap),
+      map.get($desktop, header-row-gap),
+      $breakpoint-wide,
+      $breakpoint-desktop
+    );
   }
 }
 
@@ -97,23 +117,33 @@
   $wide: map.get($leaderboard-frame, wide);
   $desktop: map.get($leaderboard-frame, desktop);
 
-  border-bottom: 1px solid $color-outline;
+  border-bottom: $border-width-thin solid $color-outline;
   padding: fluid-value(
     map.get($base, data-row-padding),
     map.get($wide, data-row-padding),
-    375px,
-    768px
+    $breakpoint-base,
+    $breakpoint-wide
   );
-  gap: fluid(map.get($base, data-row-gap), map.get($wide, data-row-gap), 375px, 768px);
+  gap: fluid(
+    map.get($base, data-row-gap),
+    map.get($wide, data-row-gap),
+    $breakpoint-base,
+    $breakpoint-wide
+  );
 
-  @media (min-width: 768px) {
+  @media (min-width: $breakpoint-wide) {
     padding: fluid-value(
       map.get($wide, data-row-padding),
       map.get($desktop, data-row-padding),
-      768px,
-      1920px
+      $breakpoint-wide,
+      $breakpoint-desktop
     );
-    gap: fluid(map.get($wide, data-row-gap), map.get($desktop, data-row-gap), 768px, 1920px);
+    gap: fluid(
+      map.get($wide, data-row-gap),
+      map.get($desktop, data-row-gap),
+      $breakpoint-wide,
+      $breakpoint-desktop
+    );
   }
 }
 
@@ -122,46 +152,56 @@
   $wide: map.get($leaderboard-frame, wide);
   $desktop: map.get($leaderboard-frame, desktop);
 
-  width: fluid(map.get($base, avatar-diameter), map.get($wide, avatar-diameter), 375px, 768px);
-  height: fluid(map.get($base, avatar-diameter), map.get($wide, avatar-diameter), 375px, 768px);
+  width: fluid(
+    map.get($base, avatar-diameter),
+    map.get($wide, avatar-diameter),
+    $breakpoint-base,
+    $breakpoint-wide
+  );
+  height: fluid(
+    map.get($base, avatar-diameter),
+    map.get($wide, avatar-diameter),
+    $breakpoint-base,
+    $breakpoint-wide
+  );
   border: solid $color-on-primary;
   border-width: fluid(
     map.get($base, avatar-border-width),
     map.get($wide, avatar-border-width),
-    375px,
-    768px
+    $breakpoint-base,
+    $breakpoint-wide
   );
   font-size: fluid(
     map.get($base, avatar-font-size),
     map.get($wide, avatar-font-size),
-    375px,
-    768px
+    $breakpoint-base,
+    $breakpoint-wide
   );
 
-  @media (min-width: 768px) {
+  @media (min-width: $breakpoint-wide) {
     width: fluid(
       map.get($wide, avatar-diameter),
       map.get($desktop, avatar-diameter),
-      768px,
-      1920px
+      $breakpoint-wide,
+      $breakpoint-desktop
     );
     height: fluid(
       map.get($wide, avatar-diameter),
       map.get($desktop, avatar-diameter),
-      768px,
-      1920px
+      $breakpoint-wide,
+      $breakpoint-desktop
     );
     border-width: fluid(
       map.get($wide, avatar-border-width),
       map.get($desktop, avatar-border-width),
-      768px,
-      1920px
+      $breakpoint-wide,
+      $breakpoint-desktop
     );
     font-size: fluid(
       map.get($wide, avatar-font-size),
       map.get($desktop, avatar-font-size),
-      768px,
-      1920px
+      $breakpoint-wide,
+      $breakpoint-desktop
     );
   }
 }

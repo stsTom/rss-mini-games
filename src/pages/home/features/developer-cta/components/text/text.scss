@@ -11,14 +11,19 @@
   margin: 0;
   color: $color-on-bg;
   font-weight: $weight-regular;
-  font-size: fluid(map.get($base, text-font-size), map.get($wide, text-font-size), 375px, 768px);
+  font-size: fluid(
+    map.get($base, text-font-size),
+    map.get($wide, text-font-size),
+    $breakpoint-base,
+    $breakpoint-wide
+  );
 
-  @media (min-width: 768px) {
+  @media (min-width: $breakpoint-wide) {
     font-size: fluid(
       map.get($wide, text-font-size),
       map.get($desktop, text-font-size),
-      768px,
-      1920px
+      $breakpoint-wide,
+      $breakpoint-desktop
     );
   }
 }

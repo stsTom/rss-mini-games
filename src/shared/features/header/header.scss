@@ -1,3 +1,4 @@
+@use 'sass:map';
 @use './styles/tokens' as *;
 @use './styles/mixins' as *;
 @use '../../../../styles/tokens' as *;
@@ -25,21 +26,31 @@ header {
 }
 
 .header-controls > * + * {
-  margin-left: 32px;
+  margin-left: map.get($header-controls-gap, wide);
 }
 
 .header-controls > button[data-header-visibility='desktop'] {
-  margin-left: fluid(8px, 32px, 769px, 1920px);
+  margin-left: fluid(
+    map.get($header-controls-gap, compact),
+    map.get($header-controls-gap, wide),
+    $breakpoint-wide + 1,
+    $breakpoint-desktop
+  );
 }
 
 .header-controls > button[data-header-visibility='wide'] {
-  margin-left: 16px;
+  margin-left: map.get($header-controls-gap, base);
 
   @include desktop-screen {
-    margin-left: fluid(8px, 16px, 769px, 1920px);
+    margin-left: fluid(
+      map.get($header-controls-gap, compact),
+      map.get($header-controls-gap, base),
+      $breakpoint-wide + 1,
+      $breakpoint-desktop
+    );
   }
 }
 
 .header-controls > button[data-header-visibility='mobile'] {
-  margin-left: 16px;
+  margin-left: map.get($header-controls-gap, base);
 }
