@@ -7,5 +7,5 @@ export interface Game {
   rating: number;
   likesCount: number;
   cardImage: string;
-  featured: boolean;
+  featured?: boolean;
 }

@@ -1,7 +1,7 @@
 import './games-carousel.scss';
 import { createGamesCarouselHeader } from './components/carousel-header/carousel-header.js';
 import { createGamesCarouselSlot, type SlotRole } from './components/slot/slot.js';
-import { fetchFeaturedGames } from '../../../../shared/api/games-data.js';
+import { fetchGames, type FetchGamesRequestOptions } from '../../../../shared/api/games-data.js';
 import type { Game } from '../../../../shared/interfaces.js';
 
 const SLOT_ROLES: SlotRole[] = ['thumb-left', 'peek-left', 'focus', 'peek-right', 'thumb-right'];
@@ -25,7 +25,7 @@ export interface GamesCarouselOptions {
 export async function createGamesCarousel({
   onGameSelect,
 }: GamesCarouselOptions = {}): Promise<HTMLElement> {
-  const games = await fetchFeaturedGames();
+  const games = await fetchGames({ featured: true } as FetchGamesRequestOptions);
   const cards = games.map((game) => createGamesCarouselSlot(game));
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   let index = 0;
