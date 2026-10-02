@@ -1,7 +1,7 @@
 import './card-grid.scss';
 import { createLibraryCard } from './components/library-card/library-card.js';
-import { fetchGames, type FetchGamesRequestOptions } from '../../../../shared/api/games-data.js';
-import type { Game } from '../../../../shared/interfaces.js';
+import { fetchGames } from '../../../../shared/api/games-data.js';
+import type { Game, FetchGamesRequestOptions } from '../../../../shared/interfaces.js';
 import { GAMES_PER_PAGE } from '../../constants.js';
 
 export interface CardGridOptions {

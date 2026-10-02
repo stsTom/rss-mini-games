@@ -1,7 +1,7 @@
 import './top-records.scss';
 import { GLYPH_TROPHY, MEDALS } from '../../constants.js';
 import { formatScore, formatTimeAgo } from '../../utils/format.js';
-import type { GameRecord } from '../../interfaces.js';
+import type { GameRecord } from '../../../../interfaces.js';
 
 function createRecordRow(record: GameRecord, medal: string): HTMLElement {
   const row = document.createElement('li');

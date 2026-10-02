@@ -7,13 +7,13 @@ import { createGameDetailsActions } from './components/actions/actions.js';
 import { createGameDetailsTopRecords } from './components/top-records/top-records.js';
 import { createGameDetailsCommentForm } from './components/comment-form/comment-form.js';
 import { createGameDetailsCommentCard } from './components/comment-card/comment-card.js';
-import {
-  fetchGameDetails,
-  fetchGameComments,
-  type FetchGameDetailsRequestOptions,
-} from '../../api/games-data.js';
-import type { Game } from '../../interfaces.js';
-import type { GameCommentsResponse, GameDetails } from './interfaces.js';
+import { fetchGameDetails, fetchGameComments } from '../../api/games-data.js';
+import type {
+  Game,
+  FetchGameDetailsRequestOptions,
+  GameCommentsResponse,
+  GameDetails,
+} from '../../interfaces.js';
 
 export interface GameDetailsDialog {
   element: HTMLDialogElement;

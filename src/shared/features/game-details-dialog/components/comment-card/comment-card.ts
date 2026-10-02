@@ -1,7 +1,7 @@
 import './comment-card.scss';
 import { AVATAR_COLOR_COUNT, GLYPH_HEART, GLYPH_HEART_OUTLINE } from '../../constants.js';
 import { formatTimeAgo } from '../../utils/format.js';
-import type { GameComment } from '../../interfaces.js';
+import type { GameComment } from '../../../../interfaces.js';
 
 function createLikeButton(likesCount: number): HTMLElement {
   const glyph = document.createElement('span');
