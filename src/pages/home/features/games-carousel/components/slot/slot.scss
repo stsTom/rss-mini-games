@@ -39,6 +39,11 @@
   object-fit: cover;
 }
 
+.games-carousel-slot > .card-skeleton {
+  position: absolute;
+  inset: 0;
+}
+
 .games-carousel-slot:not([data-slot-role]) {
   display: none;
 }
