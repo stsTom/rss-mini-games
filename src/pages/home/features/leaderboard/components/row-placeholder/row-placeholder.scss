@@ -1,0 +1,83 @@
+@use 'sass:map';
+@use '../../styles/tokens' as *;
+@use '../../styles/mixins' as *;
+@use 'styles/tokens' as *;
+@use 'styles/functions' as *;
+
+.leaderboard-row-placeholder {
+  --leaderboard-placeholder-gradient: linear-gradient(
+    90deg,
+    #{$color-outline} 25%,
+    #{$color-bg} 50%,
+    #{$color-outline} 75%
+  );
+
+  background: $color-white;
+  @include leaderboard-row-frame;
+
+  &:nth-child(even) {
+    background: $color-bg;
+  }
+
+  .leaderboard-cell-rank,
+  .leaderboard-cell-games,
+  .leaderboard-cell-score,
+  .leaderboard-cell-streak,
+  .leaderboard-cell-favorite-game {
+    justify-content: center;
+  }
+}
+
+.leaderboard-placeholder-bar {
+  display: block;
+  flex: none;
+  height: fluid(
+    $font-size-label-large,
+    $font-size-body-medium,
+    $breakpoint-base,
+    $breakpoint-desktop
+  );
+  border-radius: $border-rad-extra-small;
+  background: var(--leaderboard-placeholder-gradient);
+  background-size: 200% 100%;
+  animation: leaderboard-placeholder-shimmer 1.5s linear infinite;
+}
+
+.leaderboard-placeholder-bar-short {
+  width: 60%;
+  max-width: $placeholder-bar-width-short;
+}
+
+.leaderboard-placeholder-bar-medium {
+  width: 70%;
+  max-width: $placeholder-bar-width-medium;
+}
+
+.leaderboard-placeholder-bar-long {
+  width: 70%;
+  max-width: $placeholder-bar-width-long;
+}
+
+.leaderboard-placeholder-bar-name {
+  width: 100%;
+  max-width: $placeholder-bar-width-long;
+}
+
+.leaderboard-placeholder-bar-avatar {
+  @include leaderboard-avatar;
+
+  border-radius: 50%;
+  border-color: transparent;
+}
+
+@keyframes leaderboard-placeholder-shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .leaderboard-placeholder-bar {
+    animation: none;
+  }
+}

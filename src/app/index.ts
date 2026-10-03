@@ -10,7 +10,7 @@ const main = document.querySelector('main');
 
 if (main) {
   const router = createRouter();
-  const gameDetailsDialog = await createGameDetailsDialog();
+  const gameDetailsDialog = createGameDetailsDialog();
 
   const pageRenderers: Record<PageType, () => HTMLElement | Promise<HTMLElement>> = {
     home: () => createHomePage({ onGameSelect: gameDetailsDialog.open, router }),

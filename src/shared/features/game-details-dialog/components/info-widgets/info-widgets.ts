@@ -1,6 +1,6 @@
 import './info-widgets.scss';
 import { PRICE_FREE } from '../../constants.js';
-import type { GameSpecs } from '../../interfaces.js';
+import type { GameSpecs } from '../../../../interfaces.js';
 
 const INFO_WIDGETS: { key: keyof GameSpecs; label: string }[] = [
   { key: 'genre', label: 'Genre' },

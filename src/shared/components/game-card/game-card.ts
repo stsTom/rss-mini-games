@@ -31,6 +31,7 @@ function createMetaItem(itemClass: string, icon: 'star' | 'heart', value: string
 export function createGameCard(game: Game): HTMLElement {
   const card = document.createElement('div');
   card.classList.add('game-card');
+  card.dataset.gameSlug = game.slug;
 
   const heading = document.createElement('h3');
   heading.classList.add('game-card-title');

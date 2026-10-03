@@ -1,7 +1,10 @@
 import './leaderboard.scss';
 import { fetchLeaderboard } from './api/leaderboard-data.js';
 import { createLeaderboardRow } from './components/row/row.js';
+import { createLeaderboardRowPlaceholder } from './components/row-placeholder/row-placeholder.js';
 import { LEADERBOARD_LABEL, LEADERBOARD_VISIBILITY } from './dataset-values.js';
+
+const PLACEHOLDER_ROWS_COUNT = 5;
 
 function createLabelPair(shortText: string, longText: string): HTMLElement[] {
   const short = document.createElement('span');
@@ -52,9 +55,7 @@ function createHeaderRow(): HTMLElement {
   return headerRow;
 }
 
-export async function createLeaderboard(): Promise<HTMLElement> {
-  const { data, meta } = await fetchLeaderboard();
-
+export function createLeaderboard(): HTMLElement {
   const section = document.createElement('section');
   section.classList.add('leaderboard');
 
@@ -66,15 +67,37 @@ export async function createLeaderboard(): Promise<HTMLElement> {
 
   const heading = document.createElement('h2');
   heading.classList.add('leaderboard-heading');
-  heading.textContent = meta.description;
+  heading.textContent = 'Top Players This Week';
 
   headingRow.append(accentBar, heading);
 
   const table = document.createElement('div');
   table.classList.add('leaderboard-table');
-  table.append(createHeaderRow(), ...data.map((entry) => createLeaderboardRow(entry)));
+  table.ariaBusy = 'true';
 
+  const placeholders = Array.from({ length: PLACEHOLDER_ROWS_COUNT }, (_, index) =>
+    createLeaderboardRowPlaceholder(index + 1)
+  );
+
+  table.append(createHeaderRow(), ...placeholders);
   section.append(headingRow, table);
+
+  async function loadTableData() {
+    try {
+      const { data } = await fetchLeaderboard();
+
+      table.replaceChildren(createHeaderRow(), ...data.map((entry) => createLeaderboardRow(entry)));
+    } catch {
+      const errorDiv = document.createElement('div');
+      errorDiv.textContent = 'Oops, smth went wrong. Please, try again'; // replace with an error layout
+
+      table.replaceChildren(errorDiv);
+    } finally {
+      table.removeAttribute('aria-busy');
+    }
+  }
+
+  void loadTableData();
 
   return section;
 }
