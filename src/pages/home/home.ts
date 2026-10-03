@@ -1,6 +1,6 @@
 import { createHero } from './features/hero/hero.js';
 import { createGamesCarousel } from './features/games-carousel/games-carousel.js';
-// import { createLeaderboard } from './features/leaderboard/leaderboard.js';
+import { createLeaderboard } from './features/leaderboard/leaderboard.js';
 import { createDeveloperCta } from './features/developer-cta/developer-cta.js';
 import type { Game } from '../../shared/interfaces.js';
 import type { Router } from '../../shared/services/router.js';
@@ -18,7 +18,7 @@ export async function createHomePage({
   page.append(
     createHero({ router }),
     createGamesCarousel({ onGameSelect }),
-    // await createLeaderboard(),
+    createLeaderboard(),
     createDeveloperCta()
   );
 
