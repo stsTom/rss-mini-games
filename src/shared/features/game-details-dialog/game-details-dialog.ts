@@ -7,13 +7,22 @@ import { createGameDetailsActions } from './components/actions/actions.js';
 import { createGameDetailsTopRecords } from './components/top-records/top-records.js';
 import { createGameDetailsCommentForm } from './components/comment-form/comment-form.js';
 import { createGameDetailsCommentCard } from './components/comment-card/comment-card.js';
-import { fetchGameComments, fetchGameDetails } from './api/game-details-data.js';
-import type { Game } from '../../interfaces.js';
-import type { GameCommentsResponse } from './interfaces.js';
+import { fetchGameDetails, fetchGameComments } from '../../api/games-data.js';
+import type {
+  Game,
+  FetchGameDetailsRequestOptions,
+  GameCommentsResponse,
+  GameDetails,
+} from '../../interfaces.js';
 
 export interface GameDetailsDialog {
   element: HTMLDialogElement;
   open: (game: Game, onClose?: () => void) => void;
+}
+
+interface GameDialogProperties {
+  details: GameDetails;
+  comments: GameCommentsResponse;
 }
 
 function createCommentsSection({ data, meta }: GameCommentsResponse): HTMLElement {
@@ -33,8 +42,7 @@ function createCommentsSection({ data, meta }: GameCommentsResponse): HTMLElemen
   return section;
 }
 
-export async function createGameDetailsDialog(): Promise<GameDetailsDialog> {
-  const [details, comments] = await Promise.all([fetchGameDetails(), fetchGameComments()]);
+export function createGameDetailsDialog(): GameDetailsDialog {
   let handleClose: (() => void) | undefined;
 
   const layout = createDialogLayout({
@@ -47,7 +55,7 @@ export async function createGameDetailsDialog(): Promise<GameDetailsDialog> {
   });
   layout.card.classList.add('game-details-dialog-card');
 
-  const render = (): void => {
+  const render = ({ details, comments }: GameDialogProperties): void => {
     const body = document.createElement('div');
     body.classList.add('game-details-body');
 
@@ -70,9 +78,14 @@ export async function createGameDetailsDialog(): Promise<GameDetailsDialog> {
     );
   };
 
-  const open = (_game: Game, onClose?: () => void): void => {
+  const open = async (_game: Game, onClose?: () => void) => {
+    const [details, comments] = await Promise.all([
+      fetchGameDetails({ gameSlug: _game.slug } as FetchGameDetailsRequestOptions),
+      fetchGameComments({ gameSlug: _game.slug } as FetchGameDetailsRequestOptions),
+    ]);
+
     handleClose = onClose;
-    render();
+    render({ details, comments } as GameDialogProperties);
     layout.open();
   };
 

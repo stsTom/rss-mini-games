@@ -1,7 +1,7 @@
 import './summary.scss';
 import { GLYPH_HEART, GLYPH_STAR } from '../../constants.js';
 import { formatCompactCount } from '../../utils/format.js';
-import type { GameDetails } from '../../interfaces.js';
+import type { GameDetails } from '../../../../interfaces.js';
 
 function createRatingItem(glyph: string, value: string): HTMLElement {
   const item = document.createElement('span');
