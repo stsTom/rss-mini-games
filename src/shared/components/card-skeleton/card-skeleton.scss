@@ -1,11 +1,19 @@
 @use 'styles/tokens' as *;
 
 .card-skeleton {
+  --card-skeleton-gradient: linear-gradient(
+    90deg,
+    #{$color-outline} 25%,
+    #{$color-bg} 50%,
+    #{$color-outline} 75%
+  );
+  --card-skeleton-size: 200% 100%;
+
   width: 100%;
   height: 100%;
   border-radius: inherit;
-  background: linear-gradient(90deg, $color-outline 25%, $color-bg 50%, $color-outline 75%);
-  background-size: 200% 100%;
+  background: var(--card-skeleton-gradient);
+  background-size: var(--card-skeleton-size);
   animation: card-skeleton-shimmer 1.5s linear infinite;
 }
 

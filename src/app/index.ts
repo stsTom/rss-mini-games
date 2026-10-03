@@ -1,7 +1,7 @@
 import '../../styles/global.scss';
 import { createHeader } from '../shared/features/header/header.js';
 import { createHomePage } from '../pages/home/home.js';
-// import { createLibraryPage } from '../pages/library/library.js';
+import { createLibraryPage } from '../pages/library/library.js';
 import { createFooter } from '../shared/features/footer/footer.js';
 import { createGameDetailsDialog } from '../shared/features/game-details-dialog/game-details-dialog.js';
 import { createRouter, type PageType } from '../shared/services/router.js';
@@ -14,8 +14,7 @@ if (main) {
 
   const pageRenderers: Record<PageType, () => HTMLElement | Promise<HTMLElement>> = {
     home: () => createHomePage({ onGameSelect: gameDetailsDialog.open, router }),
-    // library: () => createLibraryPage({ onGameSelect: gameDetailsDialog.open }),
-    library: () => document.createElement('div'),
+    library: () => createLibraryPage({ onGameSelect: gameDetailsDialog.open }),
   };
 
   let currentPage = await pageRenderers[router.currentPage]!();
