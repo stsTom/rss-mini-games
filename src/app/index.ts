@@ -17,12 +17,16 @@ if (main) {
     library: () => createLibraryPage({ onGameSelect: gameDetailsDialog.open }),
   };
 
-  let currentPage = await pageRenderers[router.currentPage]!();
+  let currentPage = await pageRenderers[router.state.page]!();
 
-  router.subscribe(async (page) => {
+  router.subscribe(async ({ page }, previous) => {
+    if (page === previous.page) {
+      return;
+    }
+
     const nextPage = await pageRenderers[page]!();
 
-    if (router.currentPage !== page) {
+    if (router.state.page !== page) {
       return;
     }
 
