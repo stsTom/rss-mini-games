@@ -10,7 +10,7 @@ export async function createLibraryPage(options: CardGridOptions): Promise<HTMLE
   page.append(
     createLibraryHeader(),
     createGamesSection(),
-    await createCardGrid(options),
+    createCardGrid(options),
     createPagination()
   );
 

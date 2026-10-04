@@ -1,0 +1,38 @@
+@use 'styles/tokens' as *;
+
+.error-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $size-times-1;
+  padding: $size-times-2;
+  text-align: center;
+
+  > p {
+    margin: 0;
+    font-size: $font-size-body-small;
+    color: $color-on-bg;
+  }
+}
+
+.error-layout-retry {
+  padding: $size-times-1 $size-times-2;
+  border: $border-width-thin solid $color-outline-variant;
+  border-radius: $border-rad-small;
+  background: $color-secondary;
+  box-shadow: none;
+  color: $color-tertiary;
+  font-family: inherit;
+  font-size: $font-size-label-large;
+  font-weight: $weight-medium;
+  cursor: pointer;
+
+  &:hover {
+    background: $color-outline;
+  }
+
+  &:focus-visible {
+    outline: $outline-width solid $color-tertiary;
+    outline-offset: $outline-width;
+  }
+}
