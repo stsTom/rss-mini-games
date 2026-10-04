@@ -51,7 +51,10 @@ export interface GameCommentsResponse {
 }
 
 export interface FetchGamesRequestOptions {
-  featured: boolean;
+  featured?: boolean | undefined;
+  category?: string | undefined;
+  sort?: string | undefined;
+  limit?: number | undefined;
 }
 
 export interface FetchGameDetailsRequestOptions {

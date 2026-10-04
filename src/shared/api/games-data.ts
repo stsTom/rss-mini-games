@@ -17,10 +17,30 @@ interface GameDetailsResponse {
 
 const GAMES_API_BASE_URL = `${API_BASE_URL}/games`;
 
-export async function fetchGames({ featured }: FetchGamesRequestOptions): Promise<Game[]> {
-  const response = featured
-    ? await fetch(`${GAMES_API_BASE_URL}?featured=true`)
-    : await fetch(`${GAMES_API_BASE_URL}`);
+export async function fetchGames({
+  featured,
+  category,
+  sort,
+  limit,
+}: FetchGamesRequestOptions): Promise<Game[]> {
+  const query = new URLSearchParams();
+  if (featured) {
+    query.set('featured', 'true');
+  }
+  if (category) {
+    query.set('category', category);
+  }
+  if (sort) {
+    query.set('sort', sort);
+  }
+  if (limit) {
+    query.set('limit', String(limit));
+  }
+
+  const queryString = query.toString();
+  const response = await fetch(
+    queryString ? `${GAMES_API_BASE_URL}?${queryString}` : GAMES_API_BASE_URL
+  );
   const { data } = (await response.json()) as GamesSeedResponse;
 
   return data;

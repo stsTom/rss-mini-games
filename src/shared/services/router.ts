@@ -6,6 +6,7 @@ export interface RouteState {
   page: PageType;
   game?: string | undefined;
   auth?: AuthMode | undefined;
+  category?: string | undefined;
 }
 
 type RouteListener = (state: RouteState, previous: RouteState) => void;
@@ -31,11 +32,15 @@ export function parseUrl({ pathname, search }: Location | URL): RouteState {
     page: path === PAGE_PATHS.library ? 'library' : 'home',
     game: query.get('game') || undefined,
     auth: auth === 'login' || auth === 'register' ? auth : undefined,
+    category: query.get('category') || undefined,
   };
 }
 
 export function buildUrl(state: RouteState): string {
   const query = new URLSearchParams();
+  if (state.category) {
+    query.set('category', state.category);
+  }
   if (state.game) {
     query.set('game', state.game);
   }

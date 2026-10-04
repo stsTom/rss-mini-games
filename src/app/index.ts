@@ -41,7 +41,7 @@ if (main) {
 
   const pageRenderers: Record<PageType, () => HTMLElement | Promise<HTMLElement>> = {
     home: () => createHomePage({ onGameSelect: selectGame, router }),
-    library: () => createLibraryPage({ onGameSelect: selectGame }),
+    library: () => createLibraryPage({ onGameSelect: selectGame, router }),
   };
 
   let currentPage = await pageRenderers[router.state.page]!();

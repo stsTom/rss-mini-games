@@ -11,7 +11,12 @@ export interface CardGridOptions {
   onGameSelect: (game: Game) => void;
 }
 
-export function createCardGrid({ onGameSelect }: CardGridOptions): HTMLElement {
+export interface CardGrid {
+  element: HTMLElement;
+  load: (options: FetchGamesRequestOptions) => void;
+}
+
+export function createCardGrid({ onGameSelect }: CardGridOptions): CardGrid {
   const grid = document.createElement('div');
   grid.classList.add('card-grid');
 
@@ -26,12 +31,19 @@ export function createCardGrid({ onGameSelect }: CardGridOptions): HTMLElement {
     );
   }
 
-  async function loadGames() {
+  let latestRequest = 0;
+
+  async function loadGames(options: FetchGamesRequestOptions) {
+    latestRequest += 1;
+    const request = latestRequest;
     showSkeletons();
 
     try {
-      const allGames = await fetchGames({ featured: false } as FetchGamesRequestOptions);
-      const games = allGames.slice(0, GAMES_PER_PAGE);
+      const games = await fetchGames({ ...options, limit: GAMES_PER_PAGE });
+
+      if (request !== latestRequest) {
+        return;
+      }
 
       if (games.length === 0) {
         grid.replaceChildren(createEmptyBanner());
@@ -42,13 +54,15 @@ export function createCardGrid({ onGameSelect }: CardGridOptions): HTMLElement {
         ...games.map((game) => createLibraryCard(game, () => onGameSelect(game)))
       );
     } catch {
-      grid.replaceChildren(createErrorPlaceholder(() => void loadGames()));
+      if (request === latestRequest) {
+        grid.replaceChildren(createErrorPlaceholder(() => void loadGames(options)));
+      }
     } finally {
-      grid.removeAttribute('aria-busy');
+      if (request === latestRequest) {
+        grid.removeAttribute('aria-busy');
+      }
     }
   }
 
-  void loadGames();
-
-  return grid;
+  return { element: grid, load: (options) => void loadGames(options) };
 }
