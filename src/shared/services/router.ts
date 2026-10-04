@@ -1,8 +1,11 @@
 export type PageType = 'home' | 'library';
 
+export type AuthMode = 'login' | 'register';
+
 export interface RouteState {
   page: PageType;
   game?: string | undefined;
+  auth?: AuthMode | undefined;
 }
 
 type RouteListener = (state: RouteState, previous: RouteState) => void;
@@ -22,10 +25,12 @@ const PAGE_PATHS: Record<PageType, string> = {
 export function parseUrl({ pathname, search }: Location | URL): RouteState {
   const path = pathname.length > 1 && pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
   const query = new URLSearchParams(search);
+  const auth = query.get('auth');
 
   return {
     page: path === PAGE_PATHS.library ? 'library' : 'home',
     game: query.get('game') || undefined,
+    auth: auth === 'login' || auth === 'register' ? auth : undefined,
   };
 }
 
@@ -33,6 +38,9 @@ export function buildUrl(state: RouteState): string {
   const query = new URLSearchParams();
   if (state.game) {
     query.set('game', state.game);
+  }
+  if (state.auth) {
+    query.set('auth', state.auth);
   }
 
   const queryString = query.toString();

@@ -5,14 +5,19 @@ import { createRegisterForm } from './components/register-form/register-form.js'
 
 export type AuthDialogTab = 'login' | 'register';
 
-export interface AuthDialog {
-  element: HTMLDialogElement;
-  openLogin: () => void;
-  openRegister: () => void;
+export interface AuthDialogOptions {
+  onTabChange: (tab: AuthDialogTab) => void;
+  onClose: () => void;
 }
 
-export function createAuthDialog(): AuthDialog {
-  const layout = createDialogLayout({ className: 'auth-dialog' });
+export interface AuthDialog {
+  element: HTMLDialogElement;
+  open: (tab: AuthDialogTab) => void;
+  close: () => void;
+}
+
+export function createAuthDialog({ onTabChange, onClose }: AuthDialogOptions): AuthDialog {
+  const layout = createDialogLayout({ className: 'auth-dialog', onClose });
   const dialog = layout.element;
   layout.card.classList.add('auth-dialog-content');
 
@@ -59,33 +64,28 @@ export function createAuthDialog(): AuthDialog {
 
   const loginForm = createLoginForm({
     onSwitchToRegister: () => {
-      setActiveTab('register');
+      onTabChange('register');
     },
   });
 
   const registerForm = createRegisterForm({
     onSwitchToLogin: () => {
-      setActiveTab('login');
+      onTabChange('login');
     },
   });
 
-  const openLogin = (): void => {
-    setActiveTab('login');
-    layout.open();
-  };
-
-  const openRegister = (): void => {
-    setActiveTab('register');
+  const open = (tab: AuthDialogTab): void => {
+    setActiveTab(tab);
     layout.open();
   };
 
   loginTab.addEventListener('click', () => {
-    setActiveTab('login');
+    onTabChange('login');
   });
 
   registerTab.addEventListener('click', () => {
-    setActiveTab('register');
+    onTabChange('register');
   });
 
-  return { element: dialog, openLogin, openRegister };
+  return { element: dialog, open, close: layout.close };
 }
