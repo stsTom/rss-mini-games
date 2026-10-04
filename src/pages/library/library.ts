@@ -5,6 +5,7 @@ import { createCardGrid, type CardGridOptions } from './features/card-grid/card-
 import { createPagination } from './features/pagination/pagination.js';
 import { CATEGORIES, DEFAULT_CATEGORY, DEFAULT_SORT, SORT_OPTIONS } from './constants.js';
 import type { RouteState, Router } from '../../shared/services/router.js';
+import type { FetchGamesRequestOptions } from '../../shared/interfaces.js';
 
 export interface LibraryPageOptions extends CardGridOptions {
   router: Router;
@@ -22,7 +23,21 @@ export async function createLibraryPage({
   onGameSelect,
   router,
 }: LibraryPageOptions): Promise<HTMLElement> {
-  const cardGrid = createCardGrid({ onGameSelect });
+  let filters: FetchGamesRequestOptions = {};
+  let currentPage = 1;
+
+  const pagination = createPagination({
+    onPageChange: (pageNumber) => {
+      currentPage = pageNumber;
+      loadGrid();
+    },
+  });
+  const cardGrid = createCardGrid({
+    onGameSelect,
+    onLoad: (meta) => pagination.render(meta.page, meta.totalPages),
+  });
+  const loadGrid = (): void => cardGrid.load({ ...filters, page: currentPage });
+
   const gamesSection = createGamesSection({
     onCategoryChange: (category) =>
       router.update({ category: category === DEFAULT_CATEGORY ? undefined : category }),
@@ -34,7 +49,9 @@ export async function createLibraryPage({
     const sort = resolveOption(SORT_OPTIONS, state.sort, DEFAULT_SORT);
     gamesSection.setCategory(category);
     gamesSection.setSort(sort);
-    cardGrid.load({ category, sort });
+    filters = { category, sort };
+    currentPage = 1;
+    loadGrid();
   };
 
   applyState(router.state);
@@ -51,7 +68,7 @@ export async function createLibraryPage({
 
   const page = document.createElement('div');
   page.classList.add('library');
-  page.append(createLibraryHeader(), gamesSection.element, cardGrid.element, createPagination());
+  page.append(createLibraryHeader(), gamesSection.element, cardGrid.element, pagination.element);
 
   return page;
 }
