@@ -12,7 +12,6 @@ import { createGameDetailsCommentForm } from './components/comment-form/comment-
 import { createGameDetailsCommentCard } from './components/comment-card/comment-card.js';
 import { fetchGameDetails, fetchGameComments } from '../../api/games-data.js';
 import type { Game, GameCommentsResponse, GameDetails } from '../../interfaces.js';
-import { createCardSkeleton } from '../../components/card-skeleton/card-skeleton.js';
 
 export interface GameDetailsDialog {
   element: HTMLDialogElement;
@@ -43,7 +42,7 @@ function createCommentsSection({ data, meta }: GameCommentsResponse): HTMLElemen
 
 function createSkeletonBar(type: string): HTMLDivElement {
   const skeletonBar = document.createElement('div');
-  skeletonBar.classList.add(`game-details-dialog-skeleton-bar-${type}`);
+  skeletonBar.classList.add('game-details-skeleton-bar', `game-details-skeleton-bar-${type}`);
 
   return skeletonBar;
 }
@@ -51,7 +50,7 @@ function createSkeletonBar(type: string): HTMLDivElement {
 function createBadgesSkeleton(): HTMLElement {
   const badges = document.createElement('dl');
   badges.classList.add('game-details-info-widgets');
-  badges.append(...INFO_WIDGETS.map(() => createCardSkeleton()));
+  badges.append(...INFO_WIDGETS.map(() => createSkeletonBar('badge')));
 
   return badges;
 }
@@ -101,7 +100,7 @@ export function createGameDetailsDialog(): GameDetailsDialog {
       summary.classList.add('game-details-summary');
 
       const title = createSkeletonBar('title');
-      title.classList.add('game-details-summary-title');
+      // title.classList.add('game-details-summary-title');
 
       const ratings = document.createElement('div');
       ratings.classList.add('game-details-summary-ratings');
@@ -131,9 +130,7 @@ export function createGameDetailsDialog(): GameDetailsDialog {
       const actions = document.createElement('div');
       actions.classList.add('game-details-actions');
 
-      const action = createSkeletonBar('action');
-
-      actions.append(action, action);
+      actions.append(createSkeletonBar('action'), createSkeletonBar('action'));
 
       return actions;
     };
@@ -167,17 +164,17 @@ export function createGameDetailsDialog(): GameDetailsDialog {
       list.classList.add('game-details-comments');
 
       const createCommentSkeleton = () => {
-        const commentLayout = document.createElement('div');
-        commentLayout.classList.add('comment-skeleton');
+        const commentLayout = document.createElement('li');
+        commentLayout.classList.add('game-details-comment-skeleton');
 
         const heading = createSkeletonBar('comment-user-name');
 
         const commentContentSkeleton = document.createElement('ul');
-        commentContentSkeleton.classList.add('comment-lines-skeleton-container');
+        commentContentSkeleton.classList.add('game-details-comment-lines-skeleton');
 
         for (let index = 0; index < 3; index++) {
           const line = document.createElement('li');
-          line.classList.add('comment-line-skeleton');
+          line.classList.add('game-details-comment-line-skeleton');
 
           const lineContent = createSkeletonBar('comment-line');
           line.append(lineContent);
@@ -191,10 +188,10 @@ export function createGameDetailsDialog(): GameDetailsDialog {
       };
 
       for (let index = 0; index < 3; index++) {
-        commentBoxSkeleton.append(createCommentSkeleton());
+        list.append(createCommentSkeleton());
       }
 
-      section.append(commentsHeadingSkeleton, commentBoxSkeleton);
+      section.append(commentsHeadingSkeleton, commentBoxSkeleton, list);
 
       return section;
     };
