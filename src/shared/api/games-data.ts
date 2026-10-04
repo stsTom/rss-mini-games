@@ -5,11 +5,8 @@ import type {
   FetchGameDetailsRequestOptions,
   FetchGamesRequestOptions,
   GameCommentsResponse,
+  GamesPage,
 } from '../interfaces.js';
-
-interface GamesSeedResponse {
-  data: Game[];
-}
 
 interface GameDetailsResponse {
   data: GameDetails;
@@ -17,11 +14,40 @@ interface GameDetailsResponse {
 
 const GAMES_API_BASE_URL = `${API_BASE_URL}/games`;
 
-export async function fetchGames({ featured }: FetchGamesRequestOptions): Promise<Game[]> {
-  const response = featured
-    ? await fetch(`${GAMES_API_BASE_URL}?featured=true`)
-    : await fetch(`${GAMES_API_BASE_URL}`);
-  const { data } = (await response.json()) as GamesSeedResponse;
+export async function fetchGamesPage({
+  featured,
+  category,
+  sort,
+  limit,
+  page,
+}: FetchGamesRequestOptions): Promise<GamesPage> {
+  const query = new URLSearchParams();
+  if (featured) {
+    query.set('featured', 'true');
+  }
+  if (category) {
+    query.set('category', category);
+  }
+  if (sort) {
+    query.set('sort', sort);
+  }
+  if (limit) {
+    query.set('limit', String(limit));
+  }
+  if (page) {
+    query.set('page', String(page));
+  }
+
+  const queryString = query.toString();
+  const response = await fetch(
+    queryString ? `${GAMES_API_BASE_URL}?${queryString}` : GAMES_API_BASE_URL
+  );
+
+  return (await response.json()) as GamesPage;
+}
+
+export async function fetchGames(options: FetchGamesRequestOptions): Promise<Game[]> {
+  const { data } = await fetchGamesPage(options);
 
   return data;
 }

@@ -51,7 +51,23 @@ export interface GameCommentsResponse {
 }
 
 export interface FetchGamesRequestOptions {
-  featured: boolean;
+  featured?: boolean | undefined;
+  category?: string | undefined;
+  sort?: string | undefined;
+  limit?: number | undefined;
+  page?: number | undefined;
+}
+
+export interface GamesPageMeta {
+  page: number;
+  limit: number;
+  totalItems: number;
+  totalPages: number;
+}
+
+export interface GamesPage {
+  data: Game[];
+  meta: GamesPageMeta;
 }
 
 export interface FetchGameDetailsRequestOptions {

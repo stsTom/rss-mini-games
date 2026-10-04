@@ -1,7 +1,11 @@
 import './card-grid.scss';
 import { createLibraryCard } from './components/library-card/library-card.js';
-import { fetchGames } from '../../../../shared/api/games-data.js';
-import type { Game, FetchGamesRequestOptions } from '../../../../shared/interfaces.js';
+import { fetchGamesPage } from '../../../../shared/api/games-data.js';
+import type {
+  Game,
+  FetchGamesRequestOptions,
+  GamesPageMeta,
+} from '../../../../shared/interfaces.js';
 import { GAMES_PER_PAGE } from '../../constants.js';
 import { createCardSkeleton } from '../../../../shared/components/card-skeleton/card-skeleton.js';
 import { createErrorPlaceholder } from '../../../../shared/components/error-layout/error-layout.js';
@@ -11,7 +15,19 @@ export interface CardGridOptions {
   onGameSelect: (game: Game) => void;
 }
 
-export function createCardGrid({ onGameSelect }: CardGridOptions): HTMLElement {
+export interface CardGridLoadOptions {
+  onLoad?: (meta: GamesPageMeta) => void;
+}
+
+export interface CardGrid {
+  element: HTMLElement;
+  load: (options: FetchGamesRequestOptions) => void;
+}
+
+export function createCardGrid({
+  onGameSelect,
+  onLoad,
+}: CardGridOptions & CardGridLoadOptions): CardGrid {
   const grid = document.createElement('div');
   grid.classList.add('card-grid');
 
@@ -26,12 +42,21 @@ export function createCardGrid({ onGameSelect }: CardGridOptions): HTMLElement {
     );
   }
 
-  async function loadGames() {
+  let latestRequest = 0;
+
+  async function loadGames(options: FetchGamesRequestOptions) {
+    latestRequest += 1;
+    const request = latestRequest;
     showSkeletons();
 
     try {
-      const allGames = await fetchGames({ featured: false } as FetchGamesRequestOptions);
-      const games = allGames.slice(0, GAMES_PER_PAGE);
+      const { data: games, meta } = await fetchGamesPage({ ...options, limit: GAMES_PER_PAGE });
+
+      if (request !== latestRequest) {
+        return;
+      }
+
+      onLoad?.(meta);
 
       if (games.length === 0) {
         grid.replaceChildren(createEmptyBanner());
@@ -42,13 +67,15 @@ export function createCardGrid({ onGameSelect }: CardGridOptions): HTMLElement {
         ...games.map((game) => createLibraryCard(game, () => onGameSelect(game)))
       );
     } catch {
-      grid.replaceChildren(createErrorPlaceholder(() => void loadGames()));
+      if (request === latestRequest) {
+        grid.replaceChildren(createErrorPlaceholder(() => void loadGames(options)));
+      }
     } finally {
-      grid.removeAttribute('aria-busy');
+      if (request === latestRequest) {
+        grid.removeAttribute('aria-busy');
+      }
     }
   }
 
-  void loadGames();
-
-  return grid;
+  return { element: grid, load: (options) => void loadGames(options) };
 }
