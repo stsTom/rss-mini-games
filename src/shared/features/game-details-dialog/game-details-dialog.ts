@@ -12,6 +12,7 @@ import { createGameDetailsCommentForm } from './components/comment-form/comment-
 import { createGameDetailsCommentCard } from './components/comment-card/comment-card.js';
 import { fetchGameDetails, fetchGameComments } from '../../api/games-data.js';
 import type { Game, GameCommentsResponse, GameDetails } from '../../interfaces.js';
+import { createErrorPlaceholder } from '../../components/error-layout/error-layout.js';
 
 export interface GameDetailsDialog {
   element: HTMLDialogElement;
@@ -100,7 +101,6 @@ export function createGameDetailsDialog(): GameDetailsDialog {
       summary.classList.add('game-details-summary');
 
       const title = createSkeletonBar('title');
-      // title.classList.add('game-details-summary-title');
 
       const ratings = document.createElement('div');
       ratings.classList.add('game-details-summary-ratings');
@@ -230,7 +230,7 @@ export function createGameDetailsDialog(): GameDetailsDialog {
 
       render({ details, comments } as GameDialogProperties);
     } catch {
-      console.log('error');
+      layout.card.replaceChildren(createErrorPlaceholder(() => open(_game)));
     } finally {
       layout.card.removeAttribute('aria-busy');
     }

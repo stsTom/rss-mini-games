@@ -3,6 +3,7 @@ import { fetchLeaderboard } from './api/leaderboard-data.js';
 import { createLeaderboardRow } from './components/row/row.js';
 import { createLeaderboardRowPlaceholder } from './components/row-placeholder/row-placeholder.js';
 import { LEADERBOARD_LABEL, LEADERBOARD_VISIBILITY } from './dataset-values.js';
+import { createErrorPlaceholder } from '../../../../shared/components/error-layout/error-layout.js';
 
 const PLACEHOLDER_ROWS_COUNT = 5;
 
@@ -75,28 +76,30 @@ export function createLeaderboard(): HTMLElement {
   table.classList.add('leaderboard-table');
   table.ariaBusy = 'true';
 
-  const placeholders = Array.from({ length: PLACEHOLDER_ROWS_COUNT }, (_, index) =>
-    createLeaderboardRowPlaceholder(index + 1)
-  );
+  function populateLeaderboard() {
+    const placeholders = Array.from({ length: PLACEHOLDER_ROWS_COUNT }, (_, index) =>
+      createLeaderboardRowPlaceholder(index + 1)
+    );
 
-  table.append(createHeaderRow(), ...placeholders);
-  section.append(headingRow, table);
+    table.append(createHeaderRow(), ...placeholders);
+    section.replaceChildren(headingRow, table);
+  }
 
   async function loadTableData() {
+    populateLeaderboard();
+
     try {
       const { data } = await fetchLeaderboard();
 
       table.replaceChildren(createHeaderRow(), ...data.map((entry) => createLeaderboardRow(entry)));
     } catch {
-      const errorDiv = document.createElement('div');
-      errorDiv.textContent = 'Oops, smth went wrong. Please, try again'; // replace with an error layout
-
-      table.replaceChildren(errorDiv);
+      section.replaceChildren(createErrorPlaceholder(() => void loadTableData()));
     } finally {
       table.removeAttribute('aria-busy');
     }
   }
 
+  populateLeaderboard();
   void loadTableData();
 
   return section;

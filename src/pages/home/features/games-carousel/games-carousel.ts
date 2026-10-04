@@ -7,6 +7,7 @@ import {
 } from './components/slot/slot.js';
 import { fetchGames } from '../../../../shared/api/games-data.js';
 import type { Game, FetchGamesRequestOptions } from '../../../../shared/interfaces.js';
+import { createErrorPlaceholder } from '../../../../shared/components/error-layout/error-layout.js';
 
 const SLOT_ROLES: SlotRole[] = ['thumb-left', 'peek-left', 'focus', 'peek-right', 'thumb-right'];
 const FOCUS_ROLE_INDEX = SLOT_ROLES.indexOf('focus');
@@ -41,17 +42,22 @@ export function createGamesCarousel({ onGameSelect }: GamesCarouselOptions = {})
 
   const content = document.createElement('div');
   content.classList.add('games-carousel-content');
-  content.append(...SLOT_ROLES.map((role) => createGamesCarouselSkeletonSlot(role)));
 
-  section.append(
-    createGamesCarouselHeader({
-      onPrevious: () => (section.ariaBusy ? {} : navigate(-1)),
-      onNext: () => (section.ariaBusy ? {} : navigate(1)),
-    }),
-    content
-  );
+  function populateCarouselSkeleton() {
+    content.replaceChildren(...SLOT_ROLES.map((role) => createGamesCarouselSkeletonSlot(role)));
+
+    section.append(
+      createGamesCarouselHeader({
+        onPrevious: () => (section.ariaBusy ? {} : navigate(-1)),
+        onNext: () => (section.ariaBusy ? {} : navigate(1)),
+      }),
+      content
+    );
+  }
 
   async function loadGames(): Promise<void> {
+    populateCarouselSkeleton();
+
     try {
       games = await fetchGames({ featured: true } as FetchGamesRequestOptions);
       cards = games.map((game) => createGamesCarouselSlot(game));
@@ -61,10 +67,7 @@ export function createGamesCarousel({ onGameSelect }: GamesCarouselOptions = {})
       scheduleAutoplay();
       handleSwipe();
     } catch {
-      const errorDiv = document.createElement('div');
-      errorDiv.textContent = 'Oops, smth went wrong. Please, try again'; // replace with an error layout
-
-      content.replaceChildren(errorDiv);
+      content.replaceChildren(createErrorPlaceholder(() => void loadGames()));
     } finally {
       section.removeAttribute('aria-busy');
     }
