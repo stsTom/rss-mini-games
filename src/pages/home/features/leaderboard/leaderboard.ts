@@ -4,6 +4,7 @@ import { createLeaderboardRow } from './components/row/row.js';
 import { createLeaderboardRowPlaceholder } from './components/row-placeholder/row-placeholder.js';
 import { LEADERBOARD_LABEL, LEADERBOARD_VISIBILITY } from './dataset-values.js';
 import { createErrorPlaceholder } from '../../../../shared/components/error-layout/error-layout.js';
+import { createEmptyBanner } from '../../../../shared/components/empty-banner/emty-banner.js';
 
 const PLACEHOLDER_ROWS_COUNT = 5;
 
@@ -90,6 +91,11 @@ export function createLeaderboard(): HTMLElement {
 
     try {
       const { data } = await fetchLeaderboard();
+
+      if (data.length === 0) {
+        section.replaceChildren(headingRow, createEmptyBanner());
+        return;
+      }
 
       table.replaceChildren(createHeaderRow(), ...data.map((entry) => createLeaderboardRow(entry)));
     } catch {

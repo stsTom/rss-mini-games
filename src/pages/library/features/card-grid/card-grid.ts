@@ -5,6 +5,7 @@ import type { Game, FetchGamesRequestOptions } from '../../../../shared/interfac
 import { GAMES_PER_PAGE } from '../../constants.js';
 import { createCardSkeleton } from '../../../../shared/components/card-skeleton/card-skeleton.js';
 import { createErrorPlaceholder } from '../../../../shared/components/error-layout/error-layout.js';
+import { createEmptyBanner } from '../../../../shared/components/empty-banner/emty-banner.js';
 
 export interface CardGridOptions {
   onGameSelect: (game: Game) => void;
@@ -31,6 +32,12 @@ export function createCardGrid({ onGameSelect }: CardGridOptions): HTMLElement {
     try {
       const allGames = await fetchGames({ featured: false } as FetchGamesRequestOptions);
       const games = allGames.slice(0, GAMES_PER_PAGE);
+
+      if (games.length === 0) {
+        grid.replaceChildren(createEmptyBanner());
+        return;
+      }
+
       grid.replaceChildren(
         ...games.map((game) => createLibraryCard(game, () => onGameSelect(game)))
       );

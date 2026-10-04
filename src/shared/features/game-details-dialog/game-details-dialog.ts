@@ -13,6 +13,7 @@ import { createGameDetailsCommentCard } from './components/comment-card/comment-
 import { fetchGameDetails, fetchGameComments } from '../../api/games-data.js';
 import type { Game, GameCommentsResponse, GameDetails } from '../../interfaces.js';
 import { createErrorPlaceholder } from '../../components/error-layout/error-layout.js';
+import { createEmptyBanner } from '../../components/empty-banner/emty-banner.js';
 
 export interface GameDetailsDialog {
   element: HTMLDialogElement;
@@ -24,19 +25,28 @@ interface GameDialogProperties {
   comments: GameCommentsResponse;
 }
 
-function createCommentsSection({ data, meta }: GameCommentsResponse): HTMLElement {
+function createCommentsSection(comments?: GameCommentsResponse): HTMLElement {
   const section = document.createElement('section');
   section.classList.add('game-details-section');
 
   const heading = document.createElement('h3');
   heading.classList.add('game-details-section-heading');
-  heading.textContent = `Comments (${meta.totalComments})`;
+  heading.textContent = `Comments (${comments?.meta?.totalComments ?? 0})`;
+
+  section.append(heading, createGameDetailsCommentForm());
+
+  if (!comments?.data || comments.data.length === 0) {
+    section.append(createEmptyBanner());
+    return section;
+  }
 
   const list = document.createElement('ul');
   list.classList.add('game-details-comments');
-  list.append(...data.map((comment, index) => createGameDetailsCommentCard(comment, index)));
+  list.append(
+    ...comments.data.map((comment, index) => createGameDetailsCommentCard(comment, index))
+  );
 
-  section.append(heading, createGameDetailsCommentForm(), list);
+  section.append(list);
 
   return section;
 }
@@ -70,6 +80,11 @@ export function createGameDetailsDialog(): GameDetailsDialog {
   layout.card.classList.add('game-details-dialog-card');
 
   const render = ({ details, comments }: GameDialogProperties): void => {
+    if (!details) {
+      layout.card.replaceChildren(createEmptyBanner());
+      return;
+    }
+
     const body = document.createElement('div');
     body.classList.add('game-details-body');
 
