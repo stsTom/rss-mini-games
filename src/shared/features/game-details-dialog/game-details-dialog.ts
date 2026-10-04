@@ -11,13 +11,14 @@ import { createGameDetailsTopRecords } from './components/top-records/top-record
 import { createGameDetailsCommentForm } from './components/comment-form/comment-form.js';
 import { createGameDetailsCommentCard } from './components/comment-card/comment-card.js';
 import { fetchGameDetails, fetchGameComments } from '../../api/games-data.js';
-import type { Game, GameCommentsResponse, GameDetails } from '../../interfaces.js';
+import type { GameCommentsResponse, GameDetails } from '../../interfaces.js';
 import { createErrorPlaceholder } from '../../components/error-layout/error-layout.js';
 import { createEmptyBanner } from '../../components/empty-banner/emty-banner.js';
 
 export interface GameDetailsDialog {
   element: HTMLDialogElement;
-  open: (game: Game, onClose?: () => void) => void;
+  open: (gameSlug: string, onClose?: () => void) => void;
+  close: () => void;
 }
 
 interface GameDialogProperties {
@@ -231,7 +232,12 @@ export function createGameDetailsDialog(): GameDetailsDialog {
     layout.card.replaceChildren(heroSkeleton, body);
   };
 
-  const open = async (_game: Game, onClose?: () => void) => {
+  let latestRequest = 0;
+
+  const open = async (gameSlug: string, onClose?: () => void) => {
+    latestRequest += 1;
+    const request = latestRequest;
+
     layout.card.ariaBusy = 'true';
     renderSkeleton();
     layout.open();
@@ -239,17 +245,23 @@ export function createGameDetailsDialog(): GameDetailsDialog {
 
     try {
       const [details, comments] = await Promise.all([
-        fetchGameDetails({ gameSlug: _game.slug }),
-        fetchGameComments({ gameSlug: _game.slug }),
+        fetchGameDetails({ gameSlug }),
+        fetchGameComments({ gameSlug }),
       ]);
 
-      render({ details, comments } as GameDialogProperties);
+      if (request === latestRequest) {
+        render({ details, comments } as GameDialogProperties);
+      }
     } catch {
-      layout.card.replaceChildren(createErrorPlaceholder(() => open(_game)));
+      if (request === latestRequest) {
+        layout.card.replaceChildren(createErrorPlaceholder(() => open(gameSlug, onClose)));
+      }
     } finally {
-      layout.card.removeAttribute('aria-busy');
+      if (request === latestRequest) {
+        layout.card.removeAttribute('aria-busy');
+      }
     }
   };
 
-  return { element: layout.element, open };
+  return { element: layout.element, open, close: layout.close };
 }
