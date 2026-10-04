@@ -11,3 +11,12 @@ export const CATEGORIES = [
   { label: 'Strategy', value: 'strategy' },
   { label: 'Arcade', value: 'arcade' },
 ];
+
+export const DEFAULT_SORT = 'rating-desc';
+
+export const SORT_OPTIONS = [
+  { label: 'Rating ↑', value: 'rating-asc' },
+  { label: 'Rating ↓', value: DEFAULT_SORT },
+  { label: 'Name A→Z', value: 'name-asc' },
+  { label: 'Name Z→A', value: 'name-desc' },
+];

@@ -1,17 +1,24 @@
 import './games-section.scss';
-import { createSortDropdown } from './components/sort-dropdown/sort-dropdown.js';
+import {
+  createSortDropdown,
+  type SortDropdownOptions,
+} from './components/sort-dropdown/sort-dropdown.js';
 import { CATEGORIES } from '../../constants.js';
 
-export interface GamesSectionOptions {
+export interface GamesSectionOptions extends SortDropdownOptions {
   onCategoryChange: (category: string) => void;
 }
 
 export interface GamesSection {
   element: HTMLElement;
   setCategory: (category: string) => void;
+  setSort: (sort: string) => void;
 }
 
-export function createGamesSection({ onCategoryChange }: GamesSectionOptions): GamesSection {
+export function createGamesSection({
+  onCategoryChange,
+  onSortChange,
+}: GamesSectionOptions): GamesSection {
   const chips = document.createElement('div');
   chips.classList.add('games-section-chips');
   chips.setAttribute('role', 'group');
@@ -43,7 +50,8 @@ export function createGamesSection({ onCategoryChange }: GamesSectionOptions): G
 
   const section = document.createElement('div');
   section.classList.add('games-section');
-  section.append(chips, createSortDropdown());
+  const sortDropdown = createSortDropdown({ onSortChange });
+  section.append(chips, sortDropdown.element);
 
-  return { element: section, setCategory };
+  return { element: section, setCategory, setSort: sortDropdown.setSort };
 }

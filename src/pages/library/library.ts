@@ -3,17 +3,19 @@ import { createLibraryHeader } from './features/library-header/library-header.js
 import { createGamesSection } from './features/games-section/games-section.js';
 import { createCardGrid, type CardGridOptions } from './features/card-grid/card-grid.js';
 import { createPagination } from './features/pagination/pagination.js';
-import { CATEGORIES, DEFAULT_CATEGORY } from './constants.js';
+import { CATEGORIES, DEFAULT_CATEGORY, DEFAULT_SORT, SORT_OPTIONS } from './constants.js';
 import type { RouteState, Router } from '../../shared/services/router.js';
 
 export interface LibraryPageOptions extends CardGridOptions {
   router: Router;
 }
 
-function resolveCategory(category: string | undefined): string {
-  return category && CATEGORIES.some(({ value }) => value === category)
-    ? category
-    : DEFAULT_CATEGORY;
+function resolveOption(
+  options: { value: string }[],
+  selected: string | undefined,
+  fallback: string
+): string {
+  return selected && options.some(({ value }) => value === selected) ? selected : fallback;
 }
 
 export async function createLibraryPage({
@@ -24,12 +26,15 @@ export async function createLibraryPage({
   const gamesSection = createGamesSection({
     onCategoryChange: (category) =>
       router.update({ category: category === DEFAULT_CATEGORY ? undefined : category }),
+    onSortChange: (sort) => router.update({ sort: sort === DEFAULT_SORT ? undefined : sort }),
   });
 
   const applyState = (state: RouteState): void => {
-    const category = resolveCategory(state.category);
+    const category = resolveOption(CATEGORIES, state.category, DEFAULT_CATEGORY);
+    const sort = resolveOption(SORT_OPTIONS, state.sort, DEFAULT_SORT);
     gamesSection.setCategory(category);
-    cardGrid.load({ category });
+    gamesSection.setSort(sort);
+    cardGrid.load({ category, sort });
   };
 
   applyState(router.state);
@@ -39,7 +44,7 @@ export async function createLibraryPage({
       return;
     }
 
-    if (state.category !== previous.category) {
+    if (state.category !== previous.category || state.sort !== previous.sort) {
       applyState(state);
     }
   });

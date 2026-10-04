@@ -7,6 +7,7 @@ export interface RouteState {
   game?: string | undefined;
   auth?: AuthMode | undefined;
   category?: string | undefined;
+  sort?: string | undefined;
 }
 
 type RouteListener = (state: RouteState, previous: RouteState) => void;
@@ -33,6 +34,7 @@ export function parseUrl({ pathname, search }: Location | URL): RouteState {
     game: query.get('game') || undefined,
     auth: auth === 'login' || auth === 'register' ? auth : undefined,
     category: query.get('category') || undefined,
+    sort: query.get('sort') || undefined,
   };
 }
 
@@ -40,6 +42,9 @@ export function buildUrl(state: RouteState): string {
   const query = new URLSearchParams();
   if (state.category) {
     query.set('category', state.category);
+  }
+  if (state.sort) {
+    query.set('sort', state.sort);
   }
   if (state.game) {
     query.set('game', state.game);
