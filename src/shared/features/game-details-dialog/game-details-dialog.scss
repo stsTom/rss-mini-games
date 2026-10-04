@@ -168,3 +168,19 @@
 .game-details-skeleton-bar-comment-line {
   @include game-details-fluid(height, comment-text-line-height);
 }
+
+.spinner-placeholder {
+  align-self: center;
+  border-radius: $border-rad-full;
+  border: $spinner-border-width solid;
+  border-color: $color-on-bg transparent $color-on-bg transparent;
+  height: $spinner-base-size;
+  width: $spinner-base-size;
+  animation: spin 0.7s ease-in-out infinite;
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}

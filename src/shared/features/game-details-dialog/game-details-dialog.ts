@@ -145,7 +145,10 @@ export function createGameDetailsDialog(): GameDetailsDialog {
       list.classList.add('game-details-records');
 
       for (let index = 0; index < 3; index++) {
-        list.append(createSkeletonBar('record'));
+        const recordCardSkeleton = document.createElement('li');
+        recordCardSkeleton.append(createSkeletonBar('record'));
+
+        list.append(recordCardSkeleton);
       }
 
       section.append(headingBar, list);
@@ -191,7 +194,10 @@ export function createGameDetailsDialog(): GameDetailsDialog {
         list.append(createCommentSkeleton());
       }
 
-      section.append(commentsHeadingSkeleton, commentBoxSkeleton, list);
+      const spinner = document.createElement('div');
+      spinner.classList.add('spinner-placeholder');
+
+      section.append(commentsHeadingSkeleton, commentBoxSkeleton, list, spinner);
 
       return section;
     };
