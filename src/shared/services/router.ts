@@ -1,4 +1,4 @@
-export type PageType = 'home' | 'library';
+export type PageType = 'home' | 'library' | 'not-found';
 
 export type AuthMode = 'login' | 'register';
 
@@ -24,10 +24,22 @@ export interface Router {
   subscribe: (callback: RouteListener) => () => void;
 }
 
-const PAGE_PATHS: Record<PageType, string> = {
+const PAGE_PATHS: Record<Exclude<PageType, 'not-found'>, string> = {
   home: '/',
   library: '/library',
 };
+const HOME_ALIAS_PATH = '/home';
+
+function resolvePage(path: string): PageType {
+  if (path === HOME_ALIAS_PATH || path === PAGE_PATHS.home) {
+    return 'home';
+  }
+  if (path === PAGE_PATHS.library) {
+    return 'library';
+  }
+
+  return 'not-found';
+}
 
 export function parseUrl({ pathname, search }: Location | URL): RouteState {
   const path = pathname.length > 1 && pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
@@ -36,7 +48,7 @@ export function parseUrl({ pathname, search }: Location | URL): RouteState {
   const pageNumber = Number(query.get('page'));
 
   return {
-    page: path === PAGE_PATHS.library ? 'library' : 'home',
+    page: resolvePage(path),
     game: query.get('game') || undefined,
     auth: auth === 'login' || auth === 'register' ? auth : undefined,
     category: query.get('category') || undefined,
@@ -63,8 +75,9 @@ export function buildUrl(state: RouteState): string {
     query.set('auth', state.auth);
   }
 
+  const path = state.page === 'not-found' ? location.pathname : PAGE_PATHS[state.page];
   const queryString = query.toString();
-  return queryString ? `${PAGE_PATHS[state.page]}?${queryString}` : PAGE_PATHS[state.page];
+  return queryString ? `${path}?${queryString}` : path;
 }
 
 export function isModifiedClick(event: MouseEvent): boolean {

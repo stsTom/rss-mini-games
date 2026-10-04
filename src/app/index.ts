@@ -2,6 +2,7 @@ import '../../styles/global.scss';
 import { createHeader } from '../shared/features/header/header.js';
 import { createHomePage } from '../pages/home/home.js';
 import { createLibraryPage } from '../pages/library/library.js';
+import { createNotFoundPage } from '../pages/not-found/not-found.js';
 import { createFooter } from '../shared/features/footer/footer.js';
 import { createGameDetailsDialog } from '../shared/features/game-details-dialog/game-details-dialog.js';
 import { createRouter, type PageType, type RouteState } from '../shared/services/router.js';
@@ -42,6 +43,7 @@ if (main) {
   const pageRenderers: Record<PageType, () => HTMLElement | Promise<HTMLElement>> = {
     home: () => createHomePage({ onGameSelect: selectGame, router }),
     library: () => createLibraryPage({ onGameSelect: selectGame, router }),
+    'not-found': () => createNotFoundPage({ router }),
   };
 
   let currentPage = await pageRenderers[router.state.page]!();

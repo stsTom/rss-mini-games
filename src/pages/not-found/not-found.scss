@@ -1,0 +1,51 @@
+@use 'styles/tokens' as *;
+@use 'styles/mixins' as *;
+
+.not-found {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $size-times-2;
+  padding: $size-times-2 * 4 $size-times-2;
+  text-align: center;
+  color: $color-on-primary;
+
+  @include desktop-screen {
+    padding-block: $size-times-2 * 8;
+  }
+}
+
+.not-found-code {
+  margin: 0;
+  font-size: $font-size-display-large;
+  font-weight: $weight-extra-bold;
+  line-height: 1;
+  color: $color-tertiary;
+
+  @include desktop-screen {
+    font-size: $font-size-display-large * 2;
+  }
+}
+
+.not-found-title {
+  margin: 0;
+  font-size: $font-size-headline-medium;
+  font-weight: $weight-bold;
+}
+
+.not-found-text {
+  max-width: 40ch;
+  margin: 0;
+  font-size: $font-size-body-medium;
+  color: $color-on-bg;
+}
+
+.not-found-link {
+  @include button-variant-colors(primary);
+  margin-top: $size-times-1;
+  padding: $size-times-1 * 1.5 $size-times-2 * 1.5;
+  border-radius: $border-rad-small;
+  font-size: $font-size-body-medium;
+  font-weight: $weight-bold;
+  text-decoration: none;
+}
