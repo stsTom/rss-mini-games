@@ -1,7 +1,6 @@
 import './sort-dropdown.scss';
+import { SORT_OPTIONS } from '../../../../constants.js';
 
-const SORT_OPTIONS = ['Rating ↑', 'Rating ↓', 'Name A→Z', 'Name Z→A'];
-const DEFAULT_SORT_OPTION = 'Rating ↓';
 const SORT_LABEL_PREFIX = 'Sort by:';
 const PROGRAMMATIC_FOCUS_ONLY = -1;
 
@@ -17,7 +16,16 @@ function createIcon(className: string, name: string): HTMLElement {
   return icon;
 }
 
-export function createSortDropdown(): HTMLElement {
+export interface SortDropdownOptions {
+  onSortChange: (sort: string) => void;
+}
+
+export interface SortDropdown {
+  element: HTMLElement;
+  setSort: (sort: string) => void;
+}
+
+export function createSortDropdown({ onSortChange }: SortDropdownOptions): SortDropdown {
   const dropdown = document.createElement('div');
   dropdown.classList.add('sort-dropdown');
 
@@ -38,27 +46,30 @@ export function createSortDropdown(): HTMLElement {
     list.hidden = !isOpen;
   };
 
-  const options = SORT_OPTIONS.map((label) => {
+  const options = SORT_OPTIONS.map((sortOption) => {
     const option = document.createElement('li');
     option.classList.add('sort-dropdown-option');
     option.setAttribute('role', 'option');
     option.tabIndex = PROGRAMMATIC_FOCUS_ONLY;
-    option.dataset.value = label;
+    option.dataset.value = sortOption.value;
 
     const text = document.createElement('span');
-    text.textContent = label;
+    text.textContent = sortOption.label;
 
     option.append(createIcon('sort-dropdown-check', ICON_CHECK), text);
-    option.addEventListener('click', () => select(label));
+    option.addEventListener('click', () => {
+      setOpen(false);
+      onSortChange(sortOption.value);
+    });
     return option;
   });
 
-  function select(label: string): void {
+  function setSort(sort: string): void {
+    const label = SORT_OPTIONS.find((sortOption) => sortOption.value === sort)?.label ?? '';
     value.textContent = `${SORT_LABEL_PREFIX} ${label}`;
     for (const option of options) {
-      option.ariaSelected = String(option.dataset.value === label);
+      option.ariaSelected = String(option.dataset.value === sort);
     }
-    setOpen(false);
   }
 
   trigger.addEventListener('click', () => setOpen(list.hidden));
@@ -78,7 +89,7 @@ export function createSortDropdown(): HTMLElement {
 
   list.append(...options);
   dropdown.append(trigger, list);
-  select(DEFAULT_SORT_OPTION);
+  setOpen(false);
 
-  return dropdown;
+  return { element: dropdown, setSort };
 }

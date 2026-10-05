@@ -6,7 +6,7 @@ import { createBurgerMenu } from './components/burger-menu/burger-menu.js';
 import { createSignInButton } from './components/sign-in-button/sign-in-button.js';
 import { createSignUpButton } from './components/sign-up-button/sign-up-button.js';
 import { createAuthDialog } from '../auth-dialog/auth-dialog.js';
-import type { Router } from '../../services/router.js';
+import type { RouteState, Router } from '../../services/router.js';
 
 export interface HeaderOptions {
   router: Router;
@@ -15,11 +15,37 @@ export interface HeaderOptions {
 export function createHeader({ router }: HeaderOptions): HTMLElement {
   const header = document.createElement('header');
 
-  const authDialog = createAuthDialog();
+  const authDialog = createAuthDialog({
+    onTabChange: (auth) => router.update({ auth }),
+    onClose: () => {
+      if (router.state.auth) {
+        router.update({ auth: undefined });
+      }
+    },
+  });
+
+  const syncAuthDialog = ({ auth }: RouteState, previous?: RouteState): void => {
+    if (auth === previous?.auth) {
+      return;
+    }
+
+    if (auth) {
+      authDialog.open(auth);
+    } else {
+      authDialog.close();
+    }
+  };
+
+  router.subscribe(syncAuthDialog);
+  // showModal() requires the dialog to be in the document, which happens right after createHeader returns
+  queueMicrotask(() => syncAuthDialog(router.state));
+
+  const openLogin = (): void => router.update({ auth: 'login' });
+  const openRegister = (): void => router.update({ auth: 'register' });
 
   const burgerMenu = createBurgerMenu({
-    onSignIn: authDialog.openLogin,
-    onSignUp: authDialog.openRegister,
+    onSignIn: openLogin,
+    onSignUp: openRegister,
     router,
   });
   const burger = createBurger();
@@ -31,8 +57,8 @@ export function createHeader({ router }: HeaderOptions): HTMLElement {
   controls.classList.add('header-controls');
   controls.append(
     createNav({ router }),
-    createSignInButton(true, authDialog.openLogin),
-    createSignUpButton(true, authDialog.openRegister),
+    createSignInButton(true, openLogin),
+    createSignUpButton(true, openRegister),
     burger
   );
 

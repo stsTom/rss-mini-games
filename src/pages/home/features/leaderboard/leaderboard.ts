@@ -1,7 +1,12 @@
 import './leaderboard.scss';
 import { fetchLeaderboard } from './api/leaderboard-data.js';
 import { createLeaderboardRow } from './components/row/row.js';
+import { createLeaderboardRowPlaceholder } from './components/row-placeholder/row-placeholder.js';
 import { LEADERBOARD_LABEL, LEADERBOARD_VISIBILITY } from './dataset-values.js';
+import { createErrorPlaceholder } from '../../../../shared/components/error-layout/error-layout.js';
+import { createEmptyBanner } from '../../../../shared/components/empty-banner/emty-banner.js';
+
+const PLACEHOLDER_ROWS_COUNT = 5;
 
 function createLabelPair(shortText: string, longText: string): HTMLElement[] {
   const short = document.createElement('span');
@@ -52,9 +57,7 @@ function createHeaderRow(): HTMLElement {
   return headerRow;
 }
 
-export async function createLeaderboard(): Promise<HTMLElement> {
-  const { data, meta } = await fetchLeaderboard();
-
+export function createLeaderboard(): HTMLElement {
   const section = document.createElement('section');
   section.classList.add('leaderboard');
 
@@ -66,15 +69,44 @@ export async function createLeaderboard(): Promise<HTMLElement> {
 
   const heading = document.createElement('h2');
   heading.classList.add('leaderboard-heading');
-  heading.textContent = meta.description;
+  heading.textContent = 'Top Players This Week';
 
   headingRow.append(accentBar, heading);
 
   const table = document.createElement('div');
   table.classList.add('leaderboard-table');
-  table.append(createHeaderRow(), ...data.map((entry) => createLeaderboardRow(entry)));
+  table.ariaBusy = 'true';
 
-  section.append(headingRow, table);
+  function populateLeaderboard() {
+    const placeholders = Array.from({ length: PLACEHOLDER_ROWS_COUNT }, (_, index) =>
+      createLeaderboardRowPlaceholder(index + 1)
+    );
+
+    table.append(createHeaderRow(), ...placeholders);
+    section.replaceChildren(headingRow, table);
+  }
+
+  async function loadTableData() {
+    populateLeaderboard();
+
+    try {
+      const { data } = await fetchLeaderboard();
+
+      if (data.length === 0) {
+        section.replaceChildren(headingRow, createEmptyBanner());
+        return;
+      }
+
+      table.replaceChildren(createHeaderRow(), ...data.map((entry) => createLeaderboardRow(entry)));
+    } catch {
+      section.replaceChildren(createErrorPlaceholder(() => void loadTableData()));
+    } finally {
+      table.removeAttribute('aria-busy');
+    }
+  }
+
+  populateLeaderboard();
+  void loadTableData();
 
   return section;
 }

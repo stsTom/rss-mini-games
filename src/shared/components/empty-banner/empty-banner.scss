@@ -1,0 +1,16 @@
+@use 'styles/tokens' as *;
+
+.empty-banner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $size-times-1;
+  padding: $size-times-2;
+  text-align: center;
+
+  > p {
+    margin: 0;
+    font-size: $font-size-body-small;
+    color: $color-on-bg;
+  }
+}

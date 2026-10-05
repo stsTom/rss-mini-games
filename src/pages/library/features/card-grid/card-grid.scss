@@ -10,4 +10,9 @@
   @include desktop-screen {
     grid-template-columns: repeat($library-grid-columns, 1fr);
   }
+
+  > .card-skeleton {
+    background: var(--card-skeleton-gradient);
+    background-size: var(--card-skeleton-size);
+  }
 }

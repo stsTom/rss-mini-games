@@ -17,8 +17,8 @@ export async function createHomePage({
   const page = document.createElement('div');
   page.append(
     createHero({ router }),
-    await createGamesCarousel({ onGameSelect }),
-    await createLeaderboard(),
+    createGamesCarousel({ onGameSelect }),
+    createLeaderboard(),
     createDeveloperCta()
   );
 

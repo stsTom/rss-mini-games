@@ -2,39 +2,72 @@ import './game-details-dialog.scss';
 import { createDialogLayout } from '../../components/dialog-layout/dialog-layout.js';
 import { createGameDetailsHero } from './components/hero/hero.js';
 import { createGameDetailsSummary } from './components/summary/summary.js';
-import { createGameDetailsInfoWidgets } from './components/info-widgets/info-widgets.js';
+import {
+  createGameDetailsInfoWidgets,
+  INFO_WIDGETS,
+} from './components/info-widgets/info-widgets.js';
 import { createGameDetailsActions } from './components/actions/actions.js';
 import { createGameDetailsTopRecords } from './components/top-records/top-records.js';
 import { createGameDetailsCommentForm } from './components/comment-form/comment-form.js';
 import { createGameDetailsCommentCard } from './components/comment-card/comment-card.js';
-import { fetchGameComments, fetchGameDetails } from './api/game-details-data.js';
-import type { Game } from '../../interfaces.js';
-import type { GameCommentsResponse } from './interfaces.js';
+import { fetchGameDetails, fetchGameComments } from '../../api/games-data.js';
+import type { GameCommentsResponse, GameDetails } from '../../interfaces.js';
+import { createErrorPlaceholder } from '../../components/error-layout/error-layout.js';
+import { createEmptyBanner } from '../../components/empty-banner/emty-banner.js';
 
 export interface GameDetailsDialog {
   element: HTMLDialogElement;
-  open: (game: Game, onClose?: () => void) => void;
+  open: (gameSlug: string, onClose?: () => void) => void;
+  close: () => void;
 }
 
-function createCommentsSection({ data, meta }: GameCommentsResponse): HTMLElement {
+interface GameDialogProperties {
+  details: GameDetails;
+  comments: GameCommentsResponse;
+}
+
+function createCommentsSection(comments?: GameCommentsResponse): HTMLElement {
   const section = document.createElement('section');
   section.classList.add('game-details-section');
 
   const heading = document.createElement('h3');
   heading.classList.add('game-details-section-heading');
-  heading.textContent = `Comments (${meta.totalComments})`;
+  heading.textContent = `Comments (${comments?.meta?.totalComments ?? 0})`;
+
+  section.append(heading, createGameDetailsCommentForm());
+
+  if (!comments?.data || comments.data.length === 0) {
+    section.append(createEmptyBanner());
+    return section;
+  }
 
   const list = document.createElement('ul');
   list.classList.add('game-details-comments');
-  list.append(...data.map((comment, index) => createGameDetailsCommentCard(comment, index)));
+  list.append(
+    ...comments.data.map((comment, index) => createGameDetailsCommentCard(comment, index))
+  );
 
-  section.append(heading, createGameDetailsCommentForm(), list);
+  section.append(list);
 
   return section;
 }
 
-export async function createGameDetailsDialog(): Promise<GameDetailsDialog> {
-  const [details, comments] = await Promise.all([fetchGameDetails(), fetchGameComments()]);
+function createSkeletonBar(type: string): HTMLDivElement {
+  const skeletonBar = document.createElement('div');
+  skeletonBar.classList.add('game-details-skeleton-bar', `game-details-skeleton-bar-${type}`);
+
+  return skeletonBar;
+}
+
+function createBadgesSkeleton(): HTMLElement {
+  const badges = document.createElement('dl');
+  badges.classList.add('game-details-info-widgets');
+  badges.append(...INFO_WIDGETS.map(() => createSkeletonBar('badge')));
+
+  return badges;
+}
+
+export function createGameDetailsDialog(): GameDetailsDialog {
   let handleClose: (() => void) | undefined;
 
   const layout = createDialogLayout({
@@ -47,7 +80,12 @@ export async function createGameDetailsDialog(): Promise<GameDetailsDialog> {
   });
   layout.card.classList.add('game-details-dialog-card');
 
-  const render = (): void => {
+  const render = ({ details, comments }: GameDialogProperties): void => {
+    if (!details) {
+      layout.card.replaceChildren(createEmptyBanner());
+      return;
+    }
+
     const body = document.createElement('div');
     body.classList.add('game-details-body');
 
@@ -59,7 +97,7 @@ export async function createGameDetailsDialog(): Promise<GameDetailsDialog> {
       createGameDetailsSummary(details),
       description,
       createGameDetailsInfoWidgets(details.specs),
-      createGameDetailsActions(),
+      createGameDetailsActions(details.specs.price),
       createGameDetailsTopRecords(details.topRecords),
       createCommentsSection(comments)
     );
@@ -70,11 +108,160 @@ export async function createGameDetailsDialog(): Promise<GameDetailsDialog> {
     );
   };
 
-  const open = (_game: Game, onClose?: () => void): void => {
-    handleClose = onClose;
-    render();
-    layout.open();
+  const renderSkeleton = () => {
+    const body = document.createElement('div');
+    body.classList.add('game-details-body');
+
+    const createSummarySkeleton = () => {
+      const summary = document.createElement('div');
+      summary.classList.add('game-details-summary');
+
+      const title = createSkeletonBar('title');
+
+      const ratings = document.createElement('div');
+      ratings.classList.add('game-details-summary-ratings');
+      ratings.append(createSkeletonBar('rating'), createSkeletonBar('rating'));
+
+      summary.append(title, ratings);
+
+      return summary;
+    };
+
+    const createDescriptionSkeleton = () => {
+      const description = document.createElement('ul');
+      description.classList.add('game-details-description-skeleton');
+
+      for (let index = 0; index < 3; index++) {
+        const line = document.createElement('li');
+        line.classList.add('game-details-description-line-skeleton');
+
+        line.append(createSkeletonBar('line'));
+        description.append(line);
+      }
+
+      return description;
+    };
+
+    const createActionsSkeleton = () => {
+      const actions = document.createElement('div');
+      actions.classList.add('game-details-actions');
+
+      actions.append(createSkeletonBar('action'), createSkeletonBar('action'));
+
+      return actions;
+    };
+
+    const createTopRecordsSkeleton = () => {
+      const section = document.createElement('section');
+      section.classList.add('game-details-section');
+
+      const headingBar = createSkeletonBar('records-heading');
+
+      const list = document.createElement('ol');
+      list.classList.add('game-details-records');
+
+      for (let index = 0; index < 3; index++) {
+        const recordCardSkeleton = document.createElement('li');
+        recordCardSkeleton.append(createSkeletonBar('record'));
+
+        list.append(recordCardSkeleton);
+      }
+
+      section.append(headingBar, list);
+
+      return section;
+    };
+
+    const createCommentsSectionSkeleton = () => {
+      const section = document.createElement('section');
+      section.classList.add('game-details-section');
+
+      const commentsHeadingSkeleton = createSkeletonBar('comments-heading');
+      const commentBoxSkeleton = createSkeletonBar('comments-box');
+
+      const list = document.createElement('ul');
+      list.classList.add('game-details-comments');
+
+      const createCommentSkeleton = () => {
+        const commentLayout = document.createElement('li');
+        commentLayout.classList.add('game-details-comment-skeleton');
+
+        const heading = createSkeletonBar('comment-user-name');
+
+        const commentContentSkeleton = document.createElement('ul');
+        commentContentSkeleton.classList.add('game-details-comment-lines-skeleton');
+
+        for (let index = 0; index < 3; index++) {
+          const line = document.createElement('li');
+          line.classList.add('game-details-comment-line-skeleton');
+
+          const lineContent = createSkeletonBar('comment-line');
+          line.append(lineContent);
+
+          commentContentSkeleton.append(line);
+        }
+
+        commentLayout.append(heading, commentContentSkeleton);
+
+        return commentLayout;
+      };
+
+      for (let index = 0; index < 3; index++) {
+        list.append(createCommentSkeleton());
+      }
+
+      const spinner = document.createElement('div');
+      spinner.classList.add('spinner-placeholder');
+
+      section.append(commentsHeadingSkeleton, commentBoxSkeleton, list, spinner);
+
+      return section;
+    };
+
+    const heroSkeleton = createSkeletonBar('hero');
+
+    body.append(
+      createSummarySkeleton(),
+      createDescriptionSkeleton(),
+      createBadgesSkeleton(),
+      createActionsSkeleton(),
+      createTopRecordsSkeleton(),
+      createCommentsSectionSkeleton()
+    );
+
+    layout.card.replaceChildren(heroSkeleton, body);
   };
 
-  return { element: layout.element, open };
+  let latestRequest = 0;
+
+  const open = async (gameSlug: string, onClose?: () => void) => {
+    latestRequest += 1;
+    const request = latestRequest;
+
+    layout.card.ariaBusy = 'true';
+    renderSkeleton();
+    layout.open();
+    handleClose = onClose;
+
+    try {
+      const [details, comments] = await Promise.all([
+        fetchGameDetails({ gameSlug }),
+        fetchGameComments({ gameSlug }),
+      ]);
+
+      if (request === latestRequest) {
+        render({ details, comments } as GameDialogProperties);
+      }
+    } catch {
+      if (request === latestRequest) {
+        layout.card.replaceChildren(createErrorPlaceholder(() => open(gameSlug, onClose)));
+      }
+    } finally {
+      if (request === latestRequest) {
+        layout.card.removeAttribute('aria-busy');
+      }
+    }
+  };
+
+  return { element: layout.element, open, close: layout.close };
 }

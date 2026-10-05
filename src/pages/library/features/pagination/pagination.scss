@@ -8,6 +8,10 @@
   align-items: center;
   justify-content: center;
   @include library-fluid(gap, pagination-gap);
+
+  &[hidden] {
+    display: none;
+  }
 }
 
 .pagination-button {

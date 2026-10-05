@@ -1,6 +1,12 @@
 import './nav.scss';
 import { HEADER_VISIBILITY } from '../../dataset-values.js';
-import type { PageType, Router } from '../../../../services/router.js';
+import {
+  buildUrl,
+  isModifiedClick,
+  type PageType,
+  type RouteState,
+  type Router,
+} from '../../../../services/router.js';
 
 const NAV_ITEMS = ['home', 'library', 'tournaments', 'community'];
 const SPA_PAGES = new Set<string>(['home', 'library'] satisfies PageType[]);
@@ -31,22 +37,27 @@ export function createNav({ hasVisibility = true, router }: NavOptions): HTMLEle
 
     if (isSpaPage(id)) {
       navLinks.set(id, link);
+      link.href = buildUrl({ page: id });
       link.addEventListener('click', (event) => {
+        if (isModifiedClick(event)) {
+          return;
+        }
+
         event.preventDefault();
-        router.onPageChange(id);
+        router.goTo(id);
       });
     }
 
     nav.append(link);
   }
 
-  const markActive = (page: PageType): void => {
+  const markActive = ({ page }: RouteState): void => {
     for (const [id, link] of navLinks) {
       link.ariaCurrent = id === page ? 'true' : 'false';
     }
   };
 
-  markActive(router.currentPage);
+  markActive(router.state);
   router.subscribe(markActive);
 
   return nav;

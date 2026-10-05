@@ -1,6 +1,6 @@
 import './hero.scss';
 import { GLYPH_CLOSE } from '../../constants.js';
-import type { GameDetails } from '../../interfaces.js';
+import type { GameDetails } from '../../../../interfaces.js';
 
 export interface GameDetailsHeroOptions {
   game: GameDetails;

@@ -1,8 +1,8 @@
 import './info-widgets.scss';
 import { PRICE_FREE } from '../../constants.js';
-import type { GameSpecs } from '../../interfaces.js';
+import type { GameSpecs } from '../../../../interfaces.js';
 
-const INFO_WIDGETS: { key: keyof GameSpecs; label: string }[] = [
+export const INFO_WIDGETS: { key: keyof GameSpecs; label: string }[] = [
   { key: 'genre', label: 'Genre' },
   { key: 'players', label: 'Players' },
   { key: 'duration', label: 'Duration' },

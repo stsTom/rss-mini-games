@@ -61,6 +61,11 @@ $weight-regular: 400;
 
 // Size
 $size-times-1: 8px;
+$size-times-2: $size-times-1 * 2;
+
+// Border and outline width
+$border-width-thin: 1px;
+$outline-width: 2px;
 
 // Layering
 $z-index-overlay: 100;

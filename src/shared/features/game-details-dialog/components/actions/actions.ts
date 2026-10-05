@@ -3,14 +3,14 @@ import { GLYPH_HEART, GLYPH_HEART_OUTLINE } from '../../constants.js';
 
 const FAVORITE_LABEL = 'Add to Favorites';
 
-export function createGameDetailsActions(): HTMLElement {
+export function createGameDetailsActions(price?: string): HTMLElement {
   const actions = document.createElement('div');
   actions.classList.add('game-details-actions');
 
   const playButton = document.createElement('button');
   playButton.type = 'button';
   playButton.classList.add('game-details-action', 'game-details-action--play');
-  playButton.textContent = 'Play Now';
+  playButton.textContent = price === 'Free' ? 'Play Now' : `${price}`;
 
   const glyph = document.createElement('span');
   glyph.textContent = GLYPH_HEART_OUTLINE;

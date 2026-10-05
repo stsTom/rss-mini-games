@@ -1,7 +1,8 @@
 import './top-records.scss';
 import { GLYPH_TROPHY, MEDALS } from '../../constants.js';
 import { formatScore, formatTimeAgo } from '../../utils/format.js';
-import type { GameRecord } from '../../interfaces.js';
+import type { GameRecord } from '../../../../interfaces.js';
+import { createEmptyBanner } from '../../../../components/empty-banner/emty-banner.js';
 
 function createRecordRow(record: GameRecord, medal: string): HTMLElement {
   const row = document.createElement('li');
@@ -49,6 +50,13 @@ export function createGameDetailsTopRecords(records: GameRecord[]): HTMLElement 
   glyph.setAttribute('aria-hidden', 'true');
   heading.append(glyph, 'Top Records');
 
+  section.append(heading);
+
+  if (records.length === 0) {
+    section.append(createEmptyBanner());
+    return section;
+  }
+
   const list = document.createElement('ol');
   list.classList.add('game-details-records');
   list.append(
@@ -57,7 +65,7 @@ export function createGameDetailsTopRecords(records: GameRecord[]): HTMLElement 
       .map((record, index) => createRecordRow(record, MEDALS[index] ?? ''))
   );
 
-  section.append(heading, list);
+  section.append(list);
 
   return section;
 }

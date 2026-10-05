@@ -1,8 +1,14 @@
 import './games-carousel.scss';
 import { createGamesCarouselHeader } from './components/carousel-header/carousel-header.js';
-import { createGamesCarouselSlot, type SlotRole } from './components/slot/slot.js';
-import { fetchFeaturedGames } from '../../../../shared/api/games-data.js';
-import type { Game } from '../../../../shared/interfaces.js';
+import {
+  createGamesCarouselSkeletonSlot,
+  createGamesCarouselSlot,
+  type SlotRole,
+} from './components/slot/slot.js';
+import { fetchGames } from '../../../../shared/api/games-data.js';
+import type { Game, FetchGamesRequestOptions } from '../../../../shared/interfaces.js';
+import { createErrorPlaceholder } from '../../../../shared/components/error-layout/error-layout.js';
+import { createEmptyBanner } from '../../../../shared/components/empty-banner/emty-banner.js';
 
 const SLOT_ROLES: SlotRole[] = ['thumb-left', 'peek-left', 'focus', 'peek-right', 'thumb-right'];
 const FOCUS_ROLE_INDEX = SLOT_ROLES.indexOf('focus');
@@ -22,21 +28,61 @@ export interface GamesCarouselOptions {
   onGameSelect?: (game: Game, onClose: () => void) => void;
 }
 
-export async function createGamesCarousel({
-  onGameSelect,
-}: GamesCarouselOptions = {}): Promise<HTMLElement> {
-  const games = await fetchFeaturedGames();
-  const cards = games.map((game) => createGamesCarouselSlot(game));
+export function createGamesCarousel({ onGameSelect }: GamesCarouselOptions = {}): HTMLElement {
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+
+  let games: Game[];
+  let cards: HTMLElement[];
+
+  let isAvailable = false;
   let index = 0;
   let transition: ViewTransition | undefined;
 
   const section = document.createElement('section');
   section.classList.add('games-carousel');
+  section.ariaBusy = 'true';
 
   const content = document.createElement('div');
   content.classList.add('games-carousel-content');
-  content.append(...cards);
+
+  function populateCarouselSkeleton() {
+    content.replaceChildren(...SLOT_ROLES.map((role) => createGamesCarouselSkeletonSlot(role)));
+
+    section.append(
+      createGamesCarouselHeader({
+        onPrevious: () => (isAvailable ? navigate(-1) : {}),
+        onNext: () => (isAvailable ? navigate(1) : {}),
+      }),
+      content
+    );
+  }
+
+  async function loadGames(): Promise<void> {
+    populateCarouselSkeleton();
+
+    try {
+      games = await fetchGames({ featured: true } as FetchGamesRequestOptions);
+
+      if (games.length === 0) {
+        content.replaceChildren(createEmptyBanner());
+        return;
+      }
+
+      cards = games.map((game) => createGamesCarouselSlot(game));
+
+      content.replaceChildren(...cards);
+      isAvailable = true;
+      render();
+      scheduleAutoplay();
+      handleSwipe();
+    } catch {
+      content.replaceChildren(createErrorPlaceholder(() => void loadGames()));
+    } finally {
+      section.removeAttribute('aria-busy');
+    }
+  }
+
+  void loadGames();
 
   function render(): void {
     for (const [position, card] of cards.entries()) {
@@ -95,59 +141,50 @@ export async function createGamesCarousel({
     });
   }
 
-  let swipeStart: { x: number; y: number } | undefined;
+  function handleSwipe() {
+    let swipeStart: { x: number; y: number } | undefined;
 
-  content.addEventListener('pointerdown', (event) => {
-    if (!event.isPrimary) {
-      return;
-    }
+    content.addEventListener('pointerdown', (event) => {
+      if (!event.isPrimary) {
+        return;
+      }
 
-    stopAutoplay();
-    swipeStart = { x: event.clientX, y: event.clientY };
-    content.setPointerCapture(event.pointerId);
-  });
+      stopAutoplay();
+      swipeStart = { x: event.clientX, y: event.clientY };
+      content.setPointerCapture(event.pointerId);
+    });
 
-  content.addEventListener('pointerup', (event) => {
-    if (!swipeStart || !event.isPrimary) {
-      return;
-    }
+    content.addEventListener('pointerup', (event) => {
+      if (!swipeStart || !event.isPrimary) {
+        return;
+      }
 
-    const dx = event.clientX - swipeStart.x;
-    const dy = event.clientY - swipeStart.y;
-    swipeStart = undefined;
+      const dx = event.clientX - swipeStart.x;
+      const dy = event.clientY - swipeStart.y;
+      swipeStart = undefined;
 
-    if (Math.abs(dx) >= SWIPE_THRESHOLD_PX && Math.abs(dx) > Math.abs(dy)) {
-      navigate(dx < 0 ? 1 : -1);
-      return;
-    }
+      if (Math.abs(dx) >= SWIPE_THRESHOLD_PX && Math.abs(dx) > Math.abs(dy)) {
+        navigate(dx < 0 ? 1 : -1);
+        return;
+      }
 
-    const slot = document
-      .elementFromPoint(event.clientX, event.clientY)
-      ?.closest<HTMLElement>('.games-carousel-slot');
-    const game = slot ? games[cards.indexOf(slot)] : undefined;
+      const slot = document
+        .elementFromPoint(event.clientX, event.clientY)
+        ?.closest<HTMLElement>('.games-carousel-slot');
+      const game = slot ? games[cards.indexOf(slot)] : undefined;
 
-    if (game && onGameSelect) {
-      onGameSelect(game, scheduleAutoplay);
-    } else {
+      if (game && onGameSelect) {
+        onGameSelect(game, scheduleAutoplay);
+      } else {
+        scheduleAutoplay();
+      }
+    });
+
+    content.addEventListener('pointercancel', () => {
+      swipeStart = undefined;
       scheduleAutoplay();
-    }
-  });
-
-  content.addEventListener('pointercancel', () => {
-    swipeStart = undefined;
-    scheduleAutoplay();
-  });
-
-  render();
-  scheduleAutoplay();
-
-  section.append(
-    createGamesCarouselHeader({
-      onPrevious: () => navigate(-1),
-      onNext: () => navigate(1),
-    }),
-    content
-  );
+    });
+  }
 
   return section;
 }
