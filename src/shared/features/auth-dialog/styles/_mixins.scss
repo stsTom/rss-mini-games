@@ -181,6 +181,14 @@
     $breakpoint-wide
   );
 
+  &:has(input[aria-invalid='true']) {
+    border-color: $color-error;
+
+    .field-icon {
+      background-color: $color-error;
+    }
+  }
+
   .field-icon {
     flex: none;
     width: $font-size-headline-small;
