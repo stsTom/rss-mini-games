@@ -131,7 +131,19 @@ export function createRegisterForm(options: RegisterFormOptions): HTMLFormElemen
       showError('repeatedPassword');
     }
   });
-  passwordInput.addEventListener('blur', () => showError('password'));
+  const handlePasswordInputListener = () => {
+    if (showError('password')) {
+      return;
+    }
+    passwordInput.removeEventListener('input', handlePasswordInputListener);
+  };
+
+  passwordInput.addEventListener('blur', () => {
+    if (!showError('password')) {
+      return;
+    }
+    passwordInput.addEventListener('input', handlePasswordInputListener);
+  });
   const passwordErrorLabel = document.createElement('span');
   passwordErrorLabel.classList.add('error-label');
   passwordInputWrapper.append(passwordIcon, passwordInput, passwordVisibilityIcon);

@@ -97,8 +97,19 @@ export function createLoginForm(options: LoginFormOptions): HTMLFormElement {
   const passwordVisibilityIcon = document.createElement('span');
   passwordVisibilityIcon.classList.add('field-icon', 'field-icon--eye');
   passwordVisibilityIcon.setAttribute('aria-hidden', 'true');
-  passwordInput.addEventListener('input', () => showError('password'));
-  passwordInput.addEventListener('blur', () => showError('password'));
+  const handlePasswordInputListener = () => {
+    if (showError('password')) {
+      return;
+    }
+    passwordInput.removeEventListener('input', handlePasswordInputListener);
+  };
+
+  passwordInput.addEventListener('blur', () => {
+    if (!showError('password')) {
+      return;
+    }
+    passwordInput.addEventListener('input', handlePasswordInputListener);
+  });
   inputs.password = passwordInput;
   const passwordErrorLabel = document.createElement('span');
   passwordErrorLabel.classList.add('error-label');
