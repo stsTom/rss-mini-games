@@ -26,7 +26,7 @@ function showError(key: keyof LoginFormInputs) {
   errorLabels[key].textContent = message;
   inputs[key].ariaInvalid = message ? 'true' : 'false';
 
-  return !message;
+  return message;
 }
 
 function validateForm() {
@@ -60,8 +60,19 @@ export function createLoginForm(options: LoginFormOptions): HTMLFormElement {
   emailInput.type = 'email';
   emailInput.id = 'login-email';
   emailInput.placeholder = 'e.g. alex@minigames.com';
-  emailInput.addEventListener('input', () => showError('email'));
-  emailInput.addEventListener('blur', () => showError('email'));
+  const handleInputListener = () => {
+    if (showError('email')) {
+      return;
+    }
+    emailInput.removeEventListener('input', handleInputListener);
+  };
+
+  emailInput.addEventListener('blur', () => {
+    if (!showError('email')) {
+      return;
+    }
+    emailInput.addEventListener('input', handleInputListener);
+  });
   inputs.email = emailInput;
   const emailErrorLabel = document.createElement('span');
   emailErrorLabel.classList.add('error-label');

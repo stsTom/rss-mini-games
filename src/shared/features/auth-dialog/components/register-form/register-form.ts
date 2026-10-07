@@ -31,7 +31,7 @@ function showError(key: keyof RegisterFormInputs) {
   errorLabels[key].textContent = message;
   inputs[key].ariaInvalid = message ? 'true' : 'false';
 
-  return !message;
+  return message;
 }
 
 function validateForm() {
@@ -88,8 +88,20 @@ export function createRegisterForm(options: RegisterFormOptions): HTMLFormElemen
   emailInput.type = 'email';
   emailInput.id = 'register-email';
   emailInput.placeholder = 'your.email@domain.com';
-  emailInput.addEventListener('input', () => showError('email'));
-  emailInput.addEventListener('blur', () => showError('email'));
+
+  const handleInputListener = () => {
+    if (showError('email')) {
+      return;
+    }
+    emailInput.removeEventListener('input', handleInputListener);
+  };
+
+  emailInput.addEventListener('blur', () => {
+    if (!showError('email')) {
+      return;
+    }
+    emailInput.addEventListener('input', handleInputListener);
+  });
   const emailErrorLabel = document.createElement('span');
   emailErrorLabel.classList.add('error-label');
   emailInputWrapper.append(emailIcon, emailInput);
