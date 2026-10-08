@@ -1,3 +1,4 @@
+import { validateEmail, validatePasswordLength } from '../../validation.js';
 import './login-form.scss';
 
 const GOOGLE_ICON_SRC = '/icons/google.svg';
@@ -6,8 +7,35 @@ export interface LoginFormOptions {
   onSwitchToRegister: () => void;
 }
 
+interface LoginFormInputs {
+  email: string;
+  password: string;
+}
+
+const inputs = {} as Record<keyof LoginFormInputs, HTMLInputElement>;
+const errorLabels = {} as Record<keyof LoginFormInputs, HTMLElement>;
+
+const validators: Record<keyof LoginFormInputs, () => string> = {
+  email: () => validateEmail(inputs.email.value),
+  password: () => validatePasswordLength(inputs.password.value),
+};
+
+function showError(key: keyof LoginFormInputs) {
+  const message = validators[key]();
+
+  errorLabels[key].textContent = message;
+  inputs[key].ariaInvalid = message ? 'true' : 'false';
+
+  return message;
+}
+
+function validateForm() {
+  return (Object.keys(validators) as (keyof LoginFormInputs)[]).every((key) => showError(key));
+}
+
 export function createLoginForm(options: LoginFormOptions): HTMLFormElement {
   const form = document.createElement('form');
+  form.noValidate = true;
   form.classList.add('login-form');
 
   const headerText = document.createElement('div');
@@ -32,8 +60,25 @@ export function createLoginForm(options: LoginFormOptions): HTMLFormElement {
   emailInput.type = 'email';
   emailInput.id = 'login-email';
   emailInput.placeholder = 'e.g. alex@minigames.com';
+  const handleInputListener = () => {
+    if (showError('email')) {
+      return;
+    }
+    emailInput.removeEventListener('input', handleInputListener);
+  };
+
+  emailInput.addEventListener('blur', () => {
+    if (!showError('email')) {
+      return;
+    }
+    emailInput.addEventListener('input', handleInputListener);
+  });
+  inputs.email = emailInput;
+  const emailErrorLabel = document.createElement('span');
+  emailErrorLabel.classList.add('error-label');
+  errorLabels.email = emailErrorLabel;
   emailInputWrapper.append(emailIcon, emailInput);
-  emailField.append(emailLabel, emailInputWrapper);
+  emailField.append(emailLabel, emailInputWrapper, emailErrorLabel);
 
   const passwordField = document.createElement('div');
   passwordField.classList.add('field');
@@ -52,8 +97,25 @@ export function createLoginForm(options: LoginFormOptions): HTMLFormElement {
   const passwordVisibilityIcon = document.createElement('span');
   passwordVisibilityIcon.classList.add('field-icon', 'field-icon--eye');
   passwordVisibilityIcon.setAttribute('aria-hidden', 'true');
+  const handlePasswordInputListener = () => {
+    if (showError('password')) {
+      return;
+    }
+    passwordInput.removeEventListener('input', handlePasswordInputListener);
+  };
+
+  passwordInput.addEventListener('blur', () => {
+    if (!showError('password')) {
+      return;
+    }
+    passwordInput.addEventListener('input', handlePasswordInputListener);
+  });
+  inputs.password = passwordInput;
+  const passwordErrorLabel = document.createElement('span');
+  passwordErrorLabel.classList.add('error-label');
+  errorLabels.password = passwordErrorLabel;
   passwordInputWrapper.append(passwordIcon, passwordInput, passwordVisibilityIcon);
-  passwordField.append(passwordLabel, passwordInputWrapper);
+  passwordField.append(passwordLabel, passwordInputWrapper, passwordErrorLabel);
 
   const forgotPasswordLink = document.createElement('a');
   forgotPasswordLink.textContent = 'Forgot Password?';
@@ -112,6 +174,7 @@ export function createLoginForm(options: LoginFormOptions): HTMLFormElement {
 
   form.addEventListener('submit', (event) => {
     event.preventDefault();
+    validateForm();
   });
 
   return form;
