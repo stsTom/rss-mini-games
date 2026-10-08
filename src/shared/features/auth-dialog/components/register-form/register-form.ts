@@ -1,5 +1,7 @@
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { validateEmail, validatePassword, validateUsername } from '../../validation.js';
 import './register-form.scss';
+import { auth } from '../../../../../firebase.js';
 
 const GOOGLE_ICON_SRC = '/icons/google.svg';
 
@@ -236,7 +238,18 @@ export function createRegisterForm(options: RegisterFormOptions): HTMLFormElemen
 
   form.addEventListener('submit', (event) => {
     event.preventDefault();
-    validateForm();
+    if (!validateForm()) {
+      submitButton.disabled = true;
+      submitButton.ariaDisabled = 'true';
+      try {
+        void createUserWithEmailAndPassword(auth, inputs.email.value, inputs.password.value);
+      } catch {
+        console.log('oops, smth went wrong'); //add shackbar
+      } finally {
+        submitButton.disabled = false;
+        submitButton.ariaDisabled = 'false';
+      }
+    }
   });
 
   return form;

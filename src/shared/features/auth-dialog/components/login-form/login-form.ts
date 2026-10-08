@@ -1,3 +1,5 @@
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../../../../firebase.js';
 import { validateEmail, validatePasswordLength } from '../../validation.js';
 import './login-form.scss';
 
@@ -22,6 +24,7 @@ const validators: Record<keyof LoginFormInputs, () => string> = {
 
 function showError(key: keyof LoginFormInputs) {
   const message = validators[key]();
+  console.log(message);
 
   errorLabels[key].textContent = message;
   inputs[key].ariaInvalid = message ? 'true' : 'false';
@@ -172,9 +175,20 @@ export function createLoginForm(options: LoginFormOptions): HTMLFormElement {
 
   form.append(headerText, fields, actions, footer);
 
-  form.addEventListener('submit', (event) => {
+  form.addEventListener('submit', async (event) => {
     event.preventDefault();
-    validateForm();
+    if (!validateForm()) {
+      submitButton.disabled = true;
+      submitButton.ariaDisabled = 'true';
+      try {
+        await signInWithEmailAndPassword(auth, inputs.email.value, inputs.password.value);
+      } catch {
+        console.log('oops, smth went wrong'); //add shackbar
+      } finally {
+        submitButton.disabled = false;
+        submitButton.ariaDisabled = 'false';
+      }
+    }
   });
 
   return form;
