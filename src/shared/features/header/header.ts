@@ -29,6 +29,12 @@ export function createHeader({ router }: HeaderOptions): HTMLElement {
       return;
     }
 
+    if (previous && authDialog.isBusy()) {
+      // Back/forward or a link changed the route mid-request: undo it so URL and dialog stay in sync
+      router.update({ auth: previous.auth }, { replace: true });
+      return;
+    }
+
     if (auth) {
       authDialog.open(auth);
     } else {
@@ -37,7 +43,6 @@ export function createHeader({ router }: HeaderOptions): HTMLElement {
   };
 
   router.subscribe(syncAuthDialog);
-  // showModal() requires the dialog to be in the document, which happens right after createHeader returns
   queueMicrotask(() => syncAuthDialog(router.state));
 
   const openLogin = (): void => router.update({ auth: 'login' });

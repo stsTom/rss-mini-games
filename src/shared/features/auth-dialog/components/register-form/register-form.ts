@@ -7,6 +7,8 @@ const GOOGLE_ICON_SRC = '/icons/google.svg';
 
 export interface RegisterFormOptions {
   onSwitchToLogin: () => void;
+  handleFetch: (isPending: boolean) => void;
+  onSuccess: () => void;
 }
 
 interface RegisterFormInputs {
@@ -236,16 +238,20 @@ export function createRegisterForm(options: RegisterFormOptions): HTMLFormElemen
 
   form.append(headerText, fields, actions, footer);
 
-  form.addEventListener('submit', (event) => {
+  form.addEventListener('submit', async (event) => {
     event.preventDefault();
     if (!validateForm()) {
+      options.handleFetch(true);
       submitButton.disabled = true;
       submitButton.ariaDisabled = 'true';
       try {
-        void createUserWithEmailAndPassword(auth, inputs.email.value, inputs.password.value);
+        await createUserWithEmailAndPassword(auth, inputs.email.value, inputs.password.value);
+        options.handleFetch(false);
+        options.onSuccess();
       } catch {
         console.log('oops, smth went wrong'); //add shackbar
       } finally {
+        options.handleFetch(false);
         submitButton.disabled = false;
         submitButton.ariaDisabled = 'false';
       }

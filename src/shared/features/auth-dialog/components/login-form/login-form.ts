@@ -7,6 +7,8 @@ const GOOGLE_ICON_SRC = '/icons/google.svg';
 
 export interface LoginFormOptions {
   onSwitchToRegister: () => void;
+  handleFetch: (isPending: boolean) => void;
+  onSuccess: () => void;
 }
 
 interface LoginFormInputs {
@@ -178,15 +180,19 @@ export function createLoginForm(options: LoginFormOptions): HTMLFormElement {
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
     if (!validateForm()) {
+      options.handleFetch(true);
       submitButton.disabled = true;
       submitButton.ariaDisabled = 'true';
       try {
         await signInWithEmailAndPassword(auth, inputs.email.value, inputs.password.value);
+        options.handleFetch(false);
+        options.onSuccess();
       } catch {
         console.log('oops, smth went wrong'); //add shackbar
       } finally {
         submitButton.disabled = false;
         submitButton.ariaDisabled = 'false';
+        options.handleFetch(false);
       }
     }
   });

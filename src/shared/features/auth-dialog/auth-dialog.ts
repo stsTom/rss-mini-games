@@ -14,12 +14,29 @@ export interface AuthDialog {
   element: HTMLDialogElement;
   open: (tab: AuthDialogTab) => void;
   close: () => void;
+  isBusy: () => boolean;
 }
 
 export function createAuthDialog({ onTabChange, onClose }: AuthDialogOptions): AuthDialog {
-  const layout = createDialogLayout({ className: 'auth-dialog', onClose });
+  let isBusy = false;
+
+  const setIsBusy = (isPending: boolean): void => {
+    isBusy = isPending;
+  };
+
+  const layout = createDialogLayout({
+    className: 'auth-dialog',
+    onClose,
+    canClose: () => !isBusy,
+  });
   const dialog = layout.element;
   layout.card.classList.add('auth-dialog-content');
+
+  const changeTab = (tab: AuthDialogTab): void => {
+    if (!isBusy) {
+      onTabChange(tab);
+    }
+  };
 
   const tabs = document.createElement('div');
   tabs.classList.add('auth-dialog-tabs');
@@ -64,14 +81,18 @@ export function createAuthDialog({ onTabChange, onClose }: AuthDialogOptions): A
 
   const loginForm = createLoginForm({
     onSwitchToRegister: () => {
-      onTabChange('register');
+      changeTab('register');
     },
+    handleFetch: setIsBusy,
+    onSuccess: layout.close,
   });
 
   const registerForm = createRegisterForm({
     onSwitchToLogin: () => {
-      onTabChange('login');
+      changeTab('login');
     },
+    handleFetch: setIsBusy,
+    onSuccess: layout.close,
   });
 
   const open = (tab: AuthDialogTab): void => {
@@ -80,12 +101,12 @@ export function createAuthDialog({ onTabChange, onClose }: AuthDialogOptions): A
   };
 
   loginTab.addEventListener('click', () => {
-    onTabChange('login');
+    changeTab('login');
   });
 
   registerTab.addEventListener('click', () => {
-    onTabChange('register');
+    changeTab('register');
   });
 
-  return { element: dialog, open, close: layout.close };
+  return { element: dialog, open, close: layout.close, isBusy: () => isBusy };
 }
