@@ -1,6 +1,7 @@
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../../../../firebase.js';
 import { validateEmail, validatePasswordLength } from '../../validation.js';
+import { signInWithGoogle } from '../../google-sign-in.js';
 import './login-form.scss';
 
 const GOOGLE_ICON_SRC = '/icons/google.svg';
@@ -147,6 +148,17 @@ export function createLoginForm(options: LoginFormOptions): HTMLFormElement {
   const googleLabel = document.createElement('span');
   googleLabel.textContent = 'Continue with Google';
   googleButton.append(googleIcon, googleLabel);
+  googleButton.addEventListener('click', async () => {
+    options.handleFetch(true);
+    try {
+      if ((await signInWithGoogle()) !== undefined) {
+        options.handleFetch(false);
+        options.onSuccess();
+      }
+    } finally {
+      options.handleFetch(false);
+    }
+  });
 
   const divider = document.createElement('div');
   divider.classList.add('divider');

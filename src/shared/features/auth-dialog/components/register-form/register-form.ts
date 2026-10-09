@@ -1,5 +1,6 @@
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { validateEmail, validatePassword, validateUsername } from '../../validation.js';
+import { signInWithGoogle } from '../../google-sign-in.js';
 import './register-form.scss';
 import { auth } from '../../../../../firebase.js';
 
@@ -208,6 +209,17 @@ export function createRegisterForm(options: RegisterFormOptions): HTMLFormElemen
   const googleLabel = document.createElement('span');
   googleLabel.textContent = 'Sign up with Google';
   googleButton.append(googleIcon, googleLabel);
+  googleButton.addEventListener('click', async () => {
+    options.handleFetch(true);
+    try {
+      if ((await signInWithGoogle()) !== undefined) {
+        options.handleFetch(false);
+        options.onSuccess();
+      }
+    } finally {
+      options.handleFetch(false);
+    }
+  });
 
   const divider = document.createElement('div');
   divider.classList.add('divider');

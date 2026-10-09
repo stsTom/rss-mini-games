@@ -20,10 +20,6 @@ export interface AuthDialog {
 export function createAuthDialog({ onTabChange, onClose }: AuthDialogOptions): AuthDialog {
   let isBusy = false;
 
-  const setIsBusy = (isPending: boolean): void => {
-    isBusy = isPending;
-  };
-
   const layout = createDialogLayout({
     className: 'auth-dialog',
     onClose,
@@ -55,6 +51,14 @@ export function createAuthDialog({ onTabChange, onClose }: AuthDialogOptions): A
   view.classList.add('auth-dialog-view');
 
   layout.card.append(tabs, view);
+
+  const setIsBusy = (isPending: boolean): void => {
+    isBusy = isPending;
+    view.toggleAttribute('inert', isPending);
+    loginTab.disabled = isPending;
+    registerTab.disabled = isPending;
+    dialog.classList.toggle('is-busy', isPending);
+  };
 
   const setActiveTab = (tab: AuthDialogTab): void => {
     if (tab === dialog.dataset.authDialogTab) {

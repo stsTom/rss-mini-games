@@ -31,6 +31,14 @@
   }
 }
 
+.auth-dialog.is-busy .auth-dialog-content {
+  cursor: progress;
+
+  .auth-dialog-view {
+    opacity: 0.6;
+  }
+}
+
 .error-label {
   font-size: $font-size-label-small;
   color: $color-error;
