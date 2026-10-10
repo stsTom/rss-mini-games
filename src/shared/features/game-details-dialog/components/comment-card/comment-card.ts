@@ -2,8 +2,9 @@ import './comment-card.scss';
 import { AVATAR_COLOR_COUNT, GLYPH_HEART, GLYPH_HEART_OUTLINE } from '../../constants.js';
 import { formatTimeAgo } from '../../utils/format.js';
 import type { GameComment } from '../../../../interfaces.js';
+import type { GuardAction } from '../../../../services/actions-guard.js';
 
-function createLikeButton(likesCount: number): HTMLElement {
+function createLikeButton(likesCount: number, guardAction: GuardAction): HTMLElement {
   const glyph = document.createElement('span');
   glyph.textContent = GLYPH_HEART_OUTLINE;
   glyph.setAttribute('aria-hidden', 'true');
@@ -17,16 +18,23 @@ function createLikeButton(likesCount: number): HTMLElement {
   button.setAttribute('aria-label', `Like, ${likesCount} likes`);
   button.setAttribute('aria-pressed', 'false');
   button.append(glyph, count);
-  button.addEventListener('click', () => {
-    const isActive = button.classList.toggle('is-active');
-    button.setAttribute('aria-pressed', String(isActive));
-    glyph.textContent = isActive ? GLYPH_HEART : GLYPH_HEART_OUTLINE;
-  });
+  button.addEventListener(
+    'click',
+    guardAction(() => {
+      const isActive = button.classList.toggle('is-active');
+      button.setAttribute('aria-pressed', String(isActive));
+      glyph.textContent = isActive ? GLYPH_HEART : GLYPH_HEART_OUTLINE;
+    })
+  );
 
   return button;
 }
 
-export function createGameDetailsCommentCard(comment: GameComment, index: number): HTMLElement {
+export function createGameDetailsCommentCard(
+  comment: GameComment,
+  index: number,
+  guardAction: GuardAction
+): HTMLElement {
   const card = document.createElement('li');
   card.classList.add('game-details-comment');
 
@@ -56,7 +64,7 @@ export function createGameDetailsCommentCard(comment: GameComment, index: number
   text.classList.add('game-details-comment-text');
   text.textContent = comment.text;
 
-  card.append(header, text, createLikeButton(comment.likesCount));
+  card.append(header, text, createLikeButton(comment.likesCount, guardAction));
 
   return card;
 }

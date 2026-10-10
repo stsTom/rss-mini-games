@@ -12,6 +12,7 @@ import {
   type RouteState,
 } from '../shared/services/router.js';
 import { createAppSession } from '../shared/services/app-session.js';
+import { createActionsGuard } from '../shared/services/actions-guard.js';
 import type { Game } from '../shared/interfaces.js';
 
 const main = document.querySelector('main');
@@ -30,7 +31,8 @@ if (main) {
   };
 
   const router = createRouter({ guard });
-  const gameDetailsDialog = createGameDetailsDialog();
+  const guardAction = createActionsGuard(router, session);
+  const gameDetailsDialog = createGameDetailsDialog({ guardAction });
   let onGameDialogClose: (() => void) | undefined;
 
   const selectGame = (game: Game, onClose?: () => void): void => {

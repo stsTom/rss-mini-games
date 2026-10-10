@@ -119,7 +119,6 @@ export function createAppSession(): AppSession {
     const raw = localStorage.getItem(APP_SESSION_KEY);
     const stored = raw === null ? undefined : parseStoredSession(raw);
 
-    // Missing or invalid: Firebase's own persistence must not bring the user back
     if (!isAppSessionData(stored)) {
       clear();
       return;

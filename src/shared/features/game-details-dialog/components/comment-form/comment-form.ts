@@ -4,6 +4,7 @@ import {
   CURRENT_USER_INITIAL,
   GLYPH_SEND,
 } from '../../constants.js';
+import type { GuardAction } from '../../../../services/actions-guard.js';
 
 function autoGrow(textarea: HTMLTextAreaElement): void {
   textarea.style.height = 'auto';
@@ -16,11 +17,13 @@ function autoGrow(textarea: HTMLTextAreaElement): void {
   textarea.style.overflowY = isCapped ? 'auto' : 'hidden';
 }
 
-export function createGameDetailsCommentForm(): HTMLElement {
+export function createGameDetailsCommentForm(guardAction: GuardAction): HTMLElement {
   const form = document.createElement('form');
   form.classList.add('game-details-comment-form');
+  const submitComment = guardAction(() => {});
   form.addEventListener('submit', (event) => {
     event.preventDefault();
+    submitComment();
   });
 
   const avatar = document.createElement('span');

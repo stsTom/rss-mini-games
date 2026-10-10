@@ -1,9 +1,10 @@
 import './actions.scss';
 import { GLYPH_HEART, GLYPH_HEART_OUTLINE } from '../../constants.js';
+import type { GuardAction } from '../../../../services/actions-guard.js';
 
 const FAVORITE_LABEL = 'Add to Favorites';
 
-export function createGameDetailsActions(price?: string): HTMLElement {
+export function createGameDetailsActions(guardAction: GuardAction, price?: string): HTMLElement {
   const actions = document.createElement('div');
   actions.classList.add('game-details-actions');
 
@@ -11,6 +12,10 @@ export function createGameDetailsActions(price?: string): HTMLElement {
   playButton.type = 'button';
   playButton.classList.add('game-details-action', 'game-details-action--play');
   playButton.textContent = price === 'Free' ? 'Play Now' : `${price}`;
+  playButton.addEventListener(
+    'click',
+    guardAction(() => {})
+  );
 
   const glyph = document.createElement('span');
   glyph.textContent = GLYPH_HEART_OUTLINE;
@@ -26,11 +31,14 @@ export function createGameDetailsActions(price?: string): HTMLElement {
   favoriteButton.setAttribute('aria-label', FAVORITE_LABEL);
   favoriteButton.setAttribute('aria-pressed', 'false');
   favoriteButton.append(glyph, label);
-  favoriteButton.addEventListener('click', () => {
-    const isActive = favoriteButton.classList.toggle('is-active');
-    favoriteButton.setAttribute('aria-pressed', String(isActive));
-    glyph.textContent = isActive ? GLYPH_HEART : GLYPH_HEART_OUTLINE;
-  });
+  favoriteButton.addEventListener(
+    'click',
+    guardAction(() => {
+      const isActive = favoriteButton.classList.toggle('is-active');
+      favoriteButton.setAttribute('aria-pressed', String(isActive));
+      glyph.textContent = isActive ? GLYPH_HEART : GLYPH_HEART_OUTLINE;
+    })
+  );
 
   actions.append(playButton, favoriteButton);
 
