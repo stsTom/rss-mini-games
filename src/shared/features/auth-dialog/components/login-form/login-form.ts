@@ -1,10 +1,15 @@
+import { signInWithEmailAndPassword, type User } from 'firebase/auth';
+import { auth } from '../../../../../firebase.js';
 import { validateEmail, validatePasswordLength } from '../../validation.js';
+import { signInWithGoogle } from '../../google-sign-in.js';
 import './login-form.scss';
 
 const GOOGLE_ICON_SRC = '/icons/google.svg';
 
 export interface LoginFormOptions {
   onSwitchToRegister: () => void;
+  handleFetch: (isPending: boolean) => void;
+  onSuccess: (user: User) => void;
 }
 
 interface LoginFormInputs {
@@ -22,6 +27,7 @@ const validators: Record<keyof LoginFormInputs, () => string> = {
 
 function showError(key: keyof LoginFormInputs) {
   const message = validators[key]();
+  console.log(message);
 
   errorLabels[key].textContent = message;
   inputs[key].ariaInvalid = message ? 'true' : 'false';
@@ -142,6 +148,18 @@ export function createLoginForm(options: LoginFormOptions): HTMLFormElement {
   const googleLabel = document.createElement('span');
   googleLabel.textContent = 'Continue with Google';
   googleButton.append(googleIcon, googleLabel);
+  googleButton.addEventListener('click', async () => {
+    options.handleFetch(true);
+    try {
+      const credential = await signInWithGoogle();
+      if (credential !== undefined) {
+        options.handleFetch(false);
+        options.onSuccess(credential.user);
+      }
+    } finally {
+      options.handleFetch(false);
+    }
+  });
 
   const divider = document.createElement('div');
   divider.classList.add('divider');
@@ -172,9 +190,28 @@ export function createLoginForm(options: LoginFormOptions): HTMLFormElement {
 
   form.append(headerText, fields, actions, footer);
 
-  form.addEventListener('submit', (event) => {
+  form.addEventListener('submit', async (event) => {
     event.preventDefault();
-    validateForm();
+    if (!validateForm()) {
+      options.handleFetch(true);
+      submitButton.disabled = true;
+      submitButton.ariaDisabled = 'true';
+      try {
+        const { user } = await signInWithEmailAndPassword(
+          auth,
+          inputs.email.value,
+          inputs.password.value
+        );
+        options.handleFetch(false);
+        options.onSuccess(user);
+      } catch {
+        console.log('oops, smth went wrong'); //add shackbar
+      } finally {
+        submitButton.disabled = false;
+        submitButton.ariaDisabled = 'false';
+        options.handleFetch(false);
+      }
+    }
   });
 
   return form;

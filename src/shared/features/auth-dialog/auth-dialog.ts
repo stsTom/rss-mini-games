@@ -1,4 +1,5 @@
 import './auth-dialog.scss';
+import type { User } from 'firebase/auth';
 import { createDialogLayout } from '../../components/dialog-layout/dialog-layout.js';
 import { createLoginForm } from './components/login-form/login-form.js';
 import { createRegisterForm } from './components/register-form/register-form.js';
@@ -8,18 +9,36 @@ export type AuthDialogTab = 'login' | 'register';
 export interface AuthDialogOptions {
   onTabChange: (tab: AuthDialogTab) => void;
   onClose: () => void;
+  onAuthenticated: (user: User, displayName?: string) => void;
 }
 
 export interface AuthDialog {
   element: HTMLDialogElement;
   open: (tab: AuthDialogTab) => void;
   close: () => void;
+  isBusy: () => boolean;
 }
 
-export function createAuthDialog({ onTabChange, onClose }: AuthDialogOptions): AuthDialog {
-  const layout = createDialogLayout({ className: 'auth-dialog', onClose });
+export function createAuthDialog({
+  onTabChange,
+  onClose,
+  onAuthenticated,
+}: AuthDialogOptions): AuthDialog {
+  let isBusy = false;
+
+  const layout = createDialogLayout({
+    className: 'auth-dialog',
+    onClose,
+    canClose: () => !isBusy,
+  });
   const dialog = layout.element;
   layout.card.classList.add('auth-dialog-content');
+
+  const changeTab = (tab: AuthDialogTab): void => {
+    if (!isBusy) {
+      onTabChange(tab);
+    }
+  };
 
   const tabs = document.createElement('div');
   tabs.classList.add('auth-dialog-tabs');
@@ -38,6 +57,14 @@ export function createAuthDialog({ onTabChange, onClose }: AuthDialogOptions): A
   view.classList.add('auth-dialog-view');
 
   layout.card.append(tabs, view);
+
+  const setIsBusy = (isPending: boolean): void => {
+    isBusy = isPending;
+    view.toggleAttribute('inert', isPending);
+    loginTab.disabled = isPending;
+    registerTab.disabled = isPending;
+    dialog.classList.toggle('is-busy', isPending);
+  };
 
   const setActiveTab = (tab: AuthDialogTab): void => {
     if (tab === dialog.dataset.authDialogTab) {
@@ -62,16 +89,25 @@ export function createAuthDialog({ onTabChange, onClose }: AuthDialogOptions): A
     view.replaceChildren(tab === 'login' ? loginForm : registerForm);
   };
 
+  const handleSuccess = (user: User, displayName?: string): void => {
+    onAuthenticated(user, displayName);
+    layout.close();
+  };
+
   const loginForm = createLoginForm({
     onSwitchToRegister: () => {
-      onTabChange('register');
+      changeTab('register');
     },
+    handleFetch: setIsBusy,
+    onSuccess: handleSuccess,
   });
 
   const registerForm = createRegisterForm({
     onSwitchToLogin: () => {
-      onTabChange('login');
+      changeTab('login');
     },
+    handleFetch: setIsBusy,
+    onSuccess: handleSuccess,
   });
 
   const open = (tab: AuthDialogTab): void => {
@@ -80,12 +116,12 @@ export function createAuthDialog({ onTabChange, onClose }: AuthDialogOptions): A
   };
 
   loginTab.addEventListener('click', () => {
-    onTabChange('login');
+    changeTab('login');
   });
 
   registerTab.addEventListener('click', () => {
-    onTabChange('register');
+    changeTab('register');
   });
 
-  return { element: dialog, open, close: layout.close };
+  return { element: dialog, open, close: layout.close, isBusy: () => isBusy };
 }

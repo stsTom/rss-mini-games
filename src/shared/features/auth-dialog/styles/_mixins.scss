@@ -283,7 +283,8 @@
     $breakpoint-wide
   );
 
-  &:hover {
+  &:hover,
+  &:disabled {
     background: $color-primary-high;
   }
 

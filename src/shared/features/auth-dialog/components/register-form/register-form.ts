@@ -1,10 +1,15 @@
+import { createUserWithEmailAndPassword, updateProfile, type User } from 'firebase/auth';
 import { validateEmail, validatePassword, validateUsername } from '../../validation.js';
+import { signInWithGoogle } from '../../google-sign-in.js';
 import './register-form.scss';
+import { auth } from '../../../../../firebase.js';
 
 const GOOGLE_ICON_SRC = '/icons/google.svg';
 
 export interface RegisterFormOptions {
   onSwitchToLogin: () => void;
+  handleFetch: (isPending: boolean) => void;
+  onSuccess: (user: User, displayName?: string) => void;
 }
 
 interface RegisterFormInputs {
@@ -204,6 +209,18 @@ export function createRegisterForm(options: RegisterFormOptions): HTMLFormElemen
   const googleLabel = document.createElement('span');
   googleLabel.textContent = 'Sign up with Google';
   googleButton.append(googleIcon, googleLabel);
+  googleButton.addEventListener('click', async () => {
+    options.handleFetch(true);
+    try {
+      const credential = await signInWithGoogle();
+      if (credential !== undefined) {
+        options.handleFetch(false);
+        options.onSuccess(credential.user);
+      }
+    } finally {
+      options.handleFetch(false);
+    }
+  });
 
   const divider = document.createElement('div');
   divider.classList.add('divider');
@@ -234,9 +251,30 @@ export function createRegisterForm(options: RegisterFormOptions): HTMLFormElemen
 
   form.append(headerText, fields, actions, footer);
 
-  form.addEventListener('submit', (event) => {
+  form.addEventListener('submit', async (event) => {
     event.preventDefault();
-    validateForm();
+    if (!validateForm()) {
+      options.handleFetch(true);
+      submitButton.disabled = true;
+      submitButton.ariaDisabled = 'true';
+      try {
+        const { user } = await createUserWithEmailAndPassword(
+          auth,
+          inputs.email.value,
+          inputs.password.value
+        );
+        const displayName = inputs.username.value.trim();
+        await updateProfile(user, { displayName });
+        options.handleFetch(false);
+        options.onSuccess(user, displayName);
+      } catch {
+        console.log('oops, smth went wrong'); //add shackbar
+      } finally {
+        options.handleFetch(false);
+        submitButton.disabled = false;
+        submitButton.ariaDisabled = 'false';
+      }
+    }
   });
 
   return form;

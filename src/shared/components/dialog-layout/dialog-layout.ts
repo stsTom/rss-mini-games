@@ -3,6 +3,7 @@ import './dialog-layout.scss';
 export interface DialogLayoutOptions {
   className: string;
   onClose?: () => void;
+  canClose?: () => boolean;
 }
 
 export interface DialogLayout {
@@ -12,7 +13,11 @@ export interface DialogLayout {
   close: () => void;
 }
 
-export function createDialogLayout({ className, onClose }: DialogLayoutOptions): DialogLayout {
+export function createDialogLayout({
+  className,
+  onClose,
+  canClose,
+}: DialogLayoutOptions): DialogLayout {
   const dialog = document.createElement('dialog');
   dialog.classList.add('dialog-layout', className);
 
@@ -47,7 +52,7 @@ export function createDialogLayout({ className, onClose }: DialogLayoutOptions):
   };
 
   const close = (): void => {
-    if (isClosing || !dialog.open) {
+    if (isClosing || !dialog.open || canClose?.() === false) {
       return;
     }
 

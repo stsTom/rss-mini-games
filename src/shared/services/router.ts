@@ -13,6 +13,12 @@ export interface RouteState {
 
 type RouteListener = (state: RouteState, previous: RouteState) => void;
 
+export type RouteGuard = (next: RouteState) => RouteState;
+
+export interface RouterOptions {
+  guard?: RouteGuard;
+}
+
 export interface NavigateOptions {
   replace?: boolean;
 }
@@ -84,8 +90,25 @@ export function isModifiedClick(event: MouseEvent): boolean {
   return event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey;
 }
 
-export function createRouter(): Router {
-  let state = parseUrl(location);
+function removeAuthParameter(): string {
+  const url = new URL(location.href);
+  url.searchParams.delete('auth');
+  return url.pathname + url.search + url.hash;
+}
+
+export function createRouter({ guard }: RouterOptions = {}): Router {
+  const check = (next: RouteState): RouteState => guard?.(next) ?? next;
+
+  const readLocation = (): RouteState => {
+    const parsed = parseUrl(location);
+    const guarded = check(parsed);
+    if (parsed.auth && !guarded.auth) {
+      history.replaceState(history.state, '', removeAuthParameter());
+    }
+    return guarded;
+  };
+
+  let state = readLocation();
   const listeners = new Set<RouteListener>();
 
   const apply = (next: RouteState): void => {
@@ -97,7 +120,8 @@ export function createRouter(): Router {
     }
   };
 
-  const navigate = (next: RouteState, { replace = false }: NavigateOptions = {}): void => {
+  const navigate = (target: RouteState, { replace = false }: NavigateOptions = {}): void => {
+    const next = check(target);
     const url = buildUrl(next);
     if (url === location.pathname + location.search) {
       return;
@@ -111,7 +135,7 @@ export function createRouter(): Router {
     apply(next);
   };
 
-  globalThis.addEventListener('popstate', () => apply(parseUrl(location)));
+  globalThis.addEventListener('popstate', () => apply(readLocation()));
 
   return {
     get state() {
