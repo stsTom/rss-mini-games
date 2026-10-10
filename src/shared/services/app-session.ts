@@ -100,7 +100,14 @@ export function createAppSession(): AppSession {
       return false;
     }
 
-    if (isExpired(current)) {
+    const raw = localStorage.getItem(APP_SESSION_KEY);
+    const stored = raw === null ? undefined : parseStoredSession(raw);
+    if (!isAppSessionData(stored) || stored.authenticatedAt !== current.authenticatedAt) {
+      clear();
+      return false;
+    }
+
+    if (isExpired(stored)) {
       expire();
       return false;
     }
