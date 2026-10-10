@@ -49,6 +49,12 @@ export function createHeader({ router, session }: HeaderOptions): HTMLElement {
   router.subscribe(syncAuthDialog);
   queueMicrotask(() => syncAuthDialog(router.state));
 
+  session.subscribe((current) => {
+    if (current && router.state.auth && !authDialog.isBusy()) {
+      router.update({ auth: undefined }, { replace: true });
+    }
+  });
+
   const openLogin = (): void => router.update({ auth: 'login' });
   const openRegister = (): void => router.update({ auth: 'register' });
 
