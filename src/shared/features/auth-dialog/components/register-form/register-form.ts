@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, updateProfile, type User } from 'firebase/auth';
 import { validateEmail, validatePassword, validateUsername } from '../../validation.js';
 import { signInWithGoogle } from '../../google-sign-in.js';
 import './register-form.scss';
@@ -9,7 +9,7 @@ const GOOGLE_ICON_SRC = '/icons/google.svg';
 export interface RegisterFormOptions {
   onSwitchToLogin: () => void;
   handleFetch: (isPending: boolean) => void;
-  onSuccess: () => void;
+  onSuccess: (user: User, displayName?: string) => void;
 }
 
 interface RegisterFormInputs {
@@ -212,9 +212,10 @@ export function createRegisterForm(options: RegisterFormOptions): HTMLFormElemen
   googleButton.addEventListener('click', async () => {
     options.handleFetch(true);
     try {
-      if ((await signInWithGoogle()) !== undefined) {
+      const credential = await signInWithGoogle();
+      if (credential !== undefined) {
         options.handleFetch(false);
-        options.onSuccess();
+        options.onSuccess(credential.user);
       }
     } finally {
       options.handleFetch(false);
@@ -257,9 +258,15 @@ export function createRegisterForm(options: RegisterFormOptions): HTMLFormElemen
       submitButton.disabled = true;
       submitButton.ariaDisabled = 'true';
       try {
-        await createUserWithEmailAndPassword(auth, inputs.email.value, inputs.password.value);
+        const { user } = await createUserWithEmailAndPassword(
+          auth,
+          inputs.email.value,
+          inputs.password.value
+        );
+        const displayName = inputs.username.value.trim();
+        await updateProfile(user, { displayName });
         options.handleFetch(false);
-        options.onSuccess();
+        options.onSuccess(user, displayName);
       } catch {
         console.log('oops, smth went wrong'); //add shackbar
       } finally {

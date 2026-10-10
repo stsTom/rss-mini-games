@@ -1,4 +1,4 @@
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, type User } from 'firebase/auth';
 import { auth } from '../../../../../firebase.js';
 import { validateEmail, validatePasswordLength } from '../../validation.js';
 import { signInWithGoogle } from '../../google-sign-in.js';
@@ -9,7 +9,7 @@ const GOOGLE_ICON_SRC = '/icons/google.svg';
 export interface LoginFormOptions {
   onSwitchToRegister: () => void;
   handleFetch: (isPending: boolean) => void;
-  onSuccess: () => void;
+  onSuccess: (user: User) => void;
 }
 
 interface LoginFormInputs {
@@ -151,9 +151,10 @@ export function createLoginForm(options: LoginFormOptions): HTMLFormElement {
   googleButton.addEventListener('click', async () => {
     options.handleFetch(true);
     try {
-      if ((await signInWithGoogle()) !== undefined) {
+      const credential = await signInWithGoogle();
+      if (credential !== undefined) {
         options.handleFetch(false);
-        options.onSuccess();
+        options.onSuccess(credential.user);
       }
     } finally {
       options.handleFetch(false);
@@ -196,9 +197,13 @@ export function createLoginForm(options: LoginFormOptions): HTMLFormElement {
       submitButton.disabled = true;
       submitButton.ariaDisabled = 'true';
       try {
-        await signInWithEmailAndPassword(auth, inputs.email.value, inputs.password.value);
+        const { user } = await signInWithEmailAndPassword(
+          auth,
+          inputs.email.value,
+          inputs.password.value
+        );
         options.handleFetch(false);
-        options.onSuccess();
+        options.onSuccess(user);
       } catch {
         console.log('oops, smth went wrong'); //add shackbar
       } finally {

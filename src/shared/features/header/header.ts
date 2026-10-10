@@ -5,14 +5,17 @@ import { createBurger } from './components/burger/burger.js';
 import { createBurgerMenu } from './components/burger-menu/burger-menu.js';
 import { createSignInButton } from './components/sign-in-button/sign-in-button.js';
 import { createSignUpButton } from './components/sign-up-button/sign-up-button.js';
+import { createUserMenu } from './components/user-menu/user-menu.js';
 import { createAuthDialog } from '../auth-dialog/auth-dialog.js';
 import type { RouteState, Router } from '../../services/router.js';
+import type { AppSession } from '../../services/app-session.js';
 
 export interface HeaderOptions {
   router: Router;
+  session: AppSession;
 }
 
-export function createHeader({ router }: HeaderOptions): HTMLElement {
+export function createHeader({ router, session }: HeaderOptions): HTMLElement {
   const header = document.createElement('header');
 
   const authDialog = createAuthDialog({
@@ -22,6 +25,7 @@ export function createHeader({ router }: HeaderOptions): HTMLElement {
         router.update({ auth: undefined });
       }
     },
+    onAuthenticated: session.start,
   });
 
   const syncAuthDialog = ({ auth }: RouteState, previous?: RouteState): void => {
@@ -52,6 +56,7 @@ export function createHeader({ router }: HeaderOptions): HTMLElement {
     onSignIn: openLogin,
     onSignUp: openRegister,
     router,
+    session,
   });
   const burger = createBurger();
   burger.addEventListener('click', () => {
@@ -60,12 +65,19 @@ export function createHeader({ router }: HeaderOptions): HTMLElement {
 
   const controls = document.createElement('div');
   controls.classList.add('header-controls');
-  controls.append(
-    createNav({ router }),
-    createSignInButton(true, openLogin),
-    createSignUpButton(true, openRegister),
-    burger
-  );
+  const nav = createNav({ router });
+  const signInButton = createSignInButton(true, openLogin);
+  const signUpButton = createSignUpButton(true, openRegister);
+
+  const renderControls = (): void => {
+    const { current } = session;
+    const authControls = current
+      ? [createUserMenu(true, current, session.logout)]
+      : [signInButton, signUpButton];
+    controls.replaceChildren(nav, ...authControls, burger);
+  };
+  session.subscribe(renderControls);
+  renderControls();
 
   header.append(createTitle(), controls, burgerMenu.element, authDialog.element);
 

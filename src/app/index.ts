@@ -6,12 +6,18 @@ import { createNotFoundPage } from '../pages/not-found/not-found.js';
 import { createFooter } from '../shared/features/footer/footer.js';
 import { createGameDetailsDialog } from '../shared/features/game-details-dialog/game-details-dialog.js';
 import { createRouter, type PageType, type RouteState } from '../shared/services/router.js';
+import { createAppSession } from '../shared/services/app-session.js';
 import type { Game } from '../shared/interfaces.js';
 
 const main = document.querySelector('main');
 
 if (main) {
+  const session = createAppSession();
+  session.restore();
+
   const router = createRouter();
+  // Registered first so an expired session switches to Guest Mode before the navigation renders
+  router.subscribe(() => session.hasActiveSession());
   const gameDetailsDialog = createGameDetailsDialog();
   let onGameDialogClose: (() => void) | undefined;
 
@@ -65,7 +71,7 @@ if (main) {
   });
   router.subscribe(syncGameDialog);
 
-  main.append(createHeader({ router }), currentPage);
+  main.append(createHeader({ router, session }), currentPage);
   main.append(createFooter());
   main.append(gameDetailsDialog.element);
   syncGameDialog(router.state);

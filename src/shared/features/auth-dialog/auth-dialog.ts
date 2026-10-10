@@ -1,4 +1,5 @@
 import './auth-dialog.scss';
+import type { User } from 'firebase/auth';
 import { createDialogLayout } from '../../components/dialog-layout/dialog-layout.js';
 import { createLoginForm } from './components/login-form/login-form.js';
 import { createRegisterForm } from './components/register-form/register-form.js';
@@ -8,6 +9,7 @@ export type AuthDialogTab = 'login' | 'register';
 export interface AuthDialogOptions {
   onTabChange: (tab: AuthDialogTab) => void;
   onClose: () => void;
+  onAuthenticated: (user: User, displayName?: string) => void;
 }
 
 export interface AuthDialog {
@@ -17,7 +19,11 @@ export interface AuthDialog {
   isBusy: () => boolean;
 }
 
-export function createAuthDialog({ onTabChange, onClose }: AuthDialogOptions): AuthDialog {
+export function createAuthDialog({
+  onTabChange,
+  onClose,
+  onAuthenticated,
+}: AuthDialogOptions): AuthDialog {
   let isBusy = false;
 
   const layout = createDialogLayout({
@@ -83,12 +89,17 @@ export function createAuthDialog({ onTabChange, onClose }: AuthDialogOptions): A
     view.replaceChildren(tab === 'login' ? loginForm : registerForm);
   };
 
+  const handleSuccess = (user: User, displayName?: string): void => {
+    onAuthenticated(user, displayName);
+    layout.close();
+  };
+
   const loginForm = createLoginForm({
     onSwitchToRegister: () => {
       changeTab('register');
     },
     handleFetch: setIsBusy,
-    onSuccess: layout.close,
+    onSuccess: handleSuccess,
   });
 
   const registerForm = createRegisterForm({
@@ -96,7 +107,7 @@ export function createAuthDialog({ onTabChange, onClose }: AuthDialogOptions): A
       changeTab('login');
     },
     handleFetch: setIsBusy,
-    onSuccess: layout.close,
+    onSuccess: handleSuccess,
   });
 
   const open = (tab: AuthDialogTab): void => {
