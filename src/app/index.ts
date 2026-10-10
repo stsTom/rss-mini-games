@@ -5,7 +5,12 @@ import { createLibraryPage } from '../pages/library/library.js';
 import { createNotFoundPage } from '../pages/not-found/not-found.js';
 import { createFooter } from '../shared/features/footer/footer.js';
 import { createGameDetailsDialog } from '../shared/features/game-details-dialog/game-details-dialog.js';
-import { createRouter, type PageType, type RouteState } from '../shared/services/router.js';
+import {
+  createRouter,
+  type PageType,
+  type RouteGuard,
+  type RouteState,
+} from '../shared/services/router.js';
 import { createAppSession } from '../shared/services/app-session.js';
 import type { Game } from '../shared/interfaces.js';
 
@@ -15,9 +20,16 @@ if (main) {
   const session = createAppSession();
   session.restore();
 
-  const router = createRouter();
-  // Registered first so an expired session switches to Guest Mode before the navigation renders
-  router.subscribe(() => session.hasActiveSession());
+  const guard: RouteGuard = (next) => {
+    if (!session.hasActiveSession() || !next.auth) {
+      return next;
+    }
+
+    console.log('You are already signed in.'); // add snackbar
+    return { ...next, auth: undefined };
+  };
+
+  const router = createRouter({ guard });
   const gameDetailsDialog = createGameDetailsDialog();
   let onGameDialogClose: (() => void) | undefined;
 
