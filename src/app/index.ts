@@ -38,8 +38,12 @@ if (main) {
     router.update({ game: game.slug });
   };
 
-  const syncGameDialog = ({ game }: RouteState, previous?: RouteState): void => {
-    if (game === previous?.game) {
+  const visibleGame = (state?: RouteState): string | undefined =>
+    state?.auth ? undefined : state?.game;
+
+  const syncGameDialog = (state: RouteState, previous?: RouteState): void => {
+    const game = visibleGame(state);
+    if (game === visibleGame(previous)) {
       return;
     }
 
@@ -49,6 +53,10 @@ if (main) {
     }
 
     gameDetailsDialog.open(game, () => {
+      if (router.state.auth) {
+        return;
+      }
+
       onGameDialogClose?.();
       onGameDialogClose = undefined;
 
