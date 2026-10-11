@@ -1,5 +1,6 @@
 import { signOut, type User } from 'firebase/auth';
 import { auth } from '../../firebase.js';
+import type { Snackbar } from '../components/snackbar/snackbar.js';
 
 export const APP_SESSION_KEY = 'minigames:rss-mini-games:app-session';
 export const APP_SESSION_LIFETIME_MS = 5 * 60 * 1000;
@@ -54,7 +55,7 @@ function parseStoredSession(raw: string): unknown {
   }
 }
 
-export function createAppSession(): AppSession {
+export function createAppSession(snackbar: Snackbar): AppSession {
   let current: AppSessionData | undefined;
   let expiryTimer: ReturnType<typeof setTimeout> | undefined;
   const listeners = new Set<SessionListener>();
@@ -80,7 +81,7 @@ export function createAppSession(): AppSession {
 
   const expire = (): void => {
     clear();
-    console.log('Your session has expired. Please sign in again.'); //add snackbar
+    snackbar.show('Your session has expired. Please sign in again.', 'error');
   };
 
   const scheduleExpiry = (session: AppSessionData): void => {
@@ -119,7 +120,6 @@ export function createAppSession(): AppSession {
     const raw = localStorage.getItem(APP_SESSION_KEY);
     const stored = raw === null ? undefined : parseStoredSession(raw);
 
-    // Missing or invalid: Firebase's own persistence must not bring the user back
     if (!isAppSessionData(stored)) {
       clear();
       return;

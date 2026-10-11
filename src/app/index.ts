@@ -12,12 +12,15 @@ import {
   type RouteState,
 } from '../shared/services/router.js';
 import { createAppSession } from '../shared/services/app-session.js';
+import { createActionsGuard } from '../shared/services/actions-guard.js';
+import { createSnackbar } from '../shared/components/snackbar/snackbar.js';
 import type { Game } from '../shared/interfaces.js';
 
 const main = document.querySelector('main');
 
 if (main) {
-  const session = createAppSession();
+  const snackbar = createSnackbar();
+  const session = createAppSession(snackbar);
   session.restore();
 
   const guard: RouteGuard = (next) => {
@@ -25,12 +28,13 @@ if (main) {
       return next;
     }
 
-    console.log('You are already signed in.'); // add snackbar
+    snackbar.show('You are already signed in.');
     return { ...next, auth: undefined };
   };
 
   const router = createRouter({ guard });
-  const gameDetailsDialog = createGameDetailsDialog();
+  const guardAction = createActionsGuard(router, session, snackbar);
+  const gameDetailsDialog = createGameDetailsDialog({ guardAction, session, snackbar });
   let onGameDialogClose: (() => void) | undefined;
 
   const selectGame = (game: Game, onClose?: () => void): void => {
@@ -91,8 +95,8 @@ if (main) {
   });
   router.subscribe(syncGameDialog);
 
-  main.append(createHeader({ router, session }), currentPage);
+  main.append(createHeader({ router, session, snackbar }), currentPage);
   main.append(createFooter());
-  main.append(gameDetailsDialog.element);
+  main.append(gameDetailsDialog.element, snackbar.element);
   syncGameDialog(router.state);
 }

@@ -2,6 +2,7 @@ import { signInWithEmailAndPassword, type User } from 'firebase/auth';
 import { auth } from '../../../../../firebase.js';
 import { validateEmail, validatePasswordLength } from '../../validation.js';
 import { signInWithGoogle } from '../../google-sign-in.js';
+import type { Snackbar } from '../../../../components/snackbar/snackbar.js';
 import './login-form.scss';
 
 const GOOGLE_ICON_SRC = '/icons/google.svg';
@@ -10,6 +11,7 @@ export interface LoginFormOptions {
   onSwitchToRegister: () => void;
   handleFetch: (isPending: boolean) => void;
   onSuccess: (user: User) => void;
+  snackbar: Snackbar;
 }
 
 interface LoginFormInputs {
@@ -151,7 +153,7 @@ export function createLoginForm(options: LoginFormOptions): HTMLFormElement {
   googleButton.addEventListener('click', async () => {
     options.handleFetch(true);
     try {
-      const credential = await signInWithGoogle();
+      const credential = await signInWithGoogle(options.snackbar);
       if (credential !== undefined) {
         options.handleFetch(false);
         options.onSuccess(credential.user);
@@ -205,7 +207,10 @@ export function createLoginForm(options: LoginFormOptions): HTMLFormElement {
         options.handleFetch(false);
         options.onSuccess(user);
       } catch {
-        console.log('oops, smth went wrong'); //add shackbar
+        options.snackbar.show(
+          'Could not sign in. Please check your credentials and try again.',
+          'error'
+        );
       } finally {
         submitButton.disabled = false;
         submitButton.ariaDisabled = 'false';

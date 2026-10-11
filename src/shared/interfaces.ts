@@ -73,3 +73,20 @@ export interface GamesPage {
 export interface FetchGameDetailsRequestOptions {
   gameSlug: string;
 }
+
+export interface ToggleFavoriteRequestOptions {
+  gameSlug: string;
+  userEmail: string;
+}
+
+export interface PostCommentRequestOptions {
+  gameSlug: string;
+  userEmail: string;
+  authorName: string;
+  text: string;
+}
+
+export interface ToggleLikeRequestOptions {
+  commentId: string;
+  userEmail: string;
+}

@@ -1,6 +1,7 @@
 import { createUserWithEmailAndPassword, updateProfile, type User } from 'firebase/auth';
 import { validateEmail, validatePassword, validateUsername } from '../../validation.js';
 import { signInWithGoogle } from '../../google-sign-in.js';
+import type { Snackbar } from '../../../../components/snackbar/snackbar.js';
 import './register-form.scss';
 import { auth } from '../../../../../firebase.js';
 
@@ -10,6 +11,7 @@ export interface RegisterFormOptions {
   onSwitchToLogin: () => void;
   handleFetch: (isPending: boolean) => void;
   onSuccess: (user: User, displayName?: string) => void;
+  snackbar: Snackbar;
 }
 
 interface RegisterFormInputs {
@@ -212,7 +214,7 @@ export function createRegisterForm(options: RegisterFormOptions): HTMLFormElemen
   googleButton.addEventListener('click', async () => {
     options.handleFetch(true);
     try {
-      const credential = await signInWithGoogle();
+      const credential = await signInWithGoogle(options.snackbar);
       if (credential !== undefined) {
         options.handleFetch(false);
         options.onSuccess(credential.user);
@@ -268,7 +270,7 @@ export function createRegisterForm(options: RegisterFormOptions): HTMLFormElemen
         options.handleFetch(false);
         options.onSuccess(user, displayName);
       } catch {
-        console.log('oops, smth went wrong'); //add shackbar
+        options.snackbar.show('Could not create the account. Please try again.', 'error');
       } finally {
         options.handleFetch(false);
         submitButton.disabled = false;
