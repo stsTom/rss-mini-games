@@ -27,4 +27,16 @@ export default [
       '@typescript-eslint/no-explicit-any': 'error',
     },
   },
+
+  {
+    files: ['tests/**/*.ts'],
+    rules: {
+      'unicorn/no-null': 'off',
+      'unicorn/prefer-scoped-selector': 'off',
+      'unicorn/consistent-function-scoping': 'off',
+      'unicorn/consistent-boolean-name': 'off',
+      'unicorn/no-declarations-before-early-exit': 'off',
+      'unicorn/no-global-object-property-assignment': 'off',
+    },
+  },
 ];

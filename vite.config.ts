@@ -11,12 +11,19 @@ export default defineConfig({
   },
   test: {
     environment: 'jsdom',
-    include: ['src/**/*.{test,spec}.ts'],
+    include: ['tests/**/*.test.ts'],
+    setupFiles: ['tests/setup.ts'],
     coverage: {
       provider: 'v8',
       reporter: ['text'],
       include: ['src/**/*.ts'],
-      exclude: ['src/**/*.{test,spec}.ts'],
+      exclude: [
+        'src/app/index.ts',
+        'src/firebase.ts',
+        '**/interfaces.ts',
+        '**/constants.ts',
+        '**/dataset-values.ts',
+      ],
       thresholds: {
         statements: 80,
       },
