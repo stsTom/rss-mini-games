@@ -32,7 +32,7 @@ if (main) {
 
   const router = createRouter({ guard });
   const guardAction = createActionsGuard(router, session);
-  const gameDetailsDialog = createGameDetailsDialog({ guardAction });
+  const gameDetailsDialog = createGameDetailsDialog({ guardAction, session });
   let onGameDialogClose: (() => void) | undefined;
 
   const selectGame = (game: Game, onClose?: () => void): void => {

@@ -15,9 +15,11 @@ import type { GameCommentsResponse, GameDetails } from '../../interfaces.js';
 import { createErrorPlaceholder } from '../../components/error-layout/error-layout.js';
 import { createEmptyBanner } from '../../components/empty-banner/emty-banner.js';
 import type { GuardAction } from '../../services/actions-guard.js';
+import type { AppSession } from '../../services/app-session.js';
 
 export interface GameDetailsDialogOptions {
   guardAction: GuardAction;
+  session: AppSession;
 }
 
 export interface GameDetailsDialog {
@@ -31,10 +33,15 @@ interface GameDialogProperties {
   comments: GameCommentsResponse;
 }
 
-function createCommentsSection(
-  guardAction: GuardAction,
-  comments?: GameCommentsResponse
-): HTMLElement {
+interface CommentsSectionOptions {
+  guardAction: GuardAction;
+  session: AppSession;
+  gameSlug: string;
+  comments?: GameCommentsResponse | undefined;
+}
+
+function createCommentsSection(options: CommentsSectionOptions): HTMLElement {
+  const { guardAction, session, gameSlug, comments } = options;
   const section = document.createElement('section');
   section.classList.add('game-details-section');
 
@@ -42,7 +49,20 @@ function createCommentsSection(
   heading.classList.add('game-details-section-heading');
   heading.textContent = `Comments (${comments?.meta?.totalComments ?? 0})`;
 
-  section.append(heading, createGameDetailsCommentForm(guardAction));
+  const refreshComments = async (): Promise<void> => {
+    const updated = await fetchGameComments({ gameSlug });
+    section.replaceWith(createCommentsSection({ ...options, comments: updated }));
+  };
+
+  section.append(
+    heading,
+    createGameDetailsCommentForm({
+      guardAction,
+      session,
+      gameSlug,
+      onCommentPosted: refreshComments,
+    })
+  );
 
   if (!comments?.data || comments.data.length === 0) {
     section.append(createEmptyBanner());
@@ -53,7 +73,7 @@ function createCommentsSection(
   list.classList.add('game-details-comments');
   list.append(
     ...comments.data.map((comment, index) =>
-      createGameDetailsCommentCard(comment, index, guardAction)
+      createGameDetailsCommentCard({ comment, index, guardAction, session })
     )
   );
 
@@ -79,6 +99,7 @@ function createBadgesSkeleton(): HTMLElement {
 
 export function createGameDetailsDialog({
   guardAction,
+  session,
 }: GameDetailsDialogOptions): GameDetailsDialog {
   let handleClose: (() => void) | undefined;
 
@@ -109,9 +130,14 @@ export function createGameDetailsDialog({
       createGameDetailsSummary(details),
       description,
       createGameDetailsInfoWidgets(details.specs),
-      createGameDetailsActions(guardAction, details.specs.price),
+      createGameDetailsActions({
+        guardAction,
+        session,
+        gameSlug: details.slug,
+        price: details.specs.price,
+      }),
       createGameDetailsTopRecords(details.topRecords),
-      createCommentsSection(guardAction, comments)
+      createCommentsSection({ guardAction, session, gameSlug: details.slug, comments })
     );
 
     layout.card.replaceChildren(

@@ -1,10 +1,24 @@
 import './actions.scss';
 import { GLYPH_HEART, GLYPH_HEART_OUTLINE } from '../../constants.js';
+import { toggleGameFavorite } from '../../../../api/games-data.js';
 import type { GuardAction } from '../../../../services/actions-guard.js';
+import type { AppSession } from '../../../../services/app-session.js';
 
 const FAVORITE_LABEL = 'Add to Favorites';
 
-export function createGameDetailsActions(guardAction: GuardAction, price?: string): HTMLElement {
+export interface GameDetailsActionsOptions {
+  guardAction: GuardAction;
+  session: AppSession;
+  gameSlug: string;
+  price?: string | undefined;
+}
+
+export function createGameDetailsActions({
+  guardAction,
+  session,
+  gameSlug,
+  price,
+}: GameDetailsActionsOptions): HTMLElement {
   const actions = document.createElement('div');
   actions.classList.add('game-details-actions');
 
@@ -33,10 +47,24 @@ export function createGameDetailsActions(guardAction: GuardAction, price?: strin
   favoriteButton.append(glyph, label);
   favoriteButton.addEventListener(
     'click',
-    guardAction(() => {
-      const isActive = favoriteButton.classList.toggle('is-active');
-      favoriteButton.setAttribute('aria-pressed', String(isActive));
-      glyph.textContent = isActive ? GLYPH_HEART : GLYPH_HEART_OUTLINE;
+    guardAction(async () => {
+      const userEmail = session.current?.email;
+      if (!userEmail || favoriteButton.disabled) {
+        return;
+      }
+
+      favoriteButton.disabled = true;
+      try {
+        await toggleGameFavorite({ gameSlug, userEmail });
+
+        const isActive = favoriteButton.classList.toggle('is-active');
+        favoriteButton.setAttribute('aria-pressed', String(isActive));
+        glyph.textContent = isActive ? GLYPH_HEART : GLYPH_HEART_OUTLINE;
+      } catch {
+        console.log('Could not update favorites. Please try again.'); // add snackbar
+      } finally {
+        favoriteButton.disabled = false;
+      }
     })
   );
 
