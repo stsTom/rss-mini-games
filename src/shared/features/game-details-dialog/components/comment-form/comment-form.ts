@@ -7,10 +7,12 @@ import {
 import { postGameComment } from '../../../../api/games-data.js';
 import type { GuardAction } from '../../../../services/actions-guard.js';
 import type { AppSession } from '../../../../services/app-session.js';
+import type { Snackbar } from '../../../../components/snackbar/snackbar.js';
 
 export interface GameDetailsCommentFormOptions {
   guardAction: GuardAction;
   session: AppSession;
+  snackbar: Snackbar;
   gameSlug: string;
   onCommentPosted: () => void | Promise<void>;
 }
@@ -29,6 +31,7 @@ function autoGrow(textarea: HTMLTextAreaElement): void {
 export function createGameDetailsCommentForm({
   guardAction,
   session,
+  snackbar,
   gameSlug,
   onCommentPosted,
 }: GameDetailsCommentFormOptions): HTMLElement {
@@ -70,7 +73,7 @@ export function createGameDetailsCommentForm({
       autoGrow(textarea);
       await onCommentPosted();
     } catch {
-      console.log('Could not post the comment. Please try again.'); // add snackbar
+      snackbar.show('Could not post the comment. Please try again.', 'error');
     } finally {
       textarea.disabled = false;
     }

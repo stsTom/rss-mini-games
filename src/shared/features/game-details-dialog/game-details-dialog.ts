@@ -16,10 +16,12 @@ import { createErrorPlaceholder } from '../../components/error-layout/error-layo
 import { createEmptyBanner } from '../../components/empty-banner/emty-banner.js';
 import type { GuardAction } from '../../services/actions-guard.js';
 import type { AppSession } from '../../services/app-session.js';
+import type { Snackbar } from '../../components/snackbar/snackbar.js';
 
 export interface GameDetailsDialogOptions {
   guardAction: GuardAction;
   session: AppSession;
+  snackbar: Snackbar;
 }
 
 export interface GameDetailsDialog {
@@ -36,12 +38,13 @@ interface GameDialogProperties {
 interface CommentsSectionOptions {
   guardAction: GuardAction;
   session: AppSession;
+  snackbar: Snackbar;
   gameSlug: string;
   comments?: GameCommentsResponse | undefined;
 }
 
 function createCommentsSection(options: CommentsSectionOptions): HTMLElement {
-  const { guardAction, session, gameSlug, comments } = options;
+  const { guardAction, session, snackbar, gameSlug, comments } = options;
   const section = document.createElement('section');
   section.classList.add('game-details-section');
 
@@ -59,6 +62,7 @@ function createCommentsSection(options: CommentsSectionOptions): HTMLElement {
     createGameDetailsCommentForm({
       guardAction,
       session,
+      snackbar,
       gameSlug,
       onCommentPosted: refreshComments,
     })
@@ -73,7 +77,7 @@ function createCommentsSection(options: CommentsSectionOptions): HTMLElement {
   list.classList.add('game-details-comments');
   list.append(
     ...comments.data.map((comment, index) =>
-      createGameDetailsCommentCard({ comment, index, guardAction, session })
+      createGameDetailsCommentCard({ comment, index, guardAction, session, snackbar })
     )
   );
 
@@ -100,6 +104,7 @@ function createBadgesSkeleton(): HTMLElement {
 export function createGameDetailsDialog({
   guardAction,
   session,
+  snackbar,
 }: GameDetailsDialogOptions): GameDetailsDialog {
   let handleClose: (() => void) | undefined;
 
@@ -133,11 +138,12 @@ export function createGameDetailsDialog({
       createGameDetailsActions({
         guardAction,
         session,
+        snackbar,
         gameSlug: details.slug,
         price: details.specs.price,
       }),
       createGameDetailsTopRecords(details.topRecords),
-      createCommentsSection({ guardAction, session, gameSlug: details.slug, comments })
+      createCommentsSection({ guardAction, session, snackbar, gameSlug: details.slug, comments })
     );
 
     layout.card.replaceChildren(

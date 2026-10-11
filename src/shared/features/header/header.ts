@@ -9,16 +9,19 @@ import { createUserMenu } from './components/user-menu/user-menu.js';
 import { createAuthDialog } from '../auth-dialog/auth-dialog.js';
 import type { RouteState, Router } from '../../services/router.js';
 import type { AppSession } from '../../services/app-session.js';
+import type { Snackbar } from '../../components/snackbar/snackbar.js';
 
 export interface HeaderOptions {
   router: Router;
   session: AppSession;
+  snackbar: Snackbar;
 }
 
-export function createHeader({ router, session }: HeaderOptions): HTMLElement {
+export function createHeader({ router, session, snackbar }: HeaderOptions): HTMLElement {
   const header = document.createElement('header');
 
   const authDialog = createAuthDialog({
+    snackbar,
     onTabChange: (auth) => router.update({ auth }),
     onClose: () => {
       if (router.state.auth) {

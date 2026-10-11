@@ -3,12 +3,14 @@ import { GLYPH_HEART, GLYPH_HEART_OUTLINE } from '../../constants.js';
 import { toggleGameFavorite } from '../../../../api/games-data.js';
 import type { GuardAction } from '../../../../services/actions-guard.js';
 import type { AppSession } from '../../../../services/app-session.js';
+import type { Snackbar } from '../../../../components/snackbar/snackbar.js';
 
 const FAVORITE_LABEL = 'Add to Favorites';
 
 export interface GameDetailsActionsOptions {
   guardAction: GuardAction;
   session: AppSession;
+  snackbar: Snackbar;
   gameSlug: string;
   price?: string | undefined;
 }
@@ -16,6 +18,7 @@ export interface GameDetailsActionsOptions {
 export function createGameDetailsActions({
   guardAction,
   session,
+  snackbar,
   gameSlug,
   price,
 }: GameDetailsActionsOptions): HTMLElement {
@@ -61,7 +64,7 @@ export function createGameDetailsActions({
         favoriteButton.setAttribute('aria-pressed', String(isActive));
         glyph.textContent = isActive ? GLYPH_HEART : GLYPH_HEART_OUTLINE;
       } catch {
-        console.log('Could not update favorites. Please try again.'); // add snackbar
+        snackbar.show('Could not update favorites. Please try again.', 'error');
       } finally {
         favoriteButton.disabled = false;
       }

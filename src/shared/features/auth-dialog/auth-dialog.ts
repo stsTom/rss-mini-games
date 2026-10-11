@@ -3,6 +3,7 @@ import type { User } from 'firebase/auth';
 import { createDialogLayout } from '../../components/dialog-layout/dialog-layout.js';
 import { createLoginForm } from './components/login-form/login-form.js';
 import { createRegisterForm } from './components/register-form/register-form.js';
+import type { Snackbar } from '../../components/snackbar/snackbar.js';
 
 export type AuthDialogTab = 'login' | 'register';
 
@@ -10,6 +11,7 @@ export interface AuthDialogOptions {
   onTabChange: (tab: AuthDialogTab) => void;
   onClose: () => void;
   onAuthenticated: (user: User, displayName?: string) => void;
+  snackbar: Snackbar;
 }
 
 export interface AuthDialog {
@@ -23,6 +25,7 @@ export function createAuthDialog({
   onTabChange,
   onClose,
   onAuthenticated,
+  snackbar,
 }: AuthDialogOptions): AuthDialog {
   let isBusy = false;
 
@@ -100,6 +103,7 @@ export function createAuthDialog({
     },
     handleFetch: setIsBusy,
     onSuccess: handleSuccess,
+    snackbar,
   });
 
   const registerForm = createRegisterForm({
@@ -108,6 +112,7 @@ export function createAuthDialog({
     },
     handleFetch: setIsBusy,
     onSuccess: handleSuccess,
+    snackbar,
   });
 
   const open = (tab: AuthDialogTab): void => {

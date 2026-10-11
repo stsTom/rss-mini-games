@@ -1,0 +1,22 @@
+@use 'styles/tokens' as *;
+
+.snackbar {
+  position: fixed;
+  inset: auto auto $size-times-2 50%;
+  max-width: min(480px, calc(100vw - #{$size-times-2 * 2}));
+  margin: 0;
+  padding: $size-times-1 * 1.5 $size-times-2;
+  border: none;
+  border-radius: $border-rad-small;
+  background: $color-bg-footer;
+  color: $color-white;
+  font-family: inherit;
+  font-size: $font-size-body-small;
+  font-weight: $weight-medium;
+  transform: translateX(-50%);
+  cursor: pointer;
+
+  &[data-variant='error'] {
+    background: $color-error;
+  }
+}

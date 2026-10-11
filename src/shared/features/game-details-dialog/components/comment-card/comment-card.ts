@@ -5,18 +5,21 @@ import type { GameComment } from '../../../../interfaces.js';
 import { toggleCommentLike } from '../../../../api/games-data.js';
 import type { GuardAction } from '../../../../services/actions-guard.js';
 import type { AppSession } from '../../../../services/app-session.js';
+import type { Snackbar } from '../../../../components/snackbar/snackbar.js';
 
 export interface GameDetailsCommentCardOptions {
   comment: GameComment;
   index: number;
   guardAction: GuardAction;
   session: AppSession;
+  snackbar: Snackbar;
 }
 
 function createLikeButton(
   { commentId, likesCount }: GameComment,
   guardAction: GuardAction,
-  session: AppSession
+  session: AppSession,
+  snackbar: Snackbar
 ): HTMLElement {
   let currentCount = likesCount;
 
@@ -52,7 +55,7 @@ function createLikeButton(
         button.setAttribute('aria-pressed', String(isActive));
         glyph.textContent = isActive ? GLYPH_HEART : GLYPH_HEART_OUTLINE;
       } catch {
-        console.log('Could not update the like. Please try again.'); // add snackbar
+        snackbar.show('Could not update the like. Please try again.', 'error');
       } finally {
         button.disabled = false;
       }
@@ -67,6 +70,7 @@ export function createGameDetailsCommentCard({
   index,
   guardAction,
   session,
+  snackbar,
 }: GameDetailsCommentCardOptions): HTMLElement {
   const card = document.createElement('li');
   card.classList.add('game-details-comment');
@@ -97,7 +101,7 @@ export function createGameDetailsCommentCard({
   text.classList.add('game-details-comment-text');
   text.textContent = comment.text;
 
-  card.append(header, text, createLikeButton(comment, guardAction, session));
+  card.append(header, text, createLikeButton(comment, guardAction, session, snackbar));
 
   return card;
 }
