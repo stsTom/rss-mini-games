@@ -82,7 +82,8 @@ export function createLeaderboard(): HTMLElement {
       createLeaderboardRowPlaceholder(index + 1)
     );
 
-    table.append(createHeaderRow(), ...placeholders);
+    table.ariaBusy = 'true';
+    table.replaceChildren(createHeaderRow(), ...placeholders);
     section.replaceChildren(headingRow, table);
   }
 
@@ -105,7 +106,6 @@ export function createLeaderboard(): HTMLElement {
     }
   }
 
-  populateLeaderboard();
   void loadTableData();
 
   return section;

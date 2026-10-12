@@ -41,8 +41,10 @@ function showError(key: keyof RegisterFormInputs) {
   return message;
 }
 
-function validateForm() {
-  return (Object.keys(validators) as (keyof RegisterFormInputs)[]).every((key) => showError(key));
+function hasErrors() {
+  const keys = Object.keys(validators) as (keyof RegisterFormInputs)[];
+
+  return keys.map((key) => showError(key)).some(Boolean);
 }
 
 export function createRegisterForm(options: RegisterFormOptions): HTMLFormElement {
@@ -255,7 +257,7 @@ export function createRegisterForm(options: RegisterFormOptions): HTMLFormElemen
 
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
-    if (!validateForm()) {
+    if (!hasErrors()) {
       options.handleFetch(true);
       submitButton.disabled = true;
       submitButton.ariaDisabled = 'true';

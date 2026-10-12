@@ -29,7 +29,6 @@ const validators: Record<keyof LoginFormInputs, () => string> = {
 
 function showError(key: keyof LoginFormInputs) {
   const message = validators[key]();
-  console.log(message);
 
   errorLabels[key].textContent = message;
   inputs[key].ariaInvalid = message ? 'true' : 'false';
@@ -37,8 +36,10 @@ function showError(key: keyof LoginFormInputs) {
   return message;
 }
 
-function validateForm() {
-  return (Object.keys(validators) as (keyof LoginFormInputs)[]).every((key) => showError(key));
+function hasErrors() {
+  const keys = Object.keys(validators) as (keyof LoginFormInputs)[];
+
+  return keys.map((key) => showError(key)).some(Boolean);
 }
 
 export function createLoginForm(options: LoginFormOptions): HTMLFormElement {
@@ -194,7 +195,7 @@ export function createLoginForm(options: LoginFormOptions): HTMLFormElement {
 
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
-    if (!validateForm()) {
+    if (!hasErrors()) {
       options.handleFetch(true);
       submitButton.disabled = true;
       submitButton.ariaDisabled = 'true';
