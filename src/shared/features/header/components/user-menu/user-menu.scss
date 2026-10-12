@@ -1,0 +1,59 @@
+@use '../../styles/mixins' as *;
+@use 'styles/tokens' as *;
+@use 'styles/mixins' as *;
+
+$user-menu-avatar-size: 32px;
+$user-menu-gap: 8px;
+
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: $user-menu-gap;
+}
+
+.user-menu[data-header-visibility='desktop'] {
+  display: none;
+
+  @include desktop-screen {
+    display: flex;
+  }
+}
+
+.user-menu-avatar {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: $user-menu-avatar-size;
+  height: $user-menu-avatar-size;
+  object-fit: cover;
+  background: $color-avatar-random-3;
+  border-radius: $border-rad-full;
+  font-size: $font-size-label-large;
+  font-weight: $weight-bold;
+  color: $color-on-primary;
+}
+
+.user-menu-name {
+  overflow: hidden;
+  max-width: 160px;
+  font-size: $font-size-label-large;
+  font-weight: $weight-bold;
+  color: $color-on-primary;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.user-menu-logout {
+  @include header-button(outline);
+}
+
+.burger-menu-bottom .user-menu-name {
+  color: $color-white;
+}
+
+.burger-menu-bottom .user-menu-logout {
+  margin-left: auto;
+  color: $color-white;
+  border-color: $color-on-bg-footer;
+}

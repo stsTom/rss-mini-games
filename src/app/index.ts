@@ -5,14 +5,37 @@ import { createLibraryPage } from '../pages/library/library.js';
 import { createNotFoundPage } from '../pages/not-found/not-found.js';
 import { createFooter } from '../shared/features/footer/footer.js';
 import { createGameDetailsDialog } from '../shared/features/game-details-dialog/game-details-dialog.js';
-import { createRouter, type PageType, type RouteState } from '../shared/services/router.js';
+import {
+  createRouter,
+  type PageType,
+  type RouteGuard,
+  type RouteState,
+} from '../shared/services/router.js';
+import { createAppSession } from '../shared/services/app-session.js';
+import { createActionsGuard } from '../shared/services/actions-guard.js';
+import { createSnackbar } from '../shared/components/snackbar/snackbar.js';
 import type { Game } from '../shared/interfaces.js';
 
 const main = document.querySelector('main');
 
 if (main) {
-  const router = createRouter();
-  const gameDetailsDialog = createGameDetailsDialog();
+  const snackbar = createSnackbar();
+  main.append(snackbar.element);
+  const session = createAppSession(snackbar);
+  session.restore();
+
+  const guard: RouteGuard = (next) => {
+    if (!session.hasActiveSession() || !next.auth) {
+      return next;
+    }
+
+    snackbar.show('You are already signed in.');
+    return { ...next, auth: undefined };
+  };
+
+  const router = createRouter({ guard });
+  const guardAction = createActionsGuard(router, session, snackbar);
+  const gameDetailsDialog = createGameDetailsDialog({ guardAction, session, snackbar });
   let onGameDialogClose: (() => void) | undefined;
 
   const selectGame = (game: Game, onClose?: () => void): void => {
@@ -20,8 +43,12 @@ if (main) {
     router.update({ game: game.slug });
   };
 
-  const syncGameDialog = ({ game }: RouteState, previous?: RouteState): void => {
-    if (game === previous?.game) {
+  const visibleGame = (state?: RouteState): string | undefined =>
+    state?.auth ? undefined : state?.game;
+
+  const syncGameDialog = (state: RouteState, previous?: RouteState): void => {
+    const game = visibleGame(state);
+    if (game === visibleGame(previous)) {
       return;
     }
 
@@ -31,6 +58,10 @@ if (main) {
     }
 
     gameDetailsDialog.open(game, () => {
+      if (router.state.auth) {
+        return;
+      }
+
       onGameDialogClose?.();
       onGameDialogClose = undefined;
 
@@ -65,7 +96,7 @@ if (main) {
   });
   router.subscribe(syncGameDialog);
 
-  main.append(createHeader({ router }), currentPage);
+  main.append(createHeader({ router, session, snackbar }), currentPage);
   main.append(createFooter());
   main.append(gameDetailsDialog.element);
   syncGameDialog(router.state);

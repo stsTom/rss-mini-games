@@ -84,13 +84,13 @@
   margin-top: auto;
 }
 
-.burger-menu-bottom button:first-child {
+.burger-menu-bottom > button:first-child {
   @include header-button(outline);
   color: $color-white;
   border-color: $color-on-bg-footer;
 }
 
-.burger-menu-bottom button:last-child {
+.burger-menu-bottom > button:last-child {
   @include header-button(primary);
 }
 

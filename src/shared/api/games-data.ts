@@ -6,6 +6,9 @@ import type {
   FetchGamesRequestOptions,
   GameCommentsResponse,
   GamesPage,
+  PostCommentRequestOptions,
+  ToggleFavoriteRequestOptions,
+  ToggleLikeRequestOptions,
 } from '../interfaces.js';
 
 interface GameDetailsResponse {
@@ -13,6 +16,7 @@ interface GameDetailsResponse {
 }
 
 const GAMES_API_BASE_URL = `${API_BASE_URL}/games`;
+const COMMENTS_API_BASE_URL = `${API_BASE_URL}/comments`;
 
 export async function fetchGamesPage({
   featured,
@@ -64,4 +68,39 @@ export async function fetchGameComments({ gameSlug }: FetchGameDetailsRequestOpt
   const parsedResponse = (await response.json()) as GameCommentsResponse;
 
   return parsedResponse;
+}
+
+async function postJson(url: string, body: Record<string, string>): Promise<void> {
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Request failed with status ${response.status}`);
+  }
+}
+
+export async function toggleGameFavorite({
+  gameSlug,
+  userEmail,
+}: ToggleFavoriteRequestOptions): Promise<void> {
+  await postJson(`${GAMES_API_BASE_URL}/${gameSlug}/favorite`, { userEmail });
+}
+
+export async function postGameComment({
+  gameSlug,
+  userEmail,
+  authorName,
+  text,
+}: PostCommentRequestOptions): Promise<void> {
+  await postJson(`${GAMES_API_BASE_URL}/${gameSlug}/comments`, { userEmail, authorName, text });
+}
+
+export async function toggleCommentLike({
+  commentId,
+  userEmail,
+}: ToggleLikeRequestOptions): Promise<void> {
+  await postJson(`${COMMENTS_API_BASE_URL}/${commentId}/like`, { userEmail });
 }

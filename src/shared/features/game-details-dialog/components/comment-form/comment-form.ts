@@ -4,6 +4,18 @@ import {
   CURRENT_USER_INITIAL,
   GLYPH_SEND,
 } from '../../constants.js';
+import { postGameComment } from '../../../../api/games-data.js';
+import type { GuardAction } from '../../../../services/actions-guard.js';
+import type { AppSession } from '../../../../services/app-session.js';
+import type { Snackbar } from '../../../../components/snackbar/snackbar.js';
+
+export interface GameDetailsCommentFormOptions {
+  guardAction: GuardAction;
+  session: AppSession;
+  snackbar: Snackbar;
+  gameSlug: string;
+  onCommentPosted: () => void | Promise<void>;
+}
 
 function autoGrow(textarea: HTMLTextAreaElement): void {
   textarea.style.height = 'auto';
@@ -16,16 +28,19 @@ function autoGrow(textarea: HTMLTextAreaElement): void {
   textarea.style.overflowY = isCapped ? 'auto' : 'hidden';
 }
 
-export function createGameDetailsCommentForm(): HTMLElement {
+export function createGameDetailsCommentForm({
+  guardAction,
+  session,
+  snackbar,
+  gameSlug,
+  onCommentPosted,
+}: GameDetailsCommentFormOptions): HTMLElement {
   const form = document.createElement('form');
   form.classList.add('game-details-comment-form');
-  form.addEventListener('submit', (event) => {
-    event.preventDefault();
-  });
 
   const avatar = document.createElement('span');
   avatar.classList.add('game-details-comment-form-avatar');
-  avatar.textContent = CURRENT_USER_INITIAL;
+  avatar.textContent = session.current?.displayName.charAt(0).toUpperCase() ?? CURRENT_USER_INITIAL;
   avatar.setAttribute('aria-hidden', 'true');
 
   const textarea = document.createElement('textarea');
@@ -36,6 +51,36 @@ export function createGameDetailsCommentForm(): HTMLElement {
   textarea.setAttribute('aria-label', 'Write a comment');
   textarea.addEventListener('input', () => {
     autoGrow(textarea);
+  });
+
+  const submitComment = guardAction(async () => {
+    const currentUser = session.current;
+    const text = textarea.value.trim();
+    if (!currentUser || text === '' || textarea.disabled) {
+      return;
+    }
+
+    textarea.disabled = true;
+    try {
+      await postGameComment({
+        gameSlug,
+        userEmail: currentUser.email,
+        authorName: currentUser.displayName,
+        text,
+      });
+
+      textarea.value = '';
+      autoGrow(textarea);
+      await onCommentPosted();
+    } catch {
+      snackbar.show('Could not post the comment. Please try again.', 'error');
+    } finally {
+      textarea.disabled = false;
+    }
+  });
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    submitComment();
   });
 
   const glyph = document.createElement('span');

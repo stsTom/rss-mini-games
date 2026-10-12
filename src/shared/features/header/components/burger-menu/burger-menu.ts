@@ -2,8 +2,10 @@ import './burger-menu.scss';
 import { createNav } from '../nav/nav.js';
 import { createSignInButton } from '../sign-in-button/sign-in-button.js';
 import { createSignUpButton } from '../sign-up-button/sign-up-button.js';
+import { createUserMenu } from '../user-menu/user-menu.js';
 import { BURGER_MENU_STATE } from '../../dataset-values.js';
 import type { Router } from '../../../../services/router.js';
+import type { AppSession } from '../../../../services/app-session.js';
 
 export interface BurgerMenu {
   element: HTMLElement;
@@ -15,6 +17,7 @@ export interface BurgerMenuOptions {
   onSignIn: () => void;
   onSignUp: () => void;
   router: Router;
+  session: AppSession;
 }
 
 export function createBurgerMenu(options: BurgerMenuOptions): BurgerMenu {
@@ -73,7 +76,22 @@ export function createBurgerMenu(options: BurgerMenuOptions): BurgerMenu {
     close();
     options.onSignUp();
   });
-  bottom.append(signInButton, signUpButton);
+
+  const renderBottom = (): void => {
+    const { current } = options.session;
+    if (current) {
+      bottom.replaceChildren(
+        createUserMenu(false, current, () => {
+          close();
+          options.session.logout();
+        })
+      );
+    } else {
+      bottom.replaceChildren(signInButton, signUpButton);
+    }
+  };
+  options.session.subscribe(renderBottom);
+  renderBottom();
 
   panel.append(top, nav, bottom);
 

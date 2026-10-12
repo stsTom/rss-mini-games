@@ -14,6 +14,15 @@ import { fetchGameDetails, fetchGameComments } from '../../api/games-data.js';
 import type { GameCommentsResponse, GameDetails } from '../../interfaces.js';
 import { createErrorPlaceholder } from '../../components/error-layout/error-layout.js';
 import { createEmptyBanner } from '../../components/empty-banner/emty-banner.js';
+import type { GuardAction } from '../../services/actions-guard.js';
+import type { AppSession } from '../../services/app-session.js';
+import type { Snackbar } from '../../components/snackbar/snackbar.js';
+
+export interface GameDetailsDialogOptions {
+  guardAction: GuardAction;
+  session: AppSession;
+  snackbar: Snackbar;
+}
 
 export interface GameDetailsDialog {
   element: HTMLDialogElement;
@@ -26,7 +35,16 @@ interface GameDialogProperties {
   comments: GameCommentsResponse;
 }
 
-function createCommentsSection(comments?: GameCommentsResponse): HTMLElement {
+interface CommentsSectionOptions {
+  guardAction: GuardAction;
+  session: AppSession;
+  snackbar: Snackbar;
+  gameSlug: string;
+  comments?: GameCommentsResponse | undefined;
+}
+
+function createCommentsSection(options: CommentsSectionOptions): HTMLElement {
+  const { guardAction, session, snackbar, gameSlug, comments } = options;
   const section = document.createElement('section');
   section.classList.add('game-details-section');
 
@@ -34,7 +52,21 @@ function createCommentsSection(comments?: GameCommentsResponse): HTMLElement {
   heading.classList.add('game-details-section-heading');
   heading.textContent = `Comments (${comments?.meta?.totalComments ?? 0})`;
 
-  section.append(heading, createGameDetailsCommentForm());
+  const refreshComments = async (): Promise<void> => {
+    const updated = await fetchGameComments({ gameSlug });
+    section.replaceWith(createCommentsSection({ ...options, comments: updated }));
+  };
+
+  section.append(
+    heading,
+    createGameDetailsCommentForm({
+      guardAction,
+      session,
+      snackbar,
+      gameSlug,
+      onCommentPosted: refreshComments,
+    })
+  );
 
   if (!comments?.data || comments.data.length === 0) {
     section.append(createEmptyBanner());
@@ -44,7 +76,9 @@ function createCommentsSection(comments?: GameCommentsResponse): HTMLElement {
   const list = document.createElement('ul');
   list.classList.add('game-details-comments');
   list.append(
-    ...comments.data.map((comment, index) => createGameDetailsCommentCard(comment, index))
+    ...comments.data.map((comment, index) =>
+      createGameDetailsCommentCard({ comment, index, guardAction, session, snackbar })
+    )
   );
 
   section.append(list);
@@ -67,7 +101,11 @@ function createBadgesSkeleton(): HTMLElement {
   return badges;
 }
 
-export function createGameDetailsDialog(): GameDetailsDialog {
+export function createGameDetailsDialog({
+  guardAction,
+  session,
+  snackbar,
+}: GameDetailsDialogOptions): GameDetailsDialog {
   let handleClose: (() => void) | undefined;
 
   const layout = createDialogLayout({
@@ -97,9 +135,15 @@ export function createGameDetailsDialog(): GameDetailsDialog {
       createGameDetailsSummary(details),
       description,
       createGameDetailsInfoWidgets(details.specs),
-      createGameDetailsActions(details.specs.price),
+      createGameDetailsActions({
+        guardAction,
+        session,
+        snackbar,
+        gameSlug: details.slug,
+        price: details.specs.price,
+      }),
       createGameDetailsTopRecords(details.topRecords),
-      createCommentsSection(comments)
+      createCommentsSection({ guardAction, session, snackbar, gameSlug: details.slug, comments })
     );
 
     layout.card.replaceChildren(

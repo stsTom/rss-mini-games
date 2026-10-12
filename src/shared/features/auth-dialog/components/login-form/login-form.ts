@@ -1,13 +1,50 @@
+import { signInWithEmailAndPassword, type User } from 'firebase/auth';
+import { auth } from '../../../../../firebase.js';
+import { validateEmail, validatePasswordLength } from '../../validation.js';
+import { signInWithGoogle } from '../../google-sign-in.js';
+import type { Snackbar } from '../../../../components/snackbar/snackbar.js';
 import './login-form.scss';
 
 const GOOGLE_ICON_SRC = '/icons/google.svg';
 
 export interface LoginFormOptions {
   onSwitchToRegister: () => void;
+  handleFetch: (isPending: boolean) => void;
+  onSuccess: (user: User) => void;
+  snackbar: Snackbar;
+}
+
+interface LoginFormInputs {
+  email: string;
+  password: string;
+}
+
+const inputs = {} as Record<keyof LoginFormInputs, HTMLInputElement>;
+const errorLabels = {} as Record<keyof LoginFormInputs, HTMLElement>;
+
+const validators: Record<keyof LoginFormInputs, () => string> = {
+  email: () => validateEmail(inputs.email.value),
+  password: () => validatePasswordLength(inputs.password.value),
+};
+
+function showError(key: keyof LoginFormInputs) {
+  const message = validators[key]();
+
+  errorLabels[key].textContent = message;
+  inputs[key].ariaInvalid = message ? 'true' : 'false';
+
+  return message;
+}
+
+function hasErrors() {
+  const keys = Object.keys(validators) as (keyof LoginFormInputs)[];
+
+  return keys.map((key) => showError(key)).some(Boolean);
 }
 
 export function createLoginForm(options: LoginFormOptions): HTMLFormElement {
   const form = document.createElement('form');
+  form.noValidate = true;
   form.classList.add('login-form');
 
   const headerText = document.createElement('div');
@@ -32,8 +69,25 @@ export function createLoginForm(options: LoginFormOptions): HTMLFormElement {
   emailInput.type = 'email';
   emailInput.id = 'login-email';
   emailInput.placeholder = 'e.g. alex@minigames.com';
+  const handleInputListener = () => {
+    if (showError('email')) {
+      return;
+    }
+    emailInput.removeEventListener('input', handleInputListener);
+  };
+
+  emailInput.addEventListener('blur', () => {
+    if (!showError('email')) {
+      return;
+    }
+    emailInput.addEventListener('input', handleInputListener);
+  });
+  inputs.email = emailInput;
+  const emailErrorLabel = document.createElement('span');
+  emailErrorLabel.classList.add('error-label');
+  errorLabels.email = emailErrorLabel;
   emailInputWrapper.append(emailIcon, emailInput);
-  emailField.append(emailLabel, emailInputWrapper);
+  emailField.append(emailLabel, emailInputWrapper, emailErrorLabel);
 
   const passwordField = document.createElement('div');
   passwordField.classList.add('field');
@@ -52,8 +106,25 @@ export function createLoginForm(options: LoginFormOptions): HTMLFormElement {
   const passwordVisibilityIcon = document.createElement('span');
   passwordVisibilityIcon.classList.add('field-icon', 'field-icon--eye');
   passwordVisibilityIcon.setAttribute('aria-hidden', 'true');
+  const handlePasswordInputListener = () => {
+    if (showError('password')) {
+      return;
+    }
+    passwordInput.removeEventListener('input', handlePasswordInputListener);
+  };
+
+  passwordInput.addEventListener('blur', () => {
+    if (!showError('password')) {
+      return;
+    }
+    passwordInput.addEventListener('input', handlePasswordInputListener);
+  });
+  inputs.password = passwordInput;
+  const passwordErrorLabel = document.createElement('span');
+  passwordErrorLabel.classList.add('error-label');
+  errorLabels.password = passwordErrorLabel;
   passwordInputWrapper.append(passwordIcon, passwordInput, passwordVisibilityIcon);
-  passwordField.append(passwordLabel, passwordInputWrapper);
+  passwordField.append(passwordLabel, passwordInputWrapper, passwordErrorLabel);
 
   const forgotPasswordLink = document.createElement('a');
   forgotPasswordLink.textContent = 'Forgot Password?';
@@ -80,6 +151,18 @@ export function createLoginForm(options: LoginFormOptions): HTMLFormElement {
   const googleLabel = document.createElement('span');
   googleLabel.textContent = 'Continue with Google';
   googleButton.append(googleIcon, googleLabel);
+  googleButton.addEventListener('click', async () => {
+    options.handleFetch(true);
+    try {
+      const credential = await signInWithGoogle(options.snackbar);
+      if (credential !== undefined) {
+        options.handleFetch(false);
+        options.onSuccess(credential.user);
+      }
+    } finally {
+      options.handleFetch(false);
+    }
+  });
 
   const divider = document.createElement('div');
   divider.classList.add('divider');
@@ -110,8 +193,31 @@ export function createLoginForm(options: LoginFormOptions): HTMLFormElement {
 
   form.append(headerText, fields, actions, footer);
 
-  form.addEventListener('submit', (event) => {
+  form.addEventListener('submit', async (event) => {
     event.preventDefault();
+    if (!hasErrors()) {
+      options.handleFetch(true);
+      submitButton.disabled = true;
+      submitButton.ariaDisabled = 'true';
+      try {
+        const { user } = await signInWithEmailAndPassword(
+          auth,
+          inputs.email.value,
+          inputs.password.value
+        );
+        options.handleFetch(false);
+        options.onSuccess(user);
+      } catch {
+        options.snackbar.show(
+          'Could not sign in. Please check your credentials and try again.',
+          'error'
+        );
+      } finally {
+        submitButton.disabled = false;
+        submitButton.ariaDisabled = 'false';
+        options.handleFetch(false);
+      }
+    }
   });
 
   return form;
