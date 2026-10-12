@@ -91,7 +91,7 @@ describe('post helpers', () => {
     await postGameComment({ gameSlug: 'tetris', userEmail: 'j@x', authorName: 'J', text: 'hi' });
 
     expect(fetchMock).toHaveBeenCalledWith(
-      `${API_BASE_URL}/games/tetris/comment`,
+      `${API_BASE_URL}/games/tetris/comments`,
       expect.objectContaining({
         body: JSON.stringify({ userEmail: 'j@x', authorName: 'J', text: 'hi' }),
       })

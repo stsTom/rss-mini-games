@@ -95,7 +95,7 @@ export async function postGameComment({
   authorName,
   text,
 }: PostCommentRequestOptions): Promise<void> {
-  await postJson(`${GAMES_API_BASE_URL}/${gameSlug}/comment`, { userEmail, authorName, text });
+  await postJson(`${GAMES_API_BASE_URL}/${gameSlug}/comments`, { userEmail, authorName, text });
 }
 
 export async function toggleCommentLike({

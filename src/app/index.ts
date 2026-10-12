@@ -20,6 +20,7 @@ const main = document.querySelector('main');
 
 if (main) {
   const snackbar = createSnackbar();
+  main.append(snackbar.element);
   const session = createAppSession(snackbar);
   session.restore();
 
@@ -97,6 +98,6 @@ if (main) {
 
   main.append(createHeader({ router, session, snackbar }), currentPage);
   main.append(createFooter());
-  main.append(gameDetailsDialog.element, snackbar.element);
+  main.append(gameDetailsDialog.element);
   syncGameDialog(router.state);
 }
